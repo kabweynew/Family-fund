@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Family Fund — Public</title>
+<meta name="theme-color" content="#0F1117">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--accent:#4F6EF7;--accent2:#8B5CF6;--success:#22C97A;--danger:#F75A5A;--gold:#F5A623;--radius:14px;--radius-sm:9px;--transition:0.2s ease}
+[data-theme="dark"]{--bg:#0F1117;--surface:#1A1D2E;--surface2:#222640;--surface3:#2A2F50;--border:rgba(255,255,255,0.07);--text:#F0F2FF;--muted:#7B82A8;--ring-track:rgba(255,255,255,0.06)}
+[data-theme="light"]{--bg:#F7F8FC;--surface:#FFFFFF;--surface2:#EEF0F8;--surface3:#E4E7F5;--border:rgba(0,0,0,0.07);--text:#0F1117;--muted:#6B7194;--ring-track:rgba(0,0,0,0.07)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+button{cursor:pointer;border:none;background:none;font-family:inherit;color:inherit}
+
+/* ── TOP BAR ── */
+.topbar{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;height:52px;gap:8px}
+.topbar-logo{font-weight:800;font-size:1rem;letter-spacing:-0.5px;color:var(--accent);flex:1}
+.topbar-logo span{color:var(--text)}
+.sync-pill{font-size:0.9rem;cursor:default;flex-shrink:0}
+.live-clock{font-size:0.7rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--muted);letter-spacing:0.04em;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 7px}
+.icon-btn{width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem}
+
+/* ── HERO ── */
+.public-hero{
+  background:linear-gradient(160deg,var(--accent) 0%,var(--accent2) 100%);
+  padding:28px 20px 24px;text-align:center;
+}
+.public-family{font-size:1.5rem;font-weight:900;letter-spacing:-0.8px;color:#fff;margin-bottom:4px}
+.public-month{font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.75);margin-bottom:20px;text-transform:uppercase;letter-spacing:0.08em}
+.ring-wrap{position:relative;width:160px;height:160px;margin:0 auto 20px}
+.ring-svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-pct{font-size:2.2rem;font-weight:800;color:#fff;letter-spacing:-2px;line-height:1;font-variant-numeric:tabular-nums}
+.ring-pct-label{font-size:0.65rem;color:rgba(255,255,255,0.75);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-top:3px}
+.pub-stats{display:flex;justify-content:center;gap:0;border-top:1px solid rgba(255,255,255,0.2);padding-top:16px;margin-top:4px}
+.pub-stat{padding:0 20px;border-right:1px solid rgba(255,255,255,0.2)}
+.pub-stat:last-child{border-right:none}
+.pub-stat-val{font-size:1.1rem;font-weight:800;font-variant-numeric:tabular-nums;color:#fff}
+.pub-stat-label{font-size:0.62rem;color:rgba(255,255,255,0.7);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-top:2px}
+
+/* ── SEARCH ── */
+.main{max-width:480px;margin:0 auto;padding:16px 16px 0}
+.search-bar{position:relative;margin-bottom:14px}
+.search-bar input{width:100%;height:42px;background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:0 14px 0 38px;font-size:0.88rem;outline:none;color:var(--text);transition:border var(--transition)}
+.search-bar input:focus{border-color:var(--accent)}
+.search-bar::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:0.85rem;pointer-events:none}
+
+/* ── DETAIL CARD ── */
+.pub-detail-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 16px 14px;margin-bottom:14px;text-align:center;animation:fadeIn 0.18s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.pub-detail-avatar{width:56px;height:56px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:#fff}
+.pub-detail-name{font-size:1.05rem;font-weight:800;letter-spacing:-0.3px;margin-bottom:8px}
+.pub-detail-stats{display:flex;border-top:1px solid var(--border);padding-top:12px;margin-top:8px}
+.pub-detail-stat{flex:1;padding:0 6px;border-right:1px solid var(--border)}
+.pub-detail-stat:last-child{border-right:none}
+.pub-detail-val{font-size:0.85rem;font-weight:700;font-variant-numeric:tabular-nums;margin-bottom:2px}
+.pub-detail-label{font-size:0.62rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
+
+/* ── MULTI-MATCH LIST ── */
+.match-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface);border-radius:var(--radius-sm);margin-bottom:6px;border:1px solid var(--border);cursor:pointer;transition:background var(--transition)}
+.match-row:hover{background:var(--surface2)}
+.match-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:#fff;flex-shrink:0}
+.match-name{flex:1;font-size:0.88rem;font-weight:600}
+.match-detail-expand{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin:-2px 0 8px;display:none;animation:fadeIn 0.15s ease}
+
+/* ── BADGE ── */
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:99px;font-size:0.68rem;font-weight:700}
+.badge-success{background:rgba(34,201,122,0.15);color:#22C97A}
+.badge-danger{background:rgba(247,90,90,0.15);color:#F75A5A}
+.badge-accent{background:rgba(79,110,247,0.15);color:#4F6EF7}
+
+/* ── WALL ── */
+.wall-section{padding:16px}
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.sec-title{font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted)}
+.wall-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.wall-cell{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.65rem;color:#fff;transition:transform 0.15s}
+.wall-cell:hover{transform:scale(1.15)}
+.wall-cell.paid{background:var(--success)}
+.wall-cell.unpaid{background:var(--surface3);color:var(--muted)}
+
+/* ── STATUS BANNER ── */
+.status-banner{margin:12px 16px 0;padding:10px 14px;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border);font-size:0.78rem;color:var(--muted);text-align:center}
+.status-banner.offline{border-color:rgba(247,90,90,0.3);background:rgba(247,90,90,0.07);color:var(--danger)}
+.status-banner.live{border-color:rgba(34,201,122,0.3);background:rgba(34,201,122,0.07);color:var(--success)}
+
+/* ── FOOTER ── */
+.footer{text-align:center;padding:24px 16px 40px;font-size:0.72rem;color:var(--muted)}
+
+/* ── LOADING ── */
+.loading-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:40vh;gap:14px}
+.spinner{width:34px;height:34px;border-radius:50%;border:3px solid var(--surface3);border-top-color:var(--accent);animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-logo">Family<span>Fund</span> <span style="font-size:0.72rem;font-weight:600;color:var(--muted);margin-left:4px">Public</span></div>
+  <span class="live-clock" id="live-clock">--:--:--</span>
+  <span class="sync-pill" id="sync-pill" title="Connecting…">🟡</span>
+  <button class="icon-btn" onclick="toggleTheme()" id="theme-btn" title="Toggle theme">🌙</button>
+</header>
+
+<div id="app">
+  <div class="loading-wrap">
+    <div class="spinner"></div>
+    <div style="font-size:0.8rem;color:var(--muted);font-weight:600">Loading family data…</div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   CONFIG — same Firebase project as main app
+══════════════════════════════════════ */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyAJl3i2tVorOg4xlQGEOR-224vAXmXN8ME",
+  projectId: "jkti-d2795",
+};
+const _FS_DOC = `https://firestore.googleapis.com/v1/projects/${FIREBASE_CONFIG.projectId}/databases/(default)/documents/fc_state/main`;
+
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+let campaigns = [];
+let campData  = null;  // active campaign object
+let currentMonth = new Date().getMonth();
+let currentYear  = new Date().getFullYear();
+let _pollInterval = null;
+let _lastHash = null;
+let _openMatchIdx = null;
+let dark = true;
+
+/* ══════════════════════════════════════
+   FIRESTORE READ
+══════════════════════════════════════ */
+function _fromFS(fv) {
+  if (!fv) return null;
+  if ('nullValue'    in fv) return null;
+  if ('booleanValue' in fv) return fv.booleanValue;
+  if ('integerValue' in fv) return Number(fv.integerValue);
+  if ('doubleValue'  in fv) return fv.doubleValue;
+  if ('stringValue'  in fv) return fv.stringValue;
+  if ('arrayValue'   in fv) return (fv.arrayValue.values || []).map(_fromFS);
+  if ('mapValue'     in fv) return Object.fromEntries(Object.entries(fv.mapValue.fields || {}).map(([k,v]) => [k, _fromFS(v)]));
+  return null;
+}
+
+async function fetchData() {
+  const r = await fetch(`${_FS_DOC}?key=${FIREBASE_CONFIG.apiKey}`);
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  const doc = await r.json();
+  if (!doc.fields) return null;
+  return Object.fromEntries(Object.entries(doc.fields).map(([k,v]) => [k, _fromFS(v)]));
+}
+
+/* ══════════════════════════════════════
+   HELPERS
+══════════════════════════════════════ */
+function fmt(n)  { return Number(n||0).toLocaleString('en-US'); }
+function initials(name) { return (name||'?').split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase(); }
+function monthKey(m, y) { return `${y||currentYear}-${String((m!==undefined?m:currentMonth)+1).padStart(2,'0')}`; }
+function fmtDate(d) {
+  if (!d) return '—';
+  const dt = new Date(d + 'T00:00:00');
+  return dt.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+}
+function getMonthName(m) { return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m]; }
+
+function getPayment(member) {
+  const key = monthKey();
+  if (member.payments && member.payments[key]) return member.payments[key];
+  if (member.status === 'paid' && member.date && member.date.startsWith(key))
+    return { status:'paid', amount: member.amount, date: member.date };
+  return { status:'unpaid', amount:0, date:null };
+}
+function isPaid(member) { return getPayment(member).status === 'paid'; }
+
+function getContribAmt() {
+  return (campData && campData.preset && campData.preset.fixed) ? campData.preset.fixed : 1000;
+}
+
+function setSyncStatus(status) {
+  const pill = document.getElementById('sync-pill');
+  if (pill) pill.textContent = status === 'live' ? '🟢' : status === 'offline' ? '🔴' : '🟡';
+  if (pill) pill.title = status === 'live' ? 'Live — synced' : status === 'offline' ? 'Offline' : 'Connecting…';
+}
+
+/* ══════════════════════════════════════
+   RENDER
+══════════════════════════════════════ */
+function render(contributors) {
+  const contribAmt = getContribAmt();
+  const paid    = contributors.filter(m => isPaid(m)).length;
+  const unpaid  = contributors.filter(m => !isPaid(m)).length;
+  const total   = contributors.length;
+  const rate    = total === 0 ? 0 : Math.round((paid / total) * 100);
+  const CIRC    = 2 * Math.PI * 66;
+
+  const searchVal = document.getElementById('pub-search') ? document.getElementById('pub-search').value : '';
+
+  document.getElementById('app').innerHTML = `
+    <!-- HERO -->
+    <div class="public-hero">
+      <div class="public-family">${campData ? campData.name : 'Family Fund'}</div>
+      <div class="public-month">${getMonthName(currentMonth)} ${currentYear}</div>
+      <div class="ring-wrap">
+        <svg class="ring-svg" viewBox="0 0 160 160">
+          <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#4F6EF7"/><stop offset="100%" stop-color="#22C97A"/></linearGradient></defs>
+          <circle fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="12" cx="80" cy="80" r="66"/>
+          <circle id="ring-arc" fill="none" stroke="url(#rg)" stroke-width="12" stroke-linecap="round"
+            cx="80" cy="80" r="66" stroke-dasharray="${CIRC}" stroke-dashoffset="${CIRC}"
+            style="transition:stroke-dashoffset 1.4s cubic-bezier(0.34,1.56,0.64,1)"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-pct" id="ring-num">0%</div>
+          <div class="ring-pct-label">Collected</div>
+        </div>
+      </div>
+      <div class="pub-stats">
+        <div class="pub-stat"><div class="pub-stat-val">${paid}</div><div class="pub-stat-label">Paid</div></div>
+        <div class="pub-stat"><div class="pub-stat-val">${unpaid}</div><div class="pub-stat-label">Unpaid</div></div>
+        <div class="pub-stat"><div class="pub-stat-val">${fmt(total * contribAmt)} DJF</div><div class="pub-stat-label">Target</div></div>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="main">
+      <div class="search-bar">
+        <input type="text" id="pub-search" placeholder="Search by name…"
+          oninput="onSearch(this.value)"
+          value="${searchVal.replace(/"/g,'&quot;')}">
+      </div>
+      <div id="search-results"></div>
+    </div>
+
+    <!-- WALL -->
+    <div class="wall-section">
+      <div class="sec-header"><div class="sec-title">Wall of Payments</div></div>
+      <div class="wall-grid">
+        ${contributors.slice(0,60).map(m => `
+          <div class="wall-cell ${isPaid(m)?'paid':'unpaid'}" title="${m.name}: ${isPaid(m)?'Paid':'Not yet'}">
+            ${initials(m.name)}
+          </div>`).join('')}
+        ${total === 0 ? '<div style="grid-column:1/-1;text-align:center;color:var(--muted);font-size:0.8rem;padding:20px 0;">No members yet.</div>' : ''}
+      </div>
+      <p style="font-size:0.7rem;color:var(--muted);margin-top:10px;text-align:center">🟢 Paid &nbsp;·&nbsp; ⚪ Not yet</p>
+    </div>
+
+    <div class="footer">
+      Powered by <strong style="color:var(--accent)">FamilyFund</strong> · Auto-refreshes every 15s
+    </div>
+  `;
+
+  // Animate ring after DOM insert
+  requestAnimationFrame(() => {
+    const arc = document.getElementById('ring-arc');
+    const num = document.getElementById('ring-num');
+    if (arc) arc.style.strokeDashoffset = CIRC - (rate/100)*CIRC;
+    if (num) num.textContent = rate + '%';
+  });
+
+  // Restore search if any
+  if (searchVal.length >= 2) onSearch(searchVal, true);
+}
+
+function onSearch(val, skipFocus) {
+  const results = document.getElementById('search-results');
+  if (!results || !campData) return;
+  const contributors = campData.contributors || [];
+  const q = val.toLowerCase().trim();
+  if (q.length < 2) { results.innerHTML = ''; return; }
+
+  const matches = contributors.filter(m => m.name.toLowerCase().includes(q));
+
+  if (matches.length === 0) {
+    results.innerHTML = `<div style="text-align:center;padding:16px;color:var(--muted);font-size:0.85rem;">No one found for "${val}"</div>`;
+    return;
+  }
+
+  if (matches.length === 1) {
+    results.innerHTML = buildDetailCard(matches[0]);
+    return;
+  }
+
+  // Multiple — tappable list
+  const contribAmt = getContribAmt();
+  results.innerHTML = `
+    <div style="padding:6px 4px 8px;font-size:0.75rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.06em">
+      ${matches.length} people found
+    </div>
+    ${matches.map((m, idx) => {
+      const paid2 = isPaid(m);
+      const mp = getPayment(m);
+      return `
+      <div>
+        <div class="match-row" onclick="toggleMatch(${idx})">
+          <div class="match-avatar" style="background:linear-gradient(135deg,${paid2?'#22C97A,#4F6EF7':'#7B82A8,#4A4F70'})">${initials(m.name)}</div>
+          <div class="match-name">${m.name}</div>
+          <span class="badge ${paid2?'badge-success':'badge-danger'}">${paid2?'✓ Paid':'⏳ Unpaid'}</span>
+          <span style="font-size:0.8rem;color:var(--muted);margin-left:4px" id="arr-${idx}">▾</span>
+        </div>
+        <div class="match-detail-expand" id="expand-${idx}">
+          <div class="pub-detail-stats" style="border-top:none;padding-top:0;margin-top:0">
+            <div class="pub-detail-stat">
+              <div class="pub-detail-val" style="color:${paid2?'var(--success)':'var(--muted)'}">${paid2?fmt(mp.amount||0)+' DJF':'—'}</div>
+              <div class="pub-detail-label">Amount Paid</div>
+            </div>
+            <div class="pub-detail-stat">
+              <div class="pub-detail-val" style="color:${!paid2?'var(--danger)':'var(--muted)'}">${!paid2?fmt(contribAmt)+' DJF':'—'}</div>
+              <div class="pub-detail-label">Outstanding</div>
+            </div>
+            <div class="pub-detail-stat">
+              <div class="pub-detail-val">${paid2?fmtDate(mp.date||''):'—'}</div>
+              <div class="pub-detail-label">Date Paid</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }).join('')}
+  `;
+}
+
+function toggleMatch(idx) {
+  const expand = document.getElementById('expand-' + idx);
+  const arr    = document.getElementById('arr-' + idx);
+  if (!expand) return;
+  const isOpen = expand.style.display === 'block';
+  // Close all
+  document.querySelectorAll('.match-detail-expand').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('[id^="arr-"]').forEach(el => el.textContent = '▾');
+  if (!isOpen) {
+    expand.style.display = 'block';
+    if (arr) arr.textContent = '▴';
+  }
+}
+
+function buildDetailCard(m) {
+  const paid2     = isPaid(m);
+  const mp       = getPayment(m);
+  const contribAmt = getContribAmt();
+  return `
+    <div class="pub-detail-card">
+      <div class="pub-detail-avatar" style="background:linear-gradient(135deg,${paid2?'#22C97A,#4F6EF7':'#F75A5A,#8B5CF6'})">${initials(m.name)}</div>
+      <div class="pub-detail-name">${m.name}</div>
+      <div style="margin-bottom:10px">
+        <span class="badge ${paid2?'badge-success':'badge-danger'}" style="font-size:0.8rem;padding:4px 12px">
+          ${paid2?'✓ Paid this month':'⏳ Not yet paid'}
+        </span>
+      </div>
+      <div class="pub-detail-stats">
+        <div class="pub-detail-stat">
+          <div class="pub-detail-val" style="color:${paid2?'var(--success)':'var(--muted)'}">${paid2?fmt(mp.amount||0)+' DJF':'—'}</div>
+          <div class="pub-detail-label">Amount Paid</div>
+        </div>
+        <div class="pub-detail-stat">
+          <div class="pub-detail-val" style="color:${!paid2?'var(--danger)':'var(--muted)'}">${!paid2?fmt(contribAmt)+' DJF':'—'}</div>
+          <div class="pub-detail-label">Outstanding</div>
+        </div>
+        <div class="pub-detail-stat">
+          <div class="pub-detail-val">${paid2?fmtDate(mp.date||''):'—'}</div>
+          <div class="pub-detail-label">Date Paid</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ══════════════════════════════════════
+   LIVE POLLING
+══════════════════════════════════════ */
+async function poll() {
+  try {
+    const data = await fetchData();
+    if (!data || !data.campaigns || !Array.isArray(data.campaigns) || data.campaigns.length === 0) {
+      setSyncStatus('offline');
+      return;
+    }
+    const hash = JSON.stringify(data.campaigns);
+    setSyncStatus('live');
+    if (hash === _lastHash) return; // no change
+    _lastHash = hash;
+    campaigns = data.campaigns;
+    campData  = campaigns[campaigns.length - 1];
+    render(campData.contributors || []);
+  } catch(e) {
+    setSyncStatus('offline');
+  }
+}
+
+/* ══════════════════════════════════════
+   CLOCK
+══════════════════════════════════════ */
+function tickClock() {
+  const el = document.getElementById('live-clock');
+  if (el) el.textContent = new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+setInterval(tickClock, 1000);
+tickClock();
+
+/* ══════════════════════════════════════
+   THEME
+══════════════════════════════════════ */
+function toggleTheme() {
+  dark = !dark;
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  document.getElementById('theme-btn').textContent = dark ? '🌙' : '☀️';
+}
+
+/* ══════════════════════════════════════
+   BOOT
+══════════════════════════════════════ */
+setSyncStatus('connecting');
+poll().then(() => {
+  _pollInterval = setInterval(poll, 15000);
+});
+</script>
+</body>
+</html>

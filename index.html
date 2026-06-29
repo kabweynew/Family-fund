@@ -2,13 +2,59 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>FamilyFund</title>
+
+<!-- PWA Meta Tags -->
+<meta name="application-name" content="FamilyFund">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FamilyFund">
+<meta name="theme-color" content="#0F1117">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="Family contributions, clearly tracked.">
+
+<!-- PWA Icons (inline SVG as data URI) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%234F6EF7'/><text y='.9em' font-size='72' x='50%' text-anchor='middle' dominant-baseline='hanging' fill='white'>💰</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%234F6EF7'/><text y='.9em' font-size='72' x='50%' text-anchor='middle' dominant-baseline='hanging' fill='white'>💰</text></svg>">
+
+<!-- Inline PWA Manifest -->
+<script>
+(function() {
+  const manifest = {
+    name: "FamilyFund",
+    short_name: "FamilyFund",
+    description: "Family contributions, clearly tracked.",
+    start_url: "./",
+    display: "standalone",
+    orientation: "portrait",
+    background_color: "#0F1117",
+    theme_color: "#4F6EF7",
+    icons: [
+      {
+        src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAe1BMVEUAAABPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/cAAAA9przoAAAAKHRSTlMAAAECBAcMERkiLTlFUF1pcHuHkZqiqrK6wsnQ19/m7fL3+v39/f1jkfipAAAAxUlEQVR42u3ZQQqDMBCG0YlGTWKMqWlrpe//iIsupIsOhLzFf/8ZuBmQmZmZmZl5yoJEgCiAKIAogCiAKIAogCiAKIAogCiAKIAogCiAKFAFEAWqAKJAFUAUqAKIAlUAUaAKIApUAUSBKoAoUAUQBaoAokAVQBSoAogCVQBRoAogClQBRIEqgChQBRAFqgCiQBVAFKgCiAJVAFGgCiAKVAFEgSqAKFAFEAWqAKJAFUAUqAKIAlUAUaBKFUAUqAKIAlUAUaBKFR+/FiWAAAAAAElFTkSuQmCC",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any maskable"
+      },
+      {
+        src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAe1BMVEUAAABPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/dPB/cAAAA9przoAAAAKHRSTlMAAAECBAcMERkiLTlFUF1pcHuHkZqiqrK6wsnQ19/m7fL3+v39/f1jkfipAAAAxUlEQVR42u3ZQQqDMBCG0YlGTWKMqWlrpe//iIsupIsOhLzFf/8ZuBmQmZmZmZl5yoJEgCiAKIAogCiAKIAogCiAKIAogCiAKIAogCiAKFAFEAWqAKJAFUAUqAKIAlUAUaAKIApUAUSBKoAoUAUQBaoAokAVQBSoAogCVQBRoAogClQBRIEqgChQBRAFqgCiQBVAFKgCiAJVAFGgCiAKVAFEgSqAKFAFEAWqAKJAFUAUqAKIAlUAUaBKFUAUqAKIAlUAUaBKFR+/FiWAAAAAAElFTkSuQmCC",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "any maskable"
+      }
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type: 'application/manifest+json'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('link');
+  link.rel = 'manifest';
+  link.href = url;
+  document.head.appendChild(link);
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 /* ═══════════════════════════════════════════
@@ -75,6 +121,10 @@ input,select,textarea{font-family:inherit;color:var(--text)}
 }
 .screen.active{display:block}
 .screen.no-nav{padding-bottom:0}
+@keyframes bannerSlideUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
 @keyframes screenIn{
   from{opacity:0;transform:translateY(8px)}
   to{opacity:1;transform:translateY(0)}
@@ -122,6 +172,12 @@ input,select,textarea{font-family:inherit;color:var(--text)}
   font-weight:700;font-size:0.75rem;color:#fff;flex-shrink:0;
 }
 .sync-pill{font-size:0.85rem;line-height:1;flex-shrink:0;cursor:default}
+.live-clock{
+  font-size:0.72rem;font-weight:700;font-variant-numeric:tabular-nums;
+  color:var(--muted);letter-spacing:0.04em;flex-shrink:0;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;padding:3px 7px;
+}
 
 /* ═══════════════════════════════════════════
    MAIN CONTAINER
@@ -586,6 +642,32 @@ input,select,textarea{font-family:inherit;color:var(--text)}
 .pub-search{padding:0 16px 14px}
 
 
+.bulk-toolbar{
+  position:sticky;top:56px;z-index:100;
+  background:var(--accent);color:#fff;
+  display:none;align-items:center;gap:10px;
+  padding:10px 16px;font-size:0.85rem;font-weight:700;
+}
+.bulk-toolbar.active{display:flex}
+.bulk-toolbar-count{flex:1}
+.bulk-del-btn{
+  background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);
+  color:#fff;border-radius:8px;padding:6px 14px;font-size:0.8rem;font-weight:700;cursor:pointer;
+}
+.bulk-del-btn:hover{background:rgba(247,90,90,0.8)}
+.bulk-cancel-btn{background:none;border:none;color:#fff;font-size:1.1rem;cursor:pointer;padding:4px 8px}
+.member-item.bulk-mode{cursor:default}
+.member-item .bulk-check{display:none;width:20px;height:20px;accent-color:var(--accent);flex-shrink:0;margin-right:4px;cursor:pointer}
+.bulk-mode-on .member-item .bulk-check{display:block}
+.member-item.bulk-selected{background:rgba(79,110,247,0.1);border-left:3px solid var(--accent)}
+.select-all-bar{
+  display:none;align-items:center;gap:8px;padding:8px 16px;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  font-size:0.8rem;font-weight:600;color:var(--muted);
+}
+.select-all-bar.active{display:flex}
+.select-all-bar label{display:flex;align-items:center;gap:8px;cursor:pointer}
+
 /* ═══════════════════════════════════════════
    ⑦ REPORTS
 ═══════════════════════════════════════════ */
@@ -983,6 +1065,7 @@ input,select,textarea{font-family:inherit;color:var(--text)}
     <div class="topbar-logo">Family<span>Fund</span></div>
     <div class="topbar-controls">
       <button class="pill-btn" id="admin-cashier-switch-btn" onclick="switchToCashierView()" title="Switch to cashier view" style="display:none">👥 Cashier</button>
+      <span class="live-clock" id="live-clock-dash">00:00:00</span>
       <button class="pill-btn active" id="lang-en" onclick="setLang('en')">EN</button>
       <button class="pill-btn" id="lang-fr" onclick="setLang('fr')">FR</button>
       <button class="icon-btn" onclick="toggleTheme()" id="theme-btn">🌙</button>
@@ -1046,9 +1129,23 @@ input,select,textarea{font-family:inherit;color:var(--text)}
   <header class="topbar">
     <div class="topbar-title" data-i18n="nav_members">Members</div>
     <div class="topbar-controls">
+      <button class="icon-btn" id="bulk-select-btn" onclick="toggleBulkMode()" title="Select members">☑️</button>
       <button class="icon-btn" onclick="openAddMemberModal()" title="Add member">➕</button>
     </div>
   </header>
+  <!-- Bulk toolbar -->
+  <div class="bulk-toolbar" id="bulk-toolbar">
+    <button class="bulk-cancel-btn" onclick="toggleBulkMode()">✕</button>
+    <div class="bulk-toolbar-count" id="bulk-count-label">0 selected</div>
+    <button class="bulk-del-btn" onclick="bulkDeleteSelected()">🗑️ Delete</button>
+  </div>
+  <!-- Select All bar -->
+  <div class="select-all-bar" id="select-all-bar">
+    <label>
+      <input type="checkbox" id="select-all-checkbox" onchange="toggleSelectAll(this.checked)">
+      Select all visible
+    </label>
+  </div>
   <div class="main">
     <div class="search-bar"><input type="text" id="member-search" data-i18n-placeholder="search_members" placeholder="Search members…" oninput="renderMembers()"></div>
     <div id="member-search-detail"></div>
@@ -1084,6 +1181,8 @@ input,select,textarea{font-family:inherit;color:var(--text)}
     <div class="topbar-logo">Family<span>Fund</span></div>
     <div class="topbar-controls">
       <button class="icon-btn" onclick="openAddMemberModal()" title="Add member">➕</button>
+      <button class="icon-btn" onclick="toggleCashierBulkMode()" title="Bulk delete">☑️</button>
+      <span class="live-clock" id="live-clock-cashier">00:00:00</span>
       <button class="icon-btn" onclick="toggleTheme()" id="cashier-theme-btn">🌙</button>
       <span class="sync-pill" title="Connecting…">🟡</span>
       <div class="avatar" id="cashier-avatar">C</div>
@@ -1105,6 +1204,18 @@ input,select,textarea{font-family:inherit;color:var(--text)}
       <button class="filter-tab active" data-filter="all" onclick="setCashierFilter('all', this)">All (<span id="cashier-filter-all">0</span>)</button>
       <button class="filter-tab" data-filter="unpaid" onclick="setCashierFilter('unpaid', this)">Pending (<span id="cashier-filter-unpaid">0</span>)</button>
       <button class="filter-tab" data-filter="paid" onclick="setCashierFilter('paid', this)">Paid (<span id="cashier-filter-paid">0</span>)</button>
+    </div>
+    <!-- Cashier bulk toolbar -->
+    <div class="bulk-toolbar" id="cashier-bulk-toolbar">
+      <button class="bulk-cancel-btn" onclick="toggleCashierBulkMode()">✕</button>
+      <div class="bulk-toolbar-count" id="cashier-bulk-count-label">0 selected</div>
+      <button class="bulk-del-btn" onclick="cashierBulkDeleteSelected()">🗑️ Delete</button>
+    </div>
+    <div class="select-all-bar" id="cashier-select-all-bar">
+      <label>
+        <input type="checkbox" id="cashier-select-all-checkbox" onchange="cashierToggleSelectAll(this.checked)">
+        Select all visible
+      </label>
     </div>
     <div id="cashier-members-list"></div>
     <p style="font-size:0.72rem;color:var(--muted);text-align:center;margin-top:8px">👈 Swipe right on a member to mark paid instantly</p>
@@ -1203,6 +1314,17 @@ input,select,textarea{font-family:inherit;color:var(--text)}
     </div>
   </header>
   <div class="main">
+
+    <!-- Security Warning -->
+    <div id="security-warning-banner" style="display:none;background:rgba(247,90,90,0.1);border:1px solid rgba(247,90,90,0.3);border-radius:10px;padding:12px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start">
+      <div style="font-size:1.1rem;flex-shrink:0">🔴</div>
+      <div>
+        <div style="font-size:0.82rem;font-weight:700;color:var(--danger);margin-bottom:3px">Security Alert</div>
+        <div style="font-size:0.75rem;color:var(--muted);line-height:1.5">Your app is publicly accessible. Change your PIN immediately if someone else has been controlling this app.</div>
+        <button onclick="openChangePinModal()" style="margin-top:8px;background:var(--danger);color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:0.78rem;font-weight:700;cursor:pointer">Change PIN Now</button>
+      </div>
+    </div>
+
     <div class="settings-section">
       <div class="sec-header"><div class="sec-title" data-i18n="set_family">Family</div></div>
       <div class="settings-group">
@@ -1216,7 +1338,7 @@ input,select,textarea{font-family:inherit;color:var(--text)}
       <div class="settings-group">
         <div class="settings-row" onclick="editAdminName()"><span class="settings-icon">👤</span><span class="settings-label" data-i18n="set_admin_name">Name</span><span class="settings-value" id="settings-admin-name">—</span><span class="settings-arrow">›</span></div>
         <div class="settings-row" onclick="editAdminPhone()"><span class="settings-icon">📞</span><span class="settings-label" data-i18n="set_admin_phone">Phone / ID</span><span class="settings-value" id="settings-admin-phone">—</span><span class="settings-arrow">›</span></div>
-        <div class="settings-row" onclick="editAdminPin()"><span class="settings-icon">🔒</span><span class="settings-label" data-i18n="set_admin_pin">PIN</span><span class="settings-value" id="settings-admin-pin-display">••••</span><span class="settings-arrow">›</span></div>
+        <div class="settings-row" onclick="openChangePinModal()"><span class="settings-icon">🔒</span><span class="settings-label" data-i18n="set_admin_pin">Change PIN</span><span class="settings-value" id="settings-admin-pin-display">••••</span><span class="settings-arrow">›</span></div>
       </div>
     </div>
 
@@ -1237,8 +1359,11 @@ input,select,textarea{font-family:inherit;color:var(--text)}
 
     <!-- CASHIER ACCOUNTS -->
     <div class="settings-section">
-      <div class="sec-header"><div class="sec-title" data-i18n="set_cashiers">Cashier Accounts</div></div>
-      <p style="font-size:0.75rem;color:var(--muted);padding:0 0 10px;line-height:1.5" data-i18n="cashier_promote_hint">Promote contributors to cashier from their profile. Admin can also act as cashier.</p>
+      <div class="sec-header">
+        <div class="sec-title" data-i18n="set_cashiers">Cashier Accounts</div>
+        <button class="sec-link" onclick="openAddCashierModal()">+ Add</button>
+      </div>
+      <p style="font-size:0.75rem;color:var(--muted);padding:0 0 10px;line-height:1.5">Add cashiers directly or promote contributors to cashier from their profile page.</p>
       <div id="cashier-manage-list"></div>
     </div>
 
@@ -1288,6 +1413,17 @@ input,select,textarea{font-family:inherit;color:var(--text)}
       </div>
     </div>
     <div class="settings-section">
+      <div class="sec-header"><div class="sec-title">Install App</div></div>
+      <div class="settings-group">
+        <div class="settings-row" onclick="triggerInstall()" id="settings-install-row">
+          <span class="settings-icon">📲</span>
+          <span class="settings-label">Install FamilyFund</span>
+          <span class="settings-value" id="settings-install-status">Tap to install</span>
+          <span class="settings-arrow">›</span>
+        </div>
+      </div>
+    </div>
+    <div class="settings-section">
       <button class="btn-danger" onclick="logout()" data-i18n="logout">🚪 Log Out</button>
     </div>
   </div>
@@ -1333,8 +1469,11 @@ input,select,textarea{font-family:inherit;color:var(--text)}
   <button class="nav-item" id="cashier-nav-reports" style="display:none" onclick="navigate('reports')">
     <span class="nav-icon">📊</span><span data-i18n="nav_reports">Reports</span>
   </button>
-  <button class="nav-item" onclick="showToast('Today: ' + getCashierTodayCount() + ' collected')">
-    <span class="nav-icon">💵</span><span data-i18n="nav_today">Today</span>
+  <button class="nav-item" id="cashier-nav-paid" onclick="setCashierNavFilter('paid',this)">
+    <span class="nav-icon">✅</span><span>Paid</span>
+  </button>
+  <button class="nav-item" id="cashier-nav-unpaid" onclick="setCashierNavFilter('unpaid',this)">
+    <span class="nav-icon">⏳</span><span>Unpaid</span>
   </button>
   <button class="nav-item" id="cashier-nav-back-admin" style="display:none" onclick="switchBackToAdminView()">
     <span class="nav-icon">🔄</span><span>Admin</span>
@@ -1402,22 +1541,16 @@ input,select,textarea{font-family:inherit;color:var(--text)}
     <div class="modal-title" data-i18n="add_member_title">Add Member</div>
     <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px">
       <div>
-        <div class="input-label">Given Name (1st) *</div>
-        <input class="input-field" type="text" id="add-name-1" placeholder="e.g. Fatuma" oninput="onName1Input(this.value)">
-      </div>
-      <div>
-        <div class="input-label">Father's Name (2nd)</div>
+        <div class="input-label">Full Name *</div>
         <div style="position:relative">
-          <input class="input-field" type="text" id="add-name-2" placeholder="e.g. Hassan" oninput="onName23Input('add-name-2','add-suggest-2')">
-          <div id="add-suggest-2" class="name-suggest-list" style="display:none"></div>
+          <input class="input-field" type="text" id="add-member-fullname"
+            placeholder="e.g. Fatuma Hassan Ali"
+            autocomplete="off"
+            oninput="onFullNameInput(this.value)"
+            onblur="setTimeout(()=>hideSuggest('add-fullname-suggest'),200)">
+          <div id="add-fullname-suggest" class="name-suggest-list" style="display:none"></div>
         </div>
-      </div>
-      <div>
-        <div class="input-label">Grandfather's Name (3rd)</div>
-        <div style="position:relative">
-          <input class="input-field" type="text" id="add-name-3" placeholder="e.g. Omar" oninput="onName23Input('add-name-3','add-suggest-3')">
-          <div id="add-suggest-3" class="name-suggest-list" style="display:none"></div>
-        </div>
+        <div id="add-name-dupe-warn" style="font-size:0.75rem;color:var(--danger);min-height:18px;margin-top:4px"></div>
       </div>
       <div><div class="input-label">Phone</div><input class="input-field" type="text" id="add-member-phone" placeholder="77 12 34 56"></div>
       <div id="add-member-cashier-row"><div class="input-label">Cashier</div>
@@ -1467,7 +1600,7 @@ input,select,textarea{font-family:inherit;color:var(--text)}
     </div>
     <button class="btn-primary" onclick="confirmEditMember()">Save Changes</button>
     <button class="btn-secondary" style="margin-top:8px" onclick="closeModal('edit-member-modal')">Cancel</button>
-    <button class="btn-danger" style="margin-top:8px" onclick="deleteMemberFromEdit()">🗑️ Delete Member</button>
+    <button class="btn-danger" id="edit-member-delete-btn" style="margin-top:8px" onclick="deleteMemberFromEdit()">🗑️ Delete Member</button>
   </div>
 </div>
 
@@ -1595,84 +1728,147 @@ input,select,textarea{font-family:inherit;color:var(--text)}
   </div>
 </div>
 
+<!-- Change PIN Modal -->
+<div class="modal-backdrop" id="change-pin-modal" onclick="closeModal('change-pin-modal',event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🔒 Change Admin PIN</div>
+    <p style="font-size:0.78rem;color:var(--muted);margin-bottom:18px">You must enter your current PIN to set a new one.</p>
+    <div class="login-field">
+      <div class="input-label">Current PIN</div>
+      <input id="chpin-current" class="input-field" type="password" inputmode="numeric" maxlength="8" placeholder="Enter current PIN" onkeydown="if(event.key==='Enter')document.getElementById('chpin-new').focus()">
+    </div>
+    <div class="login-field">
+      <div class="input-label">New PIN</div>
+      <input id="chpin-new" class="input-field" type="password" inputmode="numeric" maxlength="8" placeholder="At least 4 digits" onkeydown="if(event.key==='Enter')document.getElementById('chpin-confirm').focus()">
+    </div>
+    <div class="login-field" style="margin-bottom:6px">
+      <div class="input-label">Confirm New PIN</div>
+      <input id="chpin-confirm" class="input-field" type="password" inputmode="numeric" maxlength="8" placeholder="Repeat new PIN" onkeydown="if(event.key==='Enter')confirmChangePin()">
+    </div>
+    <div id="chpin-error" style="font-size:0.78rem;color:var(--danger);min-height:20px;margin-bottom:12px;text-align:center"></div>
+    <button class="btn-primary" onclick="confirmChangePin()">Save New PIN</button>
+    <button class="btn-secondary" style="margin-top:8px" onclick="closeModal('change-pin-modal')">Cancel</button>
+  </div>
+</div>
+
 <script>
 /* ════════════════════════════════════════
-   FIREBASE CONFIG & INIT
+   FIREBASE REST API (no SDK needed)
 ════════════════════════════════════════ */
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyAJl3i2tVorOg4xlQGEOR-224vAXmXN8ME",
-  authDomain: "jkti-d2795.firebaseapp.com",
   projectId: "jkti-d2795",
-  storageBucket: "jkti-d2795.firebasestorage.app",
-  messagingSenderId: "29570287800",
-  appId: "1:29570287800:web:754182c09b4d32826a8c4d",
-  measurementId: "G-DFHVXNHFFQ"
 };
 
-let db = null;
-let unsubscribe = null;
+const _FS_BASE = `https://firestore.googleapis.com/v1/projects/${FIREBASE_CONFIG.projectId}/databases/(default)/documents`;
+const _FS_DOC  = `${_FS_BASE}/fc_state/main`;
+const _FS_KEY  = `?key=${FIREBASE_CONFIG.apiKey}`;
+
+let db = true;           // truthy so existing if(db) checks work
 let syncEnabled = false;
-const FC_DOC_PATH = 'fc_state/main';
+let unsubscribe = null;
+let _pollInterval = null;
+const FC_DOC_PATH = 'fc_state/main'; // kept for reference
+
+// Convert JS value → Firestore REST field value
+function _toFS(val) {
+  if (val === null || val === undefined) return { nullValue: null };
+  if (typeof val === 'boolean')  return { booleanValue: val };
+  if (typeof val === 'number')   return Number.isInteger(val) ? { integerValue: String(val) } : { doubleValue: val };
+  if (typeof val === 'string')   return { stringValue: val };
+  if (Array.isArray(val))        return { arrayValue: { values: val.map(_toFS) } };
+  if (typeof val === 'object')   return { mapValue: { fields: Object.fromEntries(Object.entries(val).map(([k,v]) => [k, _toFS(v)])) } };
+  return { stringValue: String(val) };
+}
+
+// Convert Firestore REST field value → JS value
+function _fromFS(fv) {
+  if (!fv) return null;
+  if ('nullValue'     in fv) return null;
+  if ('booleanValue'  in fv) return fv.booleanValue;
+  if ('integerValue'  in fv) return Number(fv.integerValue);
+  if ('doubleValue'   in fv) return fv.doubleValue;
+  if ('stringValue'   in fv) return fv.stringValue;
+  if ('arrayValue'    in fv) return (fv.arrayValue.values || []).map(_fromFS);
+  if ('mapValue'      in fv) return Object.fromEntries(Object.entries(fv.mapValue.fields || {}).map(([k,v]) => [k, _fromFS(v)]));
+  return null;
+}
+
+// Read document
+async function _fsGet() {
+  try {
+    const r = await fetch(_FS_DOC + _FS_KEY);
+    if (!r.ok) return null;
+    const doc = await r.json();
+    if (!doc.fields) return null;
+    return Object.fromEntries(Object.entries(doc.fields).map(([k,v]) => [k, _fromFS(v)]));
+  } catch(e) { return null; }
+}
+
+// Write document — unconditional PATCH (creates or updates)
+async function _fsSet(data) {
+  const fields = Object.fromEntries(Object.entries(data).map(([k,v]) => [k, _toFS(v)]));
+  const mask = Object.keys(fields).map(k => `updateMask.fieldPaths=${encodeURIComponent(k)}`).join('&');
+  const url = `${_FS_DOC}?${mask}&key=${FIREBASE_CONFIG.apiKey}`;
+  const r = await fetch(url, {
+    method: 'PATCH',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ fields })
+  });
+  if (!r.ok) {
+    const err = await r.json().catch(()=>({}));
+    throw new Error((err.error && err.error.message) || ('HTTP ' + r.status));
+  }
+  return r.json();
+}
 
 function initFirestore() {
-  try {
-    if (firebase.apps.length) {
-      firebase.apps.forEach(a => a.delete().catch(()=>{}));
-    }
-    firebase.initializeApp(FIREBASE_CONFIG);
-    db = firebase.firestore();
-    try {
-      db.enablePersistence({ synchronizeTabs: true }).catch(()=>{});
-    } catch(e) {}
-    try {
-      if (firebase.analytics) firebase.analytics();
-    } catch(e) {
-      console.warn('Analytics init skipped:', e);
-    }
-    syncEnabled = true;
-  } catch(e) {
-    console.error('Firestore init error:', e);
-    syncEnabled = false;
-  }
+  syncEnabled = true;
 }
 
 function startLiveListener() {
-  if (!db) { updateSyncStatus('offline', 'Firestore not available'); return; }
-  unsubscribe = db.doc(FC_DOC_PATH).onSnapshot(snap => {
-    updateSyncStatus(snap.metadata.fromCache ? 'connecting' : 'live');
-    if (snap.exists) {
-      const remote = snap.data();
-      if (remote.campaigns && Array.isArray(remote.campaigns) && remote.campaigns.length > 0) {
-        campaigns = remote.campaigns;
-        if (!activeCampId || !campaigns.find(c=>c.id===activeCampId)) {
-          activeCampId = campaigns.length ? campaigns[campaigns.length-1].id : null;
-        }
-        ensureAdminAsContributor();
-        ensureCashiersAsContributors();
-        persistLocal();
-        renderAll();
-      } else if (!remote.campaigns || remote.campaigns.length === 0) {
-        if (campaigns.length > 0) {
-          db.doc(FC_DOC_PATH).set({ campaigns, updatedAt: new Date().toISOString() }, { merge: true });
-        }
+  if (!syncEnabled) { updateSyncStatus('offline', 'Firestore not available'); return; }
+  // Poll every 15 seconds for live updates
+  let _lastData = null;
+  async function _poll() {
+    const data = await _fsGet();
+    if (!data) { updateSyncStatus('offline', 'Cannot reach Firestore'); return; }
+    updateSyncStatus('live');
+    const dataStr = JSON.stringify(data.campaigns);
+    if (_lastData === dataStr) return; // no change
+    if (_writePending) return; // local write in progress — don't overwrite
+    _lastData = dataStr;
+    if (data.campaigns && Array.isArray(data.campaigns) && data.campaigns.length > 0) {
+      campaigns = data.campaigns;
+      if (!activeCampId || !campaigns.find(c=>c.id===activeCampId)) {
+        activeCampId = campaigns.length ? campaigns[campaigns.length-1].id : null;
       }
-    } else {
-      if (campaigns.length > 0) {
-        db.doc(FC_DOC_PATH).set({ campaigns, updatedAt: new Date().toISOString() }, { merge: true });
-      }
+      ensureAdminAsContributor();
+      ensureCashiersAsContributors();
+      persistLocal();
+      renderAll();
     }
-  }, err => {
-    console.error('Snapshot error:', err);
-    updateSyncStatus('offline', 'Sync error: ' + err.message);
-  });
+  }
+  _poll();
+  _pollInterval = setInterval(_poll, 15000);
+  unsubscribe = () => { clearInterval(_pollInterval); };
 }
 
+let _writePending = false;
+
 function pushToFirestore() {
-  if (!syncEnabled || !db) { updateSyncStatus('offline', 'Firestore not available'); return; }
-  db.doc(FC_DOC_PATH).set({ campaigns, updatedAt: new Date().toISOString() }, { merge: true })
-    .catch(e => {
-      console.error('Firestore write error:', e);
-      updateSyncStatus('offline', 'Write failed: ' + e.message);
+  if (!syncEnabled) { updateSyncStatus('offline', 'Firestore not available'); return; }
+  _writePending = true;
+  _fsSet({ campaigns, updatedAt: new Date().toISOString() })
+    .then(() => {
+      updateSyncStatus('live');
+      _writePending = false;
+    })
+    .catch(function(err) {
+      // Network error or Firestore error — data is safe in localStorage
+      updateSyncStatus('offline', 'Offline — saved locally');
+      _writePending = false;
     });
 }
 
@@ -1709,6 +1905,10 @@ let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 let memberFilter = 'all';
 let cashierFilter = 'all';
+let bulkMode = false;
+let bulkSelected = new Set();
+let cashierBulkMode = false;
+let cashierBulkSelected = new Set();
 let selectedMemberId = null;
 let payMethod = 'waafi';
 let currentLang = 'en';
@@ -1743,6 +1943,25 @@ function getCashiers() {
 function fmt(n) { return Number(n||0).toLocaleString('en-US'); }
 function initials(name) { return (name||'?').split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase(); }
 function today() { return new Date().toISOString().split('T')[0]; }
+function monthKey(month, year) {
+  const m = (month !== undefined ? month : currentMonth);
+  const y = (year !== undefined ? year : currentYear);
+  return `${y}-${String(m+1).padStart(2,'0')}`;
+}
+function getPaymentForMonth(contributor, month, year) {
+  // New system: payments stored in contributor.payments[YYYY-MM]
+  if(contributor.payments && contributor.payments[monthKey(month,year)]) {
+    return contributor.payments[monthKey(month,year)];
+  }
+  // Legacy fallback: if contributor has old-style status and it was paid this month
+  if(contributor.status === 'paid' && contributor.date && contributor.date.startsWith(monthKey(month,year))) {
+    return { status: 'paid', amount: contributor.amount, date: contributor.date };
+  }
+  return { status: 'unpaid', amount: 0, date: null };
+}
+function isContributorPaidThisMonth(contributor) {
+  return getPaymentForMonth(contributor, currentMonth, currentYear).status === 'paid';
+}
 function fmtDate(d) {
   if (!d) return '';
   const dt = new Date(d + 'T00:00:00');
@@ -1752,7 +1971,11 @@ function getMonthName(m) { return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Au
 function getCashierTodayCount() {
   const cashier = getCashiers().find(c => c.id === activeCashierId);
   if(!cashier) return 0;
-  return getContributors().filter(c => c.cashier === cashier.name && c.status === 'paid' && c.date === today()).length;
+  const key = monthKey();
+  return getContributors().filter(c => {
+    const mp = (c.payments && c.payments[key]);
+    return c.cashier === cashier.name && mp && mp.status === 'paid' && mp.date === today();
+  }).length;
 }
 
 function persistLocal() {
@@ -1788,6 +2011,11 @@ function renderAll() {
    SESSION
 ════════════════════════════════════════ */
 function saveSession(s) { localStorage.setItem('fc_session', JSON.stringify(s)); }
+function getDeviceId() {
+  let id = localStorage.getItem('fc_device_id');
+  if(!id) { id = 'dev_' + Math.random().toString(36).slice(2) + Date.now(); localStorage.setItem('fc_device_id', id); }
+  return id;
+}
 function loadSession() {
   try { return JSON.parse(localStorage.getItem('fc_session') || 'null'); }
   catch(e) { return null; }
@@ -2028,9 +2256,9 @@ function renderDashboard() {
   if(!c) return;
   updateAdminHeader();
   const contributors = getContributors();
-  const total = contributors.reduce((s,c) => s + (c.status === 'paid' ? c.amount : 0), 0);
-  const paidCount = contributors.filter(c => c.status === 'paid').length;
-  const unpaidCount = contributors.filter(c => c.status === 'unpaid').length;
+  const total = contributors.reduce((s,m) => s + (isContributorPaidThisMonth(m) ? getPaymentForMonth(m).amount : 0), 0);
+  const paidCount = contributors.filter(m => isContributorPaidThisMonth(m)).length;
+  const unpaidCount = contributors.filter(m => !isContributorPaidThisMonth(m)).length;
   const rate = contributors.length === 0 ? 0 : Math.round((paidCount / contributors.length) * 100);
   const contribAmt = getContributionAmount();
 
@@ -2050,12 +2278,25 @@ function renderDashboard() {
   if(contributors.length === 0) {
     alerts.innerHTML = `<div class="alert-card info"><div class="alert-icon">👋</div><div class="alert-text">No members yet. Add your first member to start tracking.</div></div>`;
   } else {
-    const unpaidLong = contributors.filter(c => c.status === 'unpaid' && c.date && new Date(c.date) < new Date(Date.now() - 60*60*24*30*1000));
+    const unpaidLong = contributors.filter(c => {
+      if(isContributorPaidThisMonth(c)) return false;
+      // Check if also unpaid last month
+      const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+      const lastYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+      const lastMp = getPaymentForMonth(c, lastMonth, lastYear);
+      return lastMp.status !== 'paid';
+    });
     let html = '';
     if(unpaidLong.length > 0) html += `<div class="alert-card danger"><div class="alert-icon">🔴</div><div class="alert-text"><strong>${unpaidLong.length} members</strong> have missed 2+ consecutive months.</div></div>`;
     if(unpaidCount > 0) html += `<div class="alert-card warn"><div class="alert-icon">🟡</div><div class="alert-text"><strong>${unpaidCount} payments</strong> still pending this month.</div></div>`;
-    const bigPayer = contributors.filter(c => c.status === 'paid' && c.amount > contribAmt).slice(0,1);
-    html += bigPayer.map(c => `<div class="alert-card info"><div class="alert-icon">🔵</div><div class="alert-text"><strong>${c.name}</strong> paid ${fmt(c.amount)} DJF.</div></div>`).join('');
+    const bigPayer = contributors.filter(c => {
+      const mp = getPaymentForMonth(c, currentMonth, currentYear);
+      return mp.status === 'paid' && mp.amount > contribAmt;
+    }).slice(0,1);
+    html += bigPayer.map(c => {
+      const mp = getPaymentForMonth(c, currentMonth, currentYear);
+      return `<div class="alert-card info"><div class="alert-icon">🔵</div><div class="alert-text"><strong>${c.name}</strong> paid ${fmt(mp.amount)} DJF.</div></div>`;
+    }).join('');
     if(!html) html = `<div class="alert-card info"><div class="alert-icon">✅</div><div class="alert-text">All caught up — no pending issues.</div></div>`;
     alerts.innerHTML = html;
   }
@@ -2068,26 +2309,35 @@ function renderDashboard() {
   } else {
     perfContainer.innerHTML = cashiers.map(cash => {
       const assigned = contributors.filter(c => c.cashier === cash.name);
-      const paid = assigned.filter(c => c.status === 'paid').length;
+      const paid = assigned.filter(c => isContributorPaidThisMonth(c)).length;
       const pct = assigned.length === 0 ? 0 : Math.round((paid / assigned.length) * 100);
       return `<div class="cashier-card"><div class="cashier-avatar" style="background:linear-gradient(135deg,#4F6EF7,#8B5CF6)">${initials(cash.name)}</div><div class="cashier-info"><div class="cashier-name">${cash.name}</div><div class="cashier-meta">${paid} / ${assigned.length} members</div></div><div class="cashier-bar-wrap"><div class="cashier-bar-track"><div class="cashier-bar-fill" style="background:var(--success);width:${pct}%;"></div></div><div class="cashier-bar-label" style="color:var(--success)">${pct}%</div></div></div>`;
     }).join('');
   }
 
-  // Recent Payments
   const recentContainer = document.getElementById('recent-payments-container');
-  const sorted = [...contributors].filter(c => c.status === 'paid').sort((a,b) => (a.date||'').localeCompare(b.date||'')).reverse().slice(0,5);
+  const key = monthKey();
+  const sorted = [...contributors]
+    .filter(c => { const mp = c.payments && c.payments[key]; return mp && mp.status === 'paid'; })
+    .sort((a,b) => {
+      const ad = (a.payments[key]||{}).date || '';
+      const bd = (b.payments[key]||{}).date || '';
+      return bd.localeCompare(ad);
+    })
+    .slice(0,5);
   if(sorted.length === 0) {
     recentContainer.innerHTML = '<div style="color:var(--muted);padding:10px;">No payments recorded yet.</div>';
   } else {
-    recentContainer.innerHTML = sorted.map(c => `
+    recentContainer.innerHTML = sorted.map(c => {
+      const mp = c.payments[key];
+      return `
       <div class="payment-item" onclick="viewMemberProfile('${c.id}')">
         <div class="pay-initial" style="background:linear-gradient(135deg,#22C97A,#4F6EF7)">${initials(c.name)}</div>
-        <div class="pay-info"><div class="pay-name">${c.name}</div><div class="pay-meta">via ${c.cashier||'Unassigned'} · ${fmtDate(c.date)}</div></div>
-        <div class="pay-right"><div class="pay-amount">+${fmt(c.amount)} DJF</div><div class="pay-time">Paid</div></div>
+        <div class="pay-info"><div class="pay-name">${c.name}</div><div class="pay-meta">via ${c.cashier||'Unassigned'} · ${fmtDate(mp.date)}</div></div>
+        <div class="pay-right"><div class="pay-amount">+${fmt(mp.amount)} DJF</div><div class="pay-time">Paid</div></div>
         <div class="dot dot-paid"></div>
       </div>
-    `).join('');
+    `;}).join('');
   }
 }
 
@@ -2110,18 +2360,140 @@ function selectMonth(m) {
 /* ════════════════════════════════════════
    MEMBERS LIST
 ════════════════════════════════════════ */
+/* ════════════════════════════════════════
+   BULK DELETE
+════════════════════════════════════════ */
+function toggleBulkMode() {
+  bulkMode = !bulkMode;
+  bulkSelected.clear();
+  const toolbar = document.getElementById('bulk-toolbar');
+  const selBar = document.getElementById('select-all-bar');
+  if(toolbar) toolbar.classList.toggle('active', bulkMode);
+  if(selBar) selBar.classList.toggle('active', bulkMode);
+  const allChk = document.getElementById('select-all-checkbox');
+  if(allChk) allChk.checked = false;
+  updateBulkCount();
+  renderMembers();
+}
+
+function toggleBulkSelect(id, el) {
+  if(!bulkMode) return;
+  if(bulkSelected.has(id)) {
+    bulkSelected.delete(id);
+    el.classList.remove('bulk-selected');
+  } else {
+    bulkSelected.add(id);
+    el.classList.add('bulk-selected');
+  }
+  // sync checkbox
+  const chk = el.querySelector('.bulk-check');
+  if(chk) chk.checked = bulkSelected.has(id);
+  updateBulkCount();
+}
+
+function toggleBulkSelectById(id, checked) {
+  if(checked) bulkSelected.add(id);
+  else bulkSelected.delete(id);
+  const el = document.getElementById('mi-'+id);
+  if(el) el.classList.toggle('bulk-selected', checked);
+  updateBulkCount();
+}
+
+function toggleSelectAll(checked) {
+  const c = getCamp();
+  if(!c) return;
+  let visible = [...document.querySelectorAll('.bulk-check')];
+  visible.forEach(chk => {
+    const id = chk.dataset.id;
+    chk.checked = checked;
+    if(checked) bulkSelected.add(id);
+    else bulkSelected.delete(id);
+    const el = document.getElementById('mi-'+id);
+    if(el) el.classList.toggle('bulk-selected', checked);
+  });
+  updateBulkCount();
+}
+
+function updateBulkCount() {
+  const label = document.getElementById('bulk-count-label');
+  if(label) label.textContent = bulkSelected.size + ' selected';
+}
+
+function bulkDeleteSelected() {
+  if(bulkSelected.size === 0) { showToast('⚠️ Select at least one member'); return; }
+  const c = getCamp();
+  if(!c) return;
+
+  // Cashiers can only delete their own members
+  if(currentRole === 'cashier') {
+    const cashier = getCashiers().find(ca => ca.id === activeCashierId);
+    if(!cashier) { showToast('⚠️ Not signed in'); return; }
+    const nonOwned = [...bulkSelected].filter(id => {
+      const m = c.contributors.find(x => x.id === id);
+      return m && m.cashier && m.cashier !== cashier.name;
+    });
+    if(nonOwned.length > 0) {
+      showToast('⚠️ You can only delete your own members'); return;
+    }
+  }
+
+  if(!confirm(`Delete ${bulkSelected.size} member(s)? They will be moved to the Recycle Bin.`)) return;
+
+  if(!c.recycleBin) c.recycleBin = [];
+  const deletedByName = currentRole === 'admin'
+    ? ((c.admin && c.admin.name) || 'Admin')
+    : (getCashiers().find(ca => ca.id === activeCashierId)?.name || 'Cashier');
+
+  bulkSelected.forEach(id => {
+    const idx = c.contributors.findIndex(x => x.id === id);
+    if(idx !== -1) {
+      const member = c.contributors.splice(idx, 1)[0];
+      c.recycleBin.push(Object.assign({}, member, { deletedAt: new Date().toISOString(), deletedBy: deletedByName }));
+    }
+  });
+
+  saveAll();
+  const count = bulkSelected.size;
+  bulkSelected.clear();
+  bulkMode = false;
+  const toolbar = document.getElementById('bulk-toolbar');
+  const selBar = document.getElementById('select-all-bar');
+  if(toolbar) toolbar.classList.remove('active');
+  if(selBar) selBar.classList.remove('active');
+  renderAll();
+  showToast(`🗑️ ${count} member(s) moved to Recycle Bin`);
+}
+
+function deleteSingleMember(id) {
+  const c = getCamp();
+  if(!c) return;
+  const member = c.contributors.find(x => x.id === id);
+  if(!member) { showToast('⚠️ Member not found'); return; }
+  if(!confirm(`Delete "${member.name}"? They will be moved to the Recycle Bin.`)) return;
+  if(!c.recycleBin) c.recycleBin = [];
+  const deletedByName = (c.admin && c.admin.name) || 'Admin';
+  const idx = c.contributors.findIndex(x => x.id === id);
+  if(idx !== -1) {
+    c.contributors.splice(idx, 1);
+    c.recycleBin.push(Object.assign({}, member, { deletedAt: new Date().toISOString(), deletedBy: deletedByName }));
+  }
+  saveAll();
+  showToast(`🗑️ ${member.name} moved to Recycle Bin`);
+}
+
 function renderMembers() {
   const search = document.getElementById('member-search')?.value?.toLowerCase() || '';
   const contributors = getContributors();
   let filtered = contributors.filter(c => {
     const matchesSearch = c.name.toLowerCase().includes(search);
-    const matchesFilter = memberFilter === 'all' || c.status === memberFilter;
+    const paidMonth = isContributorPaidThisMonth(c);
+    const matchesFilter = memberFilter === 'all' || (memberFilter === 'paid' ? paidMonth : !paidMonth);
     return matchesSearch && matchesFilter;
   });
 
   document.getElementById('filter-all-count').textContent = contributors.length;
-  document.getElementById('filter-paid-count').textContent = contributors.filter(c=>c.status==='paid').length;
-  document.getElementById('filter-unpaid-count').textContent = contributors.filter(c=>c.status==='unpaid').length;
+  document.getElementById('filter-paid-count').textContent = contributors.filter(c=>isContributorPaidThisMonth(c)).length;
+  document.getElementById('filter-unpaid-count').textContent = contributors.filter(c=>!isContributorPaidThisMonth(c)).length;
   document.getElementById('filter-advance-count').textContent = contributors.filter(c=>c.status==='advance').length;
 
   // Search detail card — show when search matches exactly one or the query is specific enough
@@ -2135,18 +2507,36 @@ function renderMembers() {
           <div class="sdc-name">${m.name}</div>
           <div class="sdc-row"><span class="sdc-label">Status</span>
             <span class="sdc-val">
-              <span class="badge ${m.status==='paid'?'badge-success':m.status==='advance'?'badge-accent':'badge-danger'}">${m.status==='paid'?'✓ Paid':m.status==='advance'?'Advance':'⏳ Unpaid'}</span>
+              <span class="badge ${isContributorPaidThisMonth(m)?'badge-success':'badge-danger'}">${isContributorPaidThisMonth(m)?'✓ Paid':'⏳ Unpaid'}</span>
             </span>
           </div>
-          <div class="sdc-row"><span class="sdc-label">Amount</span><span class="sdc-val">${fmt(m.status==='paid'?m.amount:contribAmt)} DJF</span></div>
+          <div class="sdc-row"><span class="sdc-label">Amount</span><span class="sdc-val">${fmt(isContributorPaidThisMonth(m)?getPaymentForMonth(m).amount:contribAmt)} DJF</span></div>
           <div class="sdc-row"><span class="sdc-label">Cashier</span><span class="sdc-val">${m.cashier||'Unassigned'}</span></div>
           <div class="sdc-row"><span class="sdc-label">Phone</span><span class="sdc-val">${m.phone||'—'}</span></div>
-          ${m.date ? `<div class="sdc-row"><span class="sdc-label">Date</span><span class="sdc-val">${fmtDate(m.date)}</span></div>` : ''}
+          ${getPaymentForMonth(m).date ? `<div class="sdc-row"><span class="sdc-label">Date</span><span class="sdc-val">${fmtDate(getPaymentForMonth(m).date)}</span></div>` : ''}
           <div class="sdc-footer">
             <button class="btn-primary" style="height:36px;font-size:0.8rem" onclick="viewMemberProfile('${m.id}')">View Profile</button>
-            <button class="btn-secondary" style="height:36px;font-size:0.8rem" onclick="quickMarkPaid('${m.id}')">${m.status==='paid'?'Mark Unpaid':'✓ Mark Paid'}</button>
+            <button class="btn-secondary" style="height:36px;font-size:0.8rem" onclick="quickMarkPaid('${m.id}')">${isContributorPaidThisMonth(m)?'Mark Unpaid':'✓ Mark Paid'}</button>
           </div>
         </div>`;
+    } else if(search.length >= 2 && filtered.length > 1) {
+      // Multiple matches — show tappable list with inline delete for admin
+      const contribAmt = getContributionAmount();
+      detailEl.innerHTML = `
+        <div style="padding:6px 4px 8px;font-size:0.75rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.06em">${filtered.length} people found</div>
+        ${filtered.map(m => {
+          const isPaid = isContributorPaidThisMonth(m);
+          return `
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface);border-radius:var(--radius-sm);margin-bottom:6px;border:1px solid var(--border);cursor:pointer" onclick="viewMemberProfile('${m.id}')">
+            <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,${isPaid?'#22C97A,#4F6EF7':'#7B82A8,#4A4F70'});display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:#fff;flex-shrink:0">${initials(m.name)}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:0.88rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.name}</div>
+              <div style="font-size:0.72rem;color:var(--muted);margin-top:1px">${m.cashier||'Unassigned'}</div>
+            </div>
+            <span class="badge ${isPaid?'badge-success':'badge-danger'}">${isPaid?'✓ Paid':'⏳ Unpaid'}</span>
+            ${currentRole==='admin'?`<button onclick="event.stopPropagation();deleteSingleMember('${m.id}')" style="background:rgba(247,90,90,0.1);border:1px solid rgba(247,90,90,0.3);color:var(--danger);border-radius:6px;padding:4px 8px;font-size:0.75rem;font-weight:700;flex-shrink:0">🗑️</button>`:''}
+          </div>`;
+        }).join('')}`;
     } else {
       detailEl.innerHTML = '';
     }
@@ -2162,24 +2552,30 @@ function renderMembers() {
     return;
   }
 
-  container.innerHTML = filtered.map((c, i) => `
-    <div class="member-item" onclick="viewMemberProfile('${c.id}')" id="mi-${c.id}">
+  container.innerHTML = filtered.map((c, i) => {
+    const paidThisMonth = isContributorPaidThisMonth(c);
+    const mp = getPaymentForMonth(c);
+    return `
+    <div class="member-item${bulkMode?' bulk-mode':''}" onclick="${bulkMode?`toggleBulkSelect('${c.id}',this)`:`viewMemberProfile('${c.id}')`}" id="mi-${c.id}">
+      <input type="checkbox" class="bulk-check" data-id="${c.id}" onclick="event.stopPropagation();toggleBulkSelectById('${c.id}',this.checked)">
       <div class="member-initial" style="background:linear-gradient(135deg,#4F6EF7,#8B5CF6)">${initials(c.name)}</div>
       <div class="member-info">
         <div class="member-name">${c.name}</div>
-        <div class="member-sub">${c.cashier||'Unassigned'} · ${fmtDate(c.date)}</div>
+        <div class="member-sub">${c.cashier||'Unassigned'} · ${mp.date ? fmtDate(mp.date) : '—'}</div>
       </div>
       <div class="member-right" style="display:flex;align-items:center;gap:8px">
-        <button class="pay-toggle-btn ${c.status==='paid'?'paid':'unpaid'}" title="${c.status==='paid'?'Mark Unpaid':'Mark Paid'}"
-          onclick="event.stopPropagation();quickMarkPaid('${c.id}')">${c.status==='paid'?'✓':'○'}</button>
+        ${bulkMode?'':
+        `<button class="pay-toggle-btn ${paidThisMonth?'paid':'unpaid'}" title="${paidThisMonth?'Mark Unpaid':'Mark Paid'}"
+          onclick="event.stopPropagation();quickMarkPaid('${c.id}')">${paidThisMonth?'✓':'○'}</button>`}
         <div>
-          <span class="badge ${c.status === 'paid' ? 'badge-success' : c.status === 'advance' ? 'badge-accent' : 'badge-danger'}">${c.status === 'paid' ? '✓ Paid' : c.status === 'advance' ? 'Advance' : 'Unpaid'}</span>
-          <div style="font-size:0.72rem;color:var(--muted);margin-top:4px">${fmt(c.amount)} DJF</div>
+          <span class="badge ${paidThisMonth ? 'badge-success' : 'badge-danger'}">${paidThisMonth ? '✓ Paid' : 'Unpaid'}</span>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:4px">${fmt(paidThisMonth ? mp.amount : getContributionAmount())} DJF</div>
         </div>
+        ${(!bulkMode && currentRole==='admin') ? `<button onclick="event.stopPropagation();deleteSingleMember('${c.id}')" style="background:rgba(247,90,90,0.08);border:1px solid rgba(247,90,90,0.25);color:var(--danger);border-radius:7px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0" title="Delete member">🗑️</button>` : ''}
       </div>
-      <div class="member-swipe-action" onclick="event.stopPropagation();quickMarkPaid('${c.id}')">✓<span style="font-size:0.65rem">Mark<br>Paid</span></div>
-    </div>
-  `).join('');
+      ${bulkMode?'':
+      `<div class="member-swipe-action" onclick="event.stopPropagation();quickMarkPaid('${c.id}')">✓<span style="font-size:0.65rem">Mark<br>Paid</span></div>`}
+    </div>`}).join('');
 
   // Swipe logic
   contributors.forEach(c => {
@@ -2207,16 +2603,32 @@ function quickMarkPaid(id) {
   if(!c) return;
   const contributor = c.contributors.find(x => x.id === id);
   if(!contributor) return;
-  if(contributor.status === 'paid') {
+
+  if(!contributor.payments) contributor.payments = {};
+  const key = monthKey();
+  const current = contributor.payments[key];
+
+  if(current && current.status === 'paid') {
+    // Toggle off — mark unpaid for this month
+    delete contributor.payments[key];
+    // Keep legacy status in sync
     contributor.status = 'unpaid';
     contributor.amount = 0;
+    showToast(`✓ ${contributor.name} marked unpaid for ${getMonthName(currentMonth)}`);
   } else {
+    // Mark paid for this month only
+    contributor.payments[key] = {
+      status: 'paid',
+      amount: getContributionAmount(),
+      date: today()
+    };
+    // Keep legacy status in sync for current month
     contributor.status = 'paid';
     contributor.amount = getContributionAmount();
     contributor.date = today();
+    showToast(`✓ ${contributor.name} marked paid for ${getMonthName(currentMonth)}`);
   }
   saveAll();
-  showToast(`✓ ${contributor.name} marked ${contributor.status === 'paid' ? 'paid' : 'unpaid'}`);
 }
 
 function viewMemberProfile(id) {
@@ -2236,8 +2648,10 @@ function renderProfile() {
     return;
   }
 
-  const totalPaid = c.status === 'paid' ? c.amount : 0;
-  const outstanding = c.status === 'unpaid' ? getContributionAmount() : 0;
+  const mpCurrent = getPaymentForMonth(c, currentMonth, currentYear);
+  const totalPaid = Object.values(c.payments || {}).filter(p => p.status === 'paid').reduce((s, p) => s + (p.amount || 0), 0);
+  const outstanding = mpCurrent.status !== 'paid' ? getContributionAmount() : 0;
+  const isPaidThisMonth = mpCurrent.status === 'paid';
 
   document.getElementById('profile-content').innerHTML = `
     <div class="profile-header">
@@ -2245,13 +2659,13 @@ function renderProfile() {
       <div class="profile-name">${c.name}</div>
       <div class="profile-phone">📞 ${c.phone || 'N/A'}</div>
       <div class="profile-badges">
-        <span class="badge ${c.status === 'paid' ? 'badge-success' : 'badge-danger'}">${c.status === 'paid' ? '✓ Paid' : '⏳ Unpaid'}</span>
+        <span class="badge ${isPaidThisMonth ? 'badge-success' : 'badge-danger'}">${isPaidThisMonth ? '✓ Paid' : '⏳ Unpaid'}</span>
         <span class="badge badge-accent">via ${c.cashier||'Unassigned'}</span>
       </div>
       <div class="profile-summary">
         <div class="profile-stat"><div class="profile-stat-val" style="color:var(--success)">${fmt(totalPaid)} DJF</div><div class="profile-stat-label" data-i18n="stat_paid">Total Paid</div></div>
         <div class="profile-stat"><div class="profile-stat-val" style="color:var(--danger)">${fmt(outstanding)} DJF</div><div class="profile-stat-label" data-i18n="stat_outstanding">Outstanding</div></div>
-        <div class="profile-stat"><div class="profile-stat-val" style="color:var(--gold)">${c.status === 'paid' ? '✓' : '✗'}</div><div class="profile-stat-label" data-i18n="stat_ontime">On Time</div></div>
+        <div class="profile-stat"><div class="profile-stat-val" style="color:var(--gold)">${isPaidThisMonth ? '✓' : '✗'}</div><div class="profile-stat-label" data-i18n="stat_ontime">On Time</div></div>
       </div>
     </div>
     <div class="main" style="padding-top:16px">
@@ -2266,11 +2680,14 @@ function renderProfile() {
         <div class="heatmap-grid">
           ${Array.from({length:12}, (_, i) => {
             const month = i;
-            const state = c.status === 'paid' ? 'paid' : 'future';
+            const mp = getPaymentForMonth(c, month, currentYear);
+            const isPaid = mp.status === 'paid';
+            const isFuture = month > new Date().getMonth() && currentYear >= new Date().getFullYear();
+            const state = isPaid ? 'paid' : isFuture ? 'future' : 'missed';
             return `<div class="heatmap-cell ${state}">
               <div class="heatmap-month">${getMonthName(month)}</div>
-              <div class="heatmap-status">${state === 'paid' ? '✅' : '·'}</div>
-              <div class="heatmap-date">${state === 'paid' ? fmtDate(c.date) : ''}</div>
+              <div class="heatmap-status">${isPaid ? '✅' : isFuture ? '·' : '✗'}</div>
+              <div class="heatmap-date">${isPaid ? fmtDate(mp.date) : ''}</div>
             </div>`;
           }).join('')}
         </div>
@@ -2281,14 +2698,18 @@ function renderProfile() {
         <button class="btn-secondary" style="margin-top:8px;" onclick="saveMemberNotes()">Save Notes</button>
       </div>
       <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
-        <button class="btn-primary" onclick="openPayModalForProfile()">💰 <span data-i18n="record_payment">Record Payment</span></button>
+        ${isPaidThisMonth
+          ? `<button class="btn-secondary" onclick="quickMarkPaid('${c.id}')">✕ Mark Unpaid for ${getMonthName(currentMonth)}</button>`
+          : `<button class="btn-primary" onclick="openPayModalForProfile()">💰 <span data-i18n="record_payment">Record Payment</span></button>`
+        }
+        ${currentRole==='admin'?`<button class="btn-danger" onclick="if(confirm('Delete ${c.name}? They will be moved to the Recycle Bin.')){deleteSingleMember('${c.id}');navigate('members')}">🗑️ Delete Member</button>`:''}
         <div id="profile-promote-section"></div>
       </div>
     </div>
   `;
 
-  // After render, inject promote/demote section if admin
-  if(currentRole === 'admin' || (currentRole === 'cashier' && isAdminActingAsCashier)) {
+  // After render, inject promote/demote section — only real admin (not cashier acting as admin)
+  if(currentRole === 'admin' && !isAdminActingAsCashier) {
     setTimeout(() => {
       const sec = document.getElementById('profile-promote-section');
       if(!sec) return;
@@ -2301,7 +2722,7 @@ function renderProfile() {
             <p style="font-size:0.8rem;color:var(--muted);margin-bottom:8px">${c.name} has cashier access. PIN: <span class="pin-reveal">${ca.pin||'—'}</span></p>
             <button class="btn-secondary" style="height:38px;font-size:0.8rem" onclick="demoteCashier('${ca.id}');navigate('members')">Remove Cashier Role</button>
           </div>`;
-      } else if(!c.isAdmin) {
+      } else {
         sec.innerHTML = `
           <div class="promote-section">
             <div class="promote-title">Promote to Cashier</div>
@@ -2342,6 +2763,9 @@ function confirmRecordPayment() {
   contributor.method = payMethod;
   contributor.waafiNumber = document.getElementById('pay-waafi-number').value || '';
   contributor.date = today();
+  // Also write into per-month payments object so heatmap & history work
+  if(!contributor.payments) contributor.payments = {};
+  contributor.payments[monthKey()] = { status: 'paid', amount, date: today(), method: payMethod };
   saveAll();
   closeModal('pay-modal');
   renderProfile();
@@ -2378,6 +2802,100 @@ function applyCashierSession() {
   if(backBtn) backBtn.style.display = isAdminActingAsCashier ? 'flex' : 'none';
 }
 
+/* ════════════════════════════════════════
+   CASHIER BULK DELETE
+════════════════════════════════════════ */
+function toggleCashierBulkMode() {
+  cashierBulkMode = !cashierBulkMode;
+  cashierBulkSelected.clear();
+  const toolbar = document.getElementById('cashier-bulk-toolbar');
+  const selBar = document.getElementById('cashier-select-all-bar');
+  if(toolbar) toolbar.classList.toggle('active', cashierBulkMode);
+  if(selBar) selBar.classList.toggle('active', cashierBulkMode);
+  const allChk = document.getElementById('cashier-select-all-checkbox');
+  if(allChk) allChk.checked = false;
+  updateCashierBulkCount();
+  renderCashierView();
+}
+
+function toggleCashierBulkSelect(id, el) {
+  if(!cashierBulkMode) return;
+  if(cashierBulkSelected.has(id)) {
+    cashierBulkSelected.delete(id);
+    el.classList.remove('bulk-selected');
+  } else {
+    cashierBulkSelected.add(id);
+    el.classList.add('bulk-selected');
+  }
+  const chk = el.querySelector('.cashier-bulk-check');
+  if(chk) chk.checked = cashierBulkSelected.has(id);
+  updateCashierBulkCount();
+}
+
+function cashierToggleBulkById(id, checked) {
+  if(checked) cashierBulkSelected.add(id);
+  else cashierBulkSelected.delete(id);
+  const el = document.getElementById('cm-'+id);
+  if(el) el.classList.toggle('bulk-selected', checked);
+  updateCashierBulkCount();
+}
+
+function cashierToggleSelectAll(checked) {
+  document.querySelectorAll('.cashier-bulk-check').forEach(chk => {
+    const id = chk.dataset.id;
+    chk.checked = checked;
+    if(checked) cashierBulkSelected.add(id);
+    else cashierBulkSelected.delete(id);
+    const el = document.getElementById('cm-'+id);
+    if(el) el.classList.toggle('bulk-selected', checked);
+  });
+  updateCashierBulkCount();
+}
+
+function updateCashierBulkCount() {
+  const label = document.getElementById('cashier-bulk-count-label');
+  if(label) label.textContent = cashierBulkSelected.size + ' selected';
+}
+
+function cashierBulkDeleteSelected() {
+  if(cashierBulkSelected.size === 0) { showToast('⚠️ Select at least one member'); return; }
+  const c = getCamp();
+  if(!c) return;
+  const cashier = getCashiers().find(ca => ca.id === activeCashierId);
+  const deletedByName = cashier ? cashier.name : (isAdminActingAsCashier ? ((c.admin&&c.admin.name)||'Admin') : 'Cashier');
+
+  // Cashiers can only delete their own assigned members
+  if(!isAdminActingAsCashier) {
+    const nonOwned = [...cashierBulkSelected].filter(id => {
+      const m = c.contributors.find(x => x.id === id);
+      return m && m.cashier && cashier && m.cashier !== cashier.name;
+    });
+    if(nonOwned.length > 0) { showToast('⚠️ You can only delete your own members'); return; }
+  }
+
+  if(!confirm(`Delete ${cashierBulkSelected.size} member(s)? They will be moved to the Recycle Bin.`)) return;
+  if(!c.recycleBin) c.recycleBin = [];
+
+  cashierBulkSelected.forEach(id => {
+    const idx = c.contributors.findIndex(x => x.id === id);
+    if(idx !== -1) {
+      const member = c.contributors.splice(idx, 1)[0];
+      c.recycleBin.push(Object.assign({}, member, { deletedAt: new Date().toISOString(), deletedBy: deletedByName }));
+    }
+  });
+
+  saveAll();
+  const count = cashierBulkSelected.size;
+  cashierBulkSelected.clear();
+  cashierBulkMode = false;
+  const toolbar = document.getElementById('cashier-bulk-toolbar');
+  const selBar = document.getElementById('cashier-select-all-bar');
+  if(toolbar) toolbar.classList.remove('active');
+  if(selBar) selBar.classList.remove('active');
+  renderAll();
+  showToast(`🗑️ ${count} member(s) moved to Recycle Bin`);
+}
+
 function renderCashierView() {
   const cashier = getCashiers().find(c => c.id === activeCashierId);
   if(!cashier) {
@@ -2399,8 +2917,8 @@ function renderCashierView() {
 
   const allAssigned = myMembers;
   const total = allAssigned.length;
-  const paid = allAssigned.filter(c => c.status === 'paid').length;
-  const unpaid = allAssigned.filter(c => c.status === 'unpaid').length;
+  const paid = allAssigned.filter(c => isContributorPaidThisMonth(c)).length;
+  const unpaid = allAssigned.filter(c => !isContributorPaidThisMonth(c)).length;
   const rate = total === 0 ? 0 : Math.round((paid / total) * 100);
 
   document.getElementById('cashier-paid-count').textContent = paid;
@@ -2422,19 +2940,25 @@ function renderCashierView() {
     return;
   }
 
-  container.innerHTML = filtered.map(c => `
-    <div class="member-item" onclick="viewMemberProfile('${c.id}')" id="cm-${c.id}">
+  container.innerHTML = filtered.map(c => {
+    const paidNow = isContributorPaidThisMonth(c);
+    const mp = getPaymentForMonth(c);
+    return `
+    <div class="member-item${cashierBulkMode?' bulk-mode':''}" onclick="${cashierBulkMode?`toggleCashierBulkSelect('${c.id}',this)`:`viewMemberProfile('${c.id}')`}" id="cm-${c.id}">
+      <input type="checkbox" class="bulk-check cashier-bulk-check" data-id="${c.id}" onclick="event.stopPropagation();cashierToggleBulkById('${c.id}',this.checked)">
       <div class="member-initial" style="background:linear-gradient(135deg,#4F6EF7,#8B5CF6)">${initials(c.name)}</div>
       <div class="member-info">
         <div class="member-name">${c.name}</div>
-        <div class="member-sub">${fmt(c.amount)} DJF · ${c.status === 'paid' ? 'Paid this month' : 'Pending'}</div>
+        <div class="member-sub">${fmt(paidNow ? mp.amount : getContributionAmount())} DJF · ${paidNow ? 'Paid this month' : 'Pending'}</div>
       </div>
       <div class="member-right">
-        <span class="badge ${c.status === 'paid' ? 'badge-success' : 'badge-danger'}">${c.status === 'paid' ? '✓ Paid' : '⏳ Pending'}</span>
+        <button class="pay-toggle-btn ${paidNow?'paid':'unpaid'}" title="${paidNow?'Mark Unpaid':'Mark Paid'}"
+          onclick="event.stopPropagation();quickMarkPaid('${c.id}')">${paidNow?'✓':'○'}</button>
+        <span class="badge ${paidNow ? 'badge-success' : 'badge-danger'}">${paidNow ? '✓ Paid' : '⏳ Pending'}</span>
       </div>
       <div class="member-swipe-action" onclick="event.stopPropagation();quickMarkPaid('${c.id}')">✓<span style="font-size:0.62rem">Mark<br>Paid</span></div>
     </div>
-  `).join('');
+  `}).join('');
 
   // Swipe logic
   filtered.forEach(c => {
@@ -2457,6 +2981,21 @@ function setCashierFilter(filter, el) {
   renderCashierView();
 }
 
+function setCashierNavFilter(filter, navBtn) {
+  // Sync the on-screen filter tabs
+  cashierFilter = filter;
+  document.querySelectorAll('#screen-cashier .filter-tab').forEach(t => {
+    t.classList.toggle('active', t.textContent.toLowerCase().includes(filter));
+  });
+  // Highlight the nav button
+  document.querySelectorAll('#cashier-nav .nav-item').forEach(b => b.classList.remove('active'));
+  if(navBtn) navBtn.classList.add('active');
+  // Navigate to cashier screen if not already there
+  const cashierScreen = document.getElementById('screen-cashier');
+  if(!cashierScreen.classList.contains('active')) navigate('cashier');
+  else renderCashierView();
+}
+
 /* ════════════════════════════════════════
    PUBLIC VIEWER
 ════════════════════════════════════════ */
@@ -2464,9 +3003,9 @@ const PUB_CIRC = 2*Math.PI*66;
 
 function renderPublicView() {
   const contributors = getContributors();
-  const total = contributors.reduce((s,c) => s + (c.status === 'paid' ? c.amount : 0), 0);
-  const paid = contributors.filter(c => c.status === 'paid').length;
-  const unpaid = contributors.filter(c => c.status === 'unpaid').length;
+  const total = contributors.reduce((s,c) => s + (isContributorPaidThisMonth(c) ? getPaymentForMonth(c).amount : 0), 0);
+  const paid = contributors.filter(c => isContributorPaidThisMonth(c)).length;
+  const unpaid = contributors.filter(c => !isContributorPaidThisMonth(c)).length;
   const rate = contributors.length === 0 ? 0 : Math.round((paid / contributors.length) * 100);
 
   const camp = getCamp();
@@ -2474,7 +3013,8 @@ function renderPublicView() {
   document.getElementById('public-month').textContent = getMonthName(currentMonth) + ' ' + currentYear;
   document.getElementById('pub-paid').textContent = paid;
   document.getElementById('pub-unpaid').textContent = unpaid;
-  document.getElementById('pub-total').textContent = fmt(total) + ' DJF';
+  const contribAmt = getContributionAmount();
+  document.getElementById('pub-total').textContent = fmt(contributors.length * contribAmt) + ' DJF';
 
   const fill = document.getElementById('pub-ring-fill');
   const num = document.getElementById('pub-ring-num');
@@ -2489,8 +3029,8 @@ function renderPublicView() {
     if(matches.length === 1) {
       const m = matches[0];
       const contribAmt = getContributionAmount();
-      const isPaid = m.status === 'paid';
-      const isAdvance = m.status === 'advance';
+      const isPaid = isContributorPaidThisMonth(m);
+      const isAdvance = !isPaid && m.status === 'advance';
       detailEl.innerHTML = `
         <div class="pub-detail-card">
           <div class="pub-detail-avatar" style="background:linear-gradient(135deg,${isPaid?'#22C97A,#4F6EF7':'#F75A5A,#8B5CF6'})">${initials(m.name)}</div>
@@ -2502,7 +3042,7 @@ function renderPublicView() {
           </div>
           <div class="pub-detail-stats">
             <div class="pub-detail-stat">
-              <div class="pub-detail-val" style="color:${isPaid?'var(--success)':'var(--muted)'}">${isPaid?fmt(m.amount)+' DJF':'—'}</div>
+              <div class="pub-detail-val" style="color:${isPaid?'var(--success)':'var(--muted)'}">${isPaid?fmt(getPaymentForMonth(m).amount||m.amount||0)+' DJF':'—'}</div>
               <div class="pub-detail-label">Amount Paid</div>
             </div>
             <div class="pub-detail-stat">
@@ -2510,22 +3050,46 @@ function renderPublicView() {
               <div class="pub-detail-label">Outstanding</div>
             </div>
             <div class="pub-detail-stat">
-              <div class="pub-detail-val">${isPaid?fmtDate(m.date):'—'}</div>
+              <div class="pub-detail-val">${isPaid?fmtDate(getPaymentForMonth(m).date||m.date||''):'—'}</div>
               <div class="pub-detail-label">Date Paid</div>
             </div>
           </div>
         </div>`;
     } else if(matches.length > 1 && search.length >= 2) {
-      // Show compact list of matches
+      // Show compact tappable list of matches — each row expands inline
       detailEl.innerHTML = `
         <div style="padding:10px 4px;font-size:0.75rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.05em">${matches.length} people found</div>
-        ${matches.slice(0,4).map(m => `
-          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface);border-radius:var(--radius-sm);margin-bottom:6px;border:1px solid var(--border)">
-            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,${m.status==='paid'?'#22C97A,#4F6EF7':'#7B82A8,#4A4F70'});display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:#fff;flex-shrink:0">${initials(m.name)}</div>
-            <div style="flex:1;font-size:0.88rem;font-weight:600">${m.name}</div>
-            <span class="badge ${m.status==='paid'?'badge-success':'badge-danger'}">${m.status==='paid'?'✓ Paid':'⏳ Unpaid'}</span>
-          </div>`).join('')}
-        ${matches.length > 4 ? `<div style="text-align:center;font-size:0.75rem;color:var(--muted);padding:4px">+${matches.length-4} more — type more letters to narrow down</div>` : ''}`;
+        ${matches.map((m, idx) => {
+          const isPaid = isContributorPaidThisMonth(m);
+          const isAdv = !isPaid && m.status === 'advance';
+          const contribAmt2 = getContributionAmount();
+          const mp2 = getPaymentForMonth(m);
+          return `
+          <div id="pub-match-row-${idx}" style="cursor:pointer">
+            <div onclick="togglePubMatchDetail(${idx})" style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface);border-radius:var(--radius-sm);margin-bottom:4px;border:1px solid var(--border);transition:background 0.15s">
+              <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,${isPaid?'#22C97A,#4F6EF7':'#7B82A8,#4A4F70'});display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:#fff;flex-shrink:0">${initials(m.name)}</div>
+              <div style="flex:1;font-size:0.88rem;font-weight:600">${m.name}</div>
+              <span class="badge ${isPaid?'badge-success':'badge-danger'}">${isPaid?'✓ Paid':'⏳ Unpaid'}</span>
+              <span style="font-size:0.8rem;color:var(--muted)">▾</span>
+            </div>
+            <div id="pub-match-detail-${idx}" style="display:none;background:var(--surface2);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:8px;border:1px solid var(--border)">
+              <div class="pub-detail-stats">
+                <div class="pub-detail-stat">
+                  <div class="pub-detail-val" style="color:${isPaid?'var(--success)':'var(--muted)'}">${isPaid?fmt(mp2.amount||0)+' DJF':'—'}</div>
+                  <div class="pub-detail-label">Amount Paid</div>
+                </div>
+                <div class="pub-detail-stat">
+                  <div class="pub-detail-val" style="color:${!isPaid?'var(--danger)':'var(--muted)'}">${!isPaid?fmt(contribAmt2)+' DJF':'—'}</div>
+                  <div class="pub-detail-label">Outstanding</div>
+                </div>
+                <div class="pub-detail-stat">
+                  <div class="pub-detail-val">${isPaid?fmtDate(mp2.date||''):'—'}</div>
+                  <div class="pub-detail-label">Date Paid</div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+        }).join('')}`;
     } else {
       detailEl.innerHTML = '';
     }
@@ -2538,8 +3102,22 @@ function renderPublicView() {
     wall.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted);font-size:0.8rem;padding:20px 0;">No members yet.</div>';
   } else {
     wall.innerHTML = wallMembers.map(c => `
-      <div class="wall-cell ${c.status === 'paid' ? 'paid' : 'unpaid'}" title="${c.name}: ${c.status === 'paid' ? 'Paid' : 'Not yet'}">${initials(c.name)}</div>
+      <div class="wall-cell ${isContributorPaidThisMonth(c) ? 'paid' : 'unpaid'}" title="${c.name}: ${isContributorPaidThisMonth(c) ? 'Paid' : 'Not yet'}">${initials(c.name)}</div>
     `).join('');
+  }
+}
+
+function togglePubMatchDetail(idx) {
+  const detail = document.getElementById('pub-match-detail-'+idx);
+  if(!detail) return;
+  const isOpen = detail.style.display !== 'none';
+  // Close all others
+  document.querySelectorAll('[id^="pub-match-detail-"]').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('[id^="pub-match-row-"] span[style*="▾"]').forEach(el => el.textContent = '▾');
+  if(!isOpen) {
+    detail.style.display = 'block';
+    const row = document.getElementById('pub-match-row-'+idx);
+    if(row) { const arr = row.querySelector('span[style*="▾"]'); if(arr) arr.textContent = '▴'; }
   }
 }
 
@@ -2549,9 +3127,9 @@ function renderPublicView() {
 function renderReports() {
   const contributors = getContributors();
   const contribAmt = getContributionAmount();
-  const total = contributors.reduce((s,c) => s + (c.status === 'paid' ? c.amount : 0), 0);
-  const paid = contributors.filter(c => c.status === 'paid').length;
-  const unpaid = contributors.filter(c => c.status === 'unpaid').length;
+  const total = contributors.reduce((s,c) => s + (isContributorPaidThisMonth(c) ? getPaymentForMonth(c).amount : 0), 0);
+  const paid = contributors.filter(c => isContributorPaidThisMonth(c)).length;
+  const unpaid = contributors.filter(c => !isContributorPaidThisMonth(c)).length;
   const rate = contributors.length === 0 ? 0 : Math.round((paid / contributors.length) * 100);
 
   document.getElementById('report-collected').textContent = fmt(total) + ' DJF';
@@ -2570,14 +3148,17 @@ function renderReports() {
   if(contributors.length === 0) {
     tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:24px;">No members yet</td></tr>';
   } else {
-    tbody.innerHTML = contributors.map(c => `
+    tbody.innerHTML = contributors.map(c => {
+      const paidNow = isContributorPaidThisMonth(c);
+      const mp = getPaymentForMonth(c);
+      return `
       <tr>
         <td style="font-weight:600">${c.name}</td>
-        <td><span class="badge badge-accent">${c.status === 'paid' ? '✓' : '✗'}</span></td>
-        <td style="color:var(--success);font-weight:700;">${c.status === 'paid' ? fmt(c.amount) : '—'}</td>
-        <td style="color:${c.status === 'unpaid' ? 'var(--danger)' : 'var(--muted)'};">${c.status === 'unpaid' ? fmt(contribAmt) : '—'}</td>
+        <td><span class="badge badge-accent">${paidNow ? '✓' : '✗'}</span></td>
+        <td style="color:var(--success);font-weight:700;">${paidNow ? fmt(mp.amount) : '—'}</td>
+        <td style="color:${!paidNow ? 'var(--danger)' : 'var(--muted)'};">${!paidNow ? fmt(contribAmt) : '—'}</td>
       </tr>
-    `).join('');
+    `}).join('');
   }
 
   // Chart
@@ -2591,7 +3172,7 @@ function renderReports() {
     }), 1);
     chart.innerHTML = cashiers.map(cash => {
       const assigned = contributors.filter(x => x.cashier === cash.name);
-      const paidN = assigned.filter(x => x.status === 'paid').length;
+      const paidN = assigned.filter(x => isContributorPaidThisMonth(x)).length;
       const pct = assigned.length === 0 ? 0 : Math.round((paidN / assigned.length) * 100);
       const h = Math.round((assigned.length / max) * 70);
       return `<div class="mini-bar" style="height:${Math.max(10, h)}px;background:var(--accent)">
@@ -2632,8 +3213,12 @@ function renderSettings() {
   if(camp.admin) {
     document.getElementById('settings-admin-name').textContent = camp.admin.name;
     document.getElementById('settings-admin-phone').textContent = camp.admin.phone;
-    document.getElementById('settings-admin-pin-display').textContent = camp.admin.pin || '••••';
+    document.getElementById('settings-admin-pin-display').textContent = '••••';
   }
+
+  // Always show security banner as reminder
+  const banner = document.getElementById('security-warning-banner');
+  if(banner) banner.style.display = 'flex';
 
   document.getElementById('settings-recyclebin-count').textContent = ((camp.recycleBin)||[]).length;
   renderNameRegistrySettings();
@@ -2673,6 +3258,8 @@ function renderSettings() {
 
   // Language buttons
   applyLang();
+  // Update install row status
+  if(typeof updateInstallSettingsRow === "function") updateInstallSettingsRow();
 }
 
 function editCampaignName() {
@@ -2760,23 +3347,28 @@ function openAddMemberModal() {
     populateCashierSelect('add-member-cashier');
   }
   document.getElementById('add-member-amount').placeholder = String(getContributionAmount());
-  // Clear fields
-  ['add-name-1','add-name-2','add-name-3','add-member-phone','add-member-amount'].forEach(id => {
-    const el = document.getElementById(id);
-    if(el) el.value = '';
-  });
-  document.getElementById('add-suggest-2').style.display = 'none';
-  document.getElementById('add-suggest-3').style.display = 'none';
+  // Clear all fields that exist in the modal
+  const clearIds = ['add-member-fullname','add-member-phone','add-member-amount'];
+  clearIds.forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  // Reset status
+  const statusEl = document.getElementById('add-member-status');
+  if(statusEl) statusEl.value = 'unpaid';
+  // Reset duplicate warning
+  const warnEl = document.getElementById('add-name-dupe-warn');
+  if(warnEl) { warnEl.textContent = ''; delete warnEl.dataset.warned; }
+  // Hide suggestion dropdown
+  hideSuggest('add-fullname-suggest');
   document.getElementById('add-member-modal').classList.add('open');
 }
 
 function confirmAddMember() {
   const c = getCamp();
   if(!c) { showToast('⚠️ No active campaign'); return; }
-  const n1 = (document.getElementById('add-name-1').value || '').trim();
-  const n2 = (document.getElementById('add-name-2').value || '').trim();
-  const n3 = (document.getElementById('add-name-3').value || '').trim();
-  const name = [n1, n2, n3].filter(Boolean).join(' ');
+
+  const rawName = (document.getElementById('add-member-fullname').value || '').trim();
+  // Normalize: collapse multiple spaces, capitalize each part
+  const name = rawName.split(/\s+/).filter(Boolean).map(capitalize).join(' ');
+
   const phone = document.getElementById('add-member-phone').value.trim();
   let cashier;
   if(currentRole === 'cashier') {
@@ -2788,29 +3380,52 @@ function confirmAddMember() {
   }
   const status = document.getElementById('add-member-status').value;
   const amount = parseFloat(document.getElementById('add-member-amount').value) || getContributionAmount();
-  if(!n1) { showToast('⚠️ Enter a given name'); return; }
+  if(!name) { showToast('⚠️ Enter a name'); return; }
 
-  // Duplicate name check (exact full name)
-  const existing = c.contributors.find(x => x.name.toLowerCase() === name.toLowerCase());
-  if(existing) { showToast(`⚠️ "${name}" already exists`); return; }
+  // Exact duplicate check
+  const exact = c.contributors.find(x => x.name.toLowerCase() === name.toLowerCase());
+  if(exact) { showToast(`⚠️ "${name}" already exists`); return; }
+
+  // Near-match check (warn but allow if user already saw warning)
+  const near = c.contributors.find(x => fuzzyNameMatch(x.name, name));
+  const warnEl = document.getElementById('add-name-dupe-warn');
+  if(near && warnEl.dataset.warned !== name) {
+    warnEl.textContent = `⚠️ Similar name exists: "${near.name}". Tap Add again to confirm.`;
+    warnEl.dataset.warned = name;
+    return;
+  }
+  if(warnEl) { warnEl.textContent = ''; warnEl.dataset.warned = ''; }
+
+  // Auto-learn 2nd+3rd from this new name
+  const parts = name.split(' ');
+  if(parts.length >= 2) {
+    const family = parts.slice(1).join(' ');
+    if(!c.nameRegistry) c.nameRegistry = [];
+    if(!c.nameRegistry.includes(family)) {
+      c.nameRegistry.push(family);
+      c.nameRegistry.sort();
+    }
+  }
 
   c.contributors.push({
-    id: 'c_'+Date.now(),
+    id: 'c_' + Date.now(),
     name, phone, cashier, status,
     amount: status === 'paid' ? amount : 0,
     date: status === 'paid' ? today() : '',
     notes: '',
     method: null,
-    waafiNumber: ''
+    waafiNumber: '',
+    payments: status === 'paid' ? { [monthKey()]: { status: 'paid', amount, date: today() } } : {}
   });
   saveAll();
   closeModal('add-member-modal');
-  document.getElementById('add-name-1').value = '';
-  document.getElementById('add-name-2').value = '';
-  document.getElementById('add-name-3').value = '';
+  document.getElementById('add-member-fullname').value = '';
   document.getElementById('add-member-phone').value = '';
   document.getElementById('add-member-amount').value = '';
+  if(warnEl) { warnEl.textContent = ''; warnEl.dataset.warned = ''; }
+  hideSuggest('add-fullname-suggest');
   showToast('✅ Member added!');
+  renderSettings && renderNameRegistrySettings();
 }
 
 function openEditMemberModal() {
@@ -2835,6 +3450,9 @@ function openEditMemberModal() {
     populateCashierSelect('edit-member-cashier', contributor.cashier || '');
   }
   document.getElementById('edit-member-notes').value = contributor.notes || '';
+  // Delete button is admin-only
+  const delBtn = document.getElementById('edit-member-delete-btn');
+  if(delBtn) delBtn.style.display = currentRole === 'admin' ? 'block' : 'none';
   document.getElementById('edit-member-modal').classList.add('open');
 }
 
@@ -2868,9 +3486,13 @@ function deleteMemberFromEdit() {
 
   let deletedByName;
   if(currentRole === 'cashier') {
-    const me = getCurrentCashier();
-    if(!me || member.cashier !== me.name) { showToast('⚠️ You can only delete your own members'); return; }
-    deletedByName = me.name;
+    // Cashiers can delete their own assigned members
+    const cashier = getCashiers().find(ca => ca.id === activeCashierId);
+    if(!cashier) { showToast('⚠️ Not signed in'); return; }
+    if(member.cashier && member.cashier !== cashier.name) {
+      showToast('⚠️ You can only delete your own members'); return;
+    }
+    deletedByName = cashier.name;
   } else {
     deletedByName = (c.admin && c.admin.name) || 'Admin';
   }
@@ -2945,11 +3567,49 @@ function permanentlyDeleteMember(id) {
 }
 
 function openAddCashierModal() {
-  showToast('💡 Promote a contributor to cashier from their profile page.');
+  // Clear fields
+  ['add-cashier-name','add-cashier-phone','add-cashier-pin'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+  document.getElementById('add-cashier-modal').classList.add('open');
 }
 
 function confirmAddCashier() {
-  // Legacy stub — now replaced by promote flow
+  const c = getCamp();
+  if(!c) return;
+  const name = document.getElementById('add-cashier-name').value.trim();
+  const phone = document.getElementById('add-cashier-phone').value.trim();
+  const pin = document.getElementById('add-cashier-pin').value.trim();
+
+  if(!name) { showToast('⚠️ Enter a name'); return; }
+  if(!phone) { showToast('⚠️ Enter a phone number'); return; }
+  if(!pin || pin.length < 4) { showToast('⚠️ PIN must be at least 4 digits'); return; }
+
+  if(getCashiers().find(ca => ca.phone === phone && !ca.isAdminCashier)) {
+    showToast('⚠️ That phone is already used by another cashier'); return;
+  }
+
+  if(!c.cashiers) c.cashiers = [];
+  const newId = 'cashier_' + Date.now();
+  c.cashiers.push({ id: newId, name, phone, pin });
+
+  // Also add as contributor if not already
+  if(!c.contributors) c.contributors = [];
+  if(!c.contributors.find(x => x.phone === phone)) {
+    c.contributors.push({
+      id: 'contrib_' + Date.now(),
+      name, phone,
+      cashier: name,
+      payments: {},
+      status: 'unpaid', amount: 0
+    });
+  }
+
+  saveAll();
+  closeModal('add-cashier-modal');
+  renderAll();
+  showToast(`✅ ${name} added as cashier`);
 }
 
 /* ════════════════════════════════════════
@@ -3098,34 +3758,134 @@ function renderNameRegistrySettings() {
   }
 }
 
-/* ── Autocomplete wiring ── */
-function onName1Input(val) {
-  // First name doesn't autocomplete — just clears 2nd/3rd suggestion lists if user reset
-  if(!val.trim()) {
-    hideSuggest('add-suggest-2');
-    hideSuggest('add-suggest-3');
-  }
+/* ════════════════════════════════════════
+   SMART NAME INPUT
+════════════════════════════════════════ */
+
+// Fuzzy match: allows missing/extra letters but NOT transpositions
+function fuzzyNameMatch(a, b) {
+  a = a.toLowerCase().trim();
+  b = b.toLowerCase().trim();
+  if(a === b) return true;
+  // Check each word pair
+  const aw = a.split(' '), bw = b.split(' ');
+  if(Math.abs(aw.length - bw.length) > 1) return false;
+  // Full string edit distance (insertions/deletions only, no swaps)
+  return editDistance(a, b) <= 2;
 }
 
+function editDistance(s, t) {
+  // Levenshtein but penalize transpositions heavily
+  const m = s.length, n = t.length;
+  if(Math.abs(m - n) > 3) return 99;
+  const dp = Array.from({length: m+1}, (_, i) => Array.from({length: n+1}, (_, j) => i === 0 ? j : j === 0 ? i : 0));
+  for(let i = 1; i <= m; i++) {
+    for(let j = 1; j <= n; j++) {
+      if(s[i-1] === t[j-1]) {
+        dp[i][j] = dp[i-1][j-1];
+      } else {
+        // Transposition check — penalize heavily so "Hasna" won't match "Hassan"
+        const isTransposition = i > 1 && j > 1 && s[i-1] === t[j-2] && s[i-2] === t[j-1];
+        dp[i][j] = 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1] + (isTransposition ? 2 : 0));
+      }
+    }
+  }
+  return dp[m][n];
+}
+
+// Get all known family name parts (2nd+3rd) from registry + existing contributors
+function getFamilySuggestions() {
+  const c = getCamp();
+  const registry = (c && c.nameRegistry) ? [...c.nameRegistry] : [];
+  // Extract 2nd+3rd from existing contributors
+  const contributors = getContributors();
+  contributors.forEach(m => {
+    const parts = m.name.trim().split(/\s+/);
+    if(parts.length >= 2) {
+      const family = parts.slice(1).join(' ');
+      if(family && !registry.includes(family)) registry.push(family);
+    }
+  });
+  return [...new Set(registry)].sort();
+}
+
+function onFullNameInput(val) {
+  const warnEl = document.getElementById('add-name-dupe-warn');
+  if(warnEl && warnEl.dataset.warned && warnEl.dataset.warned !== val.trim()) {
+    warnEl.textContent = '';
+    warnEl.dataset.warned = '';
+  }
+
+  const parts = val.split(/\s+/).filter(Boolean);
+  const suggest = document.getElementById('add-fullname-suggest');
+  if(!suggest) return;
+
+  // Need at least first name + start of 2nd name to trigger suggestions
+  if(parts.length < 2) { hideSuggest('add-fullname-suggest'); return; }
+
+  const firstName = parts[0];
+  const familyTyped = parts.slice(1).join(' ').toLowerCase();
+
+  const allFamilies = getFamilySuggestions();
+
+  // Match family names where typed part is a prefix or near-match of start
+  const matches = allFamilies.filter(fam => {
+    const fl = fam.toLowerCase();
+    if(fl === familyTyped) return false; // already complete
+    if(fl.startsWith(familyTyped)) return true;
+    // Near-match: first word of family starts with fuzzy prefix
+    const famFirst = fl.split(' ')[0];
+    const typedFirst = familyTyped.split(' ')[0];
+    return famFirst.startsWith(typedFirst) || editDistance(typedFirst, famFirst.slice(0, typedFirst.length + 1)) <= 1;
+  });
+
+  if(matches.length === 0) { hideSuggest('add-fullname-suggest'); return; }
+
+  suggest.innerHTML = matches.slice(0, 6).map(fam => {
+    const fullSuggested = capitalize(firstName) + ' ' + fam;
+    return `<div class="name-suggest-item" onclick="pickFullNameSuggestion(this.dataset.fam)" data-fam="${fam.replace(/"/g,'&quot;')}">
+      <span style="color:var(--muted);font-size:0.78rem">${capitalize(firstName)}</span>
+      <strong> ${fam}</strong>
+    </div>`;
+  }).join('');
+  suggest.style.display = 'block';
+}
+
+function pickFullNameSuggestion(familyPart) {
+  // Accept string or element
+  if(typeof familyPart === 'object' && familyPart.dataset) familyPart = familyPart.dataset.fam;
+  const input = document.getElementById('add-member-fullname');
+  if(!input) return;
+  const parts = input.value.split(/\s+/).filter(Boolean);
+  const firstName = parts[0] || '';
+  input.value = capitalize(firstName) + ' ' + familyPart;
+  hideSuggest('add-fullname-suggest');
+  input.focus();
+  // Move cursor to end
+  const len = input.value.length;
+  input.setSelectionRange(len, len);
+}
+
+function onName1Input(val) {
+  if(!val.trim()) { hideSuggest('add-suggest-2'); hideSuggest('add-suggest-3'); }
+}
 function onName23Input(fieldId, suggestId) {
   const val = (document.getElementById(fieldId)?.value || '').trim();
-  const suggest = document.getElementById(suggestId);
-  if(!suggest) return;
-  if(val.length === 0) { hideSuggest(suggestId); return; }
+  if(!val) { hideSuggest(suggestId); return; }
   const registry = getNameRegistry();
   const matches = registry.filter(n => n.toLowerCase().startsWith(val.toLowerCase()) && n.toLowerCase() !== val.toLowerCase());
   if(matches.length === 0) { hideSuggest(suggestId); return; }
+  const suggest = document.getElementById(suggestId);
+  if(!suggest) return;
   suggest.innerHTML = matches.slice(0,6).map(n =>
     `<div class="name-suggest-item" onclick="pickSuggestion('${fieldId}','${suggestId}','${n}')">${n}</div>`
   ).join('');
   suggest.style.display = 'block';
 }
-
 function pickSuggestion(fieldId, suggestId, name) {
   const input = document.getElementById(fieldId);
   if(input) input.value = name;
   hideSuggest(suggestId);
-  // Move focus to next field
   if(fieldId === 'add-name-2') document.getElementById('add-name-3')?.focus();
   else if(fieldId === 'add-name-3') document.getElementById('add-member-phone')?.focus();
 }
@@ -3162,7 +3922,12 @@ function ensureCashiersAsContributors() {
   const c = getCamp();
   if(!c) return;
   (c.cashiers || []).forEach(cashier => {
-    const already = c.contributors.find(x => x.cashierRef === cashier.id);
+    // Skip the admin-cashier entry — admin is already a contributor via ensureAdminAsContributor
+    if(cashier.isAdminCashier) return;
+    // Skip cashiers promoted from an existing contributor — they already have a contributor entry
+    if(cashier.promotedFrom) return;
+    // Skip if already a contributor (by cashierRef or by name)
+    const already = c.contributors.find(x => x.cashierRef === cashier.id || x.name === cashier.name);
     if(already) return;
     c.contributors.push({
       id: 'c_cashier_' + cashier.id,
@@ -3402,9 +4167,9 @@ function getShareData() {
   const c = getCamp();
   const contributors = getContributors();
   const contribAmt = getContributionAmount();
-  const total = contributors.reduce((s,m) => s + (m.status==='paid' ? m.amount : 0), 0);
-  const paid = contributors.filter(m => m.status==='paid');
-  const unpaid = contributors.filter(m => m.status==='unpaid');
+  const total = contributors.reduce((s,m) => s + (isContributorPaidThisMonth(m) ? getPaymentForMonth(m).amount : 0), 0);
+  const paid = contributors.filter(m => isContributorPaidThisMonth(m));
+  const unpaid = contributors.filter(m => !isContributorPaidThisMonth(m));
   const rate = contributors.length === 0 ? 0 : Math.round((paid.length / contributors.length) * 100);
   const cashiers = getCashiers();
   return { c, contributors, contribAmt, total, paid, unpaid, rate, cashiers };
@@ -3496,7 +4261,7 @@ function generateShareImage() {
     ctx.font = '12px Inter, sans-serif';
     cashiers.forEach(ca => {
       const assigned = contributors.filter(m => m.cashier === ca.name);
-      const paidN = assigned.filter(m => m.status === 'paid').length;
+      const paidN = assigned.filter(m => isContributorPaidThisMonth(m)).length;
       const pct = assigned.length === 0 ? 0 : Math.round((paidN/assigned.length)*100);
       ctx.fillStyle = text;
       ctx.fillText(`${ca.name}: ${paidN}/${assigned.length} (${pct}%)`, 46, y);
@@ -3541,7 +4306,7 @@ function doExport() {
       text += `👥 Cashiers:\n`;
       cashiers.forEach(ca => {
         const assigned = contributors.filter(m => m.cashier === ca.name);
-        const paidN = assigned.filter(m => m.status==='paid').length;
+        const paidN = assigned.filter(m => isContributorPaidThisMonth(m)).length;
         const pct = assigned.length===0 ? 0 : Math.round((paidN/assigned.length)*100);
         text += `  • ${ca.name}: ${paidN}/${assigned.length} (${pct}%)\n`;
       });
@@ -3713,8 +4478,143 @@ function confirmImport() {
   resetImport();
   showToast(`✅ ${added} members imported${skipped ? ', ' + skipped + ' skipped' : ''}`);
 }
-initFirestore();
-applyLang();
+/* ════════════════════════════════════════
+   CHANGE PIN (admin)
+════════════════════════════════════════ */
+function openChangePinModal() {
+  document.getElementById('chpin-current').value = '';
+  document.getElementById('chpin-new').value = '';
+  document.getElementById('chpin-confirm').value = '';
+  document.getElementById('chpin-error').textContent = '';
+  document.getElementById('change-pin-modal').classList.add('open');
+  setTimeout(() => document.getElementById('chpin-current').focus(), 200);
+}
+
+function confirmChangePin() {
+  const c = getCamp();
+  if (!c || !c.admin) return;
+  const current = document.getElementById('chpin-current').value.trim();
+  const newPin  = document.getElementById('chpin-new').value.trim();
+  const confirm = document.getElementById('chpin-confirm').value.trim();
+  const errEl   = document.getElementById('chpin-error');
+
+  if (current !== c.admin.pin) {
+    errEl.textContent = '⚠️ Current PIN is incorrect';
+    document.getElementById('chpin-current').value = '';
+    document.getElementById('chpin-current').focus();
+    return;
+  }
+  if (newPin.length < 4) {
+    errEl.textContent = '⚠️ New PIN must be at least 4 digits';
+    return;
+  }
+  if (newPin !== confirm) {
+    errEl.textContent = '⚠️ PINs do not match';
+    document.getElementById('chpin-confirm').value = '';
+    return;
+  }
+  if (newPin === current) {
+    errEl.textContent = '⚠️ New PIN must be different from current';
+    return;
+  }
+
+  c.admin.pin = newPin;
+  // Also update any admin-cashier entry
+  if (c.cashiers) {
+    const adminCashier = c.cashiers.find(ca => ca.isAdminCashier);
+    if (adminCashier) adminCashier.pin = newPin;
+  }
+  saveAll();
+  closeModal('change-pin-modal');
+  showToast('🔒 PIN changed successfully');
+}
+
+try { applyLang(); } catch(e) {}
+
+/* ════════════════════════════════════════
+   LIVE CLOCK  HH:MM:SS
+════════════════════════════════════════ */
+function _tickClock() {
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2,'0');
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  const ss = String(now.getSeconds()).padStart(2,'0');
+  const val = hh+':'+mm+':'+ss;
+  const d = document.getElementById('live-clock-dash');
+  const c = document.getElementById('live-clock-cashier');
+  if(d) d.textContent = val;
+  if(c) c.textContent = val;
+}
+setInterval(_tickClock, 1000);
+_tickClock();
+
+/* ════════════════════════════════════════
+   PULL-TO-REFRESH
+════════════════════════════════════════ */
+(function() {
+  let _ptStartY = 0, _ptActive = false, _ptEl = null;
+  function _getEl() {
+    if(!_ptEl) {
+      _ptEl = document.createElement('div');
+      _ptEl.style.cssText = 'position:fixed;top:0;left:50%;transform:translateX(-50%) translateY(-60px);z-index:9999;background:var(--accent);color:#fff;border-radius:0 0 20px 20px;padding:6px 20px 10px;font-size:0.78rem;font-weight:700;letter-spacing:0.04em;transition:transform 0.2s ease;pointer-events:none;white-space:nowrap;';
+      _ptEl.textContent = 'Pull to refresh';
+      document.body.appendChild(_ptEl);
+    }
+    return _ptEl;
+  }
+  document.addEventListener('touchstart', function(e) {
+    if(window.scrollY === 0) { _ptStartY = e.touches[0].clientY; _ptActive = true; }
+  }, {passive:true});
+  document.addEventListener('touchmove', function(e) {
+    if(!_ptActive) return;
+    const dy = e.touches[0].clientY - _ptStartY;
+    if(dy > 10) {
+      const el = _getEl();
+      const pull = Math.min(dy, 80);
+      el.style.transform = 'translateX(-50%) translateY('+(pull-60)+'px)';
+      el.textContent = pull > 55 ? '↑ Release to refresh' : '↓ Pull to refresh';
+    }
+  }, {passive:true});
+  document.addEventListener('touchend', function(e) {
+    if(!_ptActive) return;
+    _ptActive = false;
+    const dy = e.changedTouches[0].clientY - _ptStartY;
+    const el = _getEl();
+    el.style.transform = 'translateX(-50%) translateY(-60px)';
+    if(dy > 55) {
+      el.textContent = '🔄 Refreshing…';
+      el.style.transform = 'translateX(-50%) translateY(0)';
+      updateSyncStatus('connecting');
+      _fsGet().then(function(data) {
+        el.style.transform = 'translateX(-50%) translateY(-60px)';
+        if(data && data.campaigns && Array.isArray(data.campaigns) && data.campaigns.length > 0) {
+          campaigns = data.campaigns;
+          if(!activeCampId || !campaigns.find(function(c){return c.id===activeCampId;}))
+            activeCampId = campaigns[campaigns.length-1].id;
+          ensureAdminAsContributor();
+          ensureCashiersAsContributors();
+          persistLocal();
+          renderAll();
+          updateSyncStatus('live');
+          showToast('✅ Data refreshed');
+        } else {
+          updateSyncStatus('offline','Could not reach Firestore');
+          showToast('⚠️ Offline — could not refresh');
+        }
+      }).catch(function() {
+        el.style.transform = 'translateX(-50%) translateY(-60px)';
+        updateSyncStatus('offline','Could not reach Firestore');
+        showToast('⚠️ Offline — could not refresh');
+      });
+    }
+  }, {passive:true});
+})();
+
+/* ════════════════════════════════════════
+   ALWAYS REQUIRE LOGIN ON APP OPEN
+════════════════════════════════════════ */
+// Clear any saved session so login is always required when the app starts
+clearSession();
 
 function decideInitialScreen() {
   const camp = getCamp();
@@ -3723,51 +4623,230 @@ function decideInitialScreen() {
     historyStack = [];
     return;
   }
-  const session = loadSession();
-  if(session && session.role === 'admin') {
-    currentRole = 'admin';
-    navigate('dashboard');
-    historyStack = [];
-  } else if(session && session.role === 'cashier' && (camp.cashiers||[]).find(c=>c.id===session.cashierId)) {
-    currentRole = 'cashier';
-    activeCashierId = session.cashierId;
-    navigate('cashier');
-    historyStack = [];
+  // Always require login on every app open
+  navigate('login');
+  historyStack = [];
+}
+
+// ── STARTUP ──
+function _bootApp() {
+  initFirestore();
+
+  try {
+    document.getElementById('current-month').textContent = getMonthName(currentMonth) + ' ' + currentYear;
+  } catch(e) {}
+  try { decideInitialScreen(); } catch(e) { console.warn('decideInitialScreen error:', e); }
+
+  // Initial fetch from Firestore, then start live polling
+  updateSyncStatus('connecting');
+  _fsGet().then(data => {
+    if (data && data.campaigns && Array.isArray(data.campaigns) && data.campaigns.length > 0) {
+      campaigns = data.campaigns;
+      activeCampId = campaigns[campaigns.length-1].id;
+      ensureAdminAsContributor();
+      ensureCashiersAsContributors();
+      persistLocal();
+      renderAll();
+      updateSyncStatus('live');
+    } else if (campaigns.length > 0) {
+      pushToFirestore();
+    }
+    startLiveListener();
+  }).catch(() => {
+    updateSyncStatus('offline', 'Could not reach Firestore — using saved data');
+    startLiveListener();
+  });
+}
+
+_bootApp();
+
+
+</script>
+
+<!-- PWA Install Banner -->
+<div id="pwa-install-banner" style="display:none;position:fixed;bottom:80px;left:12px;right:12px;z-index:9999;
+  background:linear-gradient(135deg,#1A1D2E,#222640);border:1px solid rgba(79,110,247,0.5);
+  border-radius:14px;padding:14px 16px;box-shadow:0 8px 32px rgba(0,0,0,0.5);
+  align-items:center;gap:12px;animation:bannerSlideUp 0.4s cubic-bezier(0.34,1.56,0.64,1)">
+  <div style="font-size:1.6rem;flex-shrink:0">💰</div>
+  <div style="flex:1">
+    <div style="font-size:0.85rem;font-weight:700;color:#F0F2FF">Install FamilyFund</div>
+    <div style="font-size:0.72rem;color:#7B82A8;margin-top:2px">Add to home screen for offline access</div>
+  </div>
+  <button id="pwa-install-btn" style="background:#4F6EF7;color:#fff;border:none;border-radius:8px;
+    padding:8px 14px;font-size:0.8rem;font-weight:700;cursor:pointer;flex-shrink:0">Install</button>
+  <button onclick="dismissInstallBanner()" style="background:none;border:none;color:#7B82A8;
+    font-size:1.1rem;cursor:pointer;padding:4px;flex-shrink:0">✕</button>
+</div>
+
+<!-- Page-load Install Prompt Modal -->
+<div class="modal-backdrop" id="install-prompt-modal" onclick="closeModal('install-prompt-modal',event)" style="z-index:10001">
+  <div class="modal-sheet" onclick="event.stopPropagation()" style="text-align:center">
+    <div style="font-size:3rem;margin-bottom:8px">💰</div>
+    <div class="modal-title" style="font-size:1.2rem">Install FamilyFund</div>
+    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:20px;line-height:1.6">
+      Get the full app experience — works offline, no browser bar, instant access from your home screen.
+    </p>
+    <button class="btn-primary" onclick="triggerInstall();closeModal('install-prompt-modal')" style="margin-bottom:10px">
+      📲 Install App
+    </button>
+    <button class="btn-secondary" onclick="closeModal('install-prompt-modal');sessionStorage.setItem('fc_install_dismissed','1')">
+      Not Now
+    </button>
+  </div>
+</div>
+
+<!-- iOS Install Instructions Modal -->
+<div class="modal-backdrop" id="ios-install-modal" onclick="closeModal('ios-install-modal',event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">📲 Install FamilyFund</div>
+    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:18px;line-height:1.6">
+      To install on your device, follow these steps:
+    </p>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:14px;background:var(--surface2);border-radius:10px;padding:12px 14px">
+        <div style="font-size:1.6rem;flex-shrink:0">1️⃣</div>
+        <div>
+          <div style="font-size:0.85rem;font-weight:700">Tap the Share button</div>
+          <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">The <strong>⬆</strong> icon at the bottom of Safari (iOS) or the menu on Android Chrome</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;background:var(--surface2);border-radius:10px;padding:12px 14px">
+        <div style="font-size:1.6rem;flex-shrink:0">2️⃣</div>
+        <div>
+          <div style="font-size:0.85rem;font-weight:700">Tap "Add to Home Screen"</div>
+          <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">Scroll down in the share sheet to find this option</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;background:var(--surface2);border-radius:10px;padding:12px 14px">
+        <div style="font-size:1.6rem;flex-shrink:0">3️⃣</div>
+        <div>
+          <div style="font-size:0.85rem;font-weight:700">Tap "Add"</div>
+          <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">FamilyFund will appear on your home screen like a native app</div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="closeModal('ios-install-modal')">Got it!</button>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════
+   PWA INSTALL
+════════════════════════════════════════ */
+let _pwaPrompt = null;
+let _isInstalled = window.matchMedia('(display-mode: standalone)').matches
+                || window.navigator.standalone === true;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _pwaPrompt = e;
+  showInstallBanner();
+  updateInstallSettingsRow();
+});
+
+window.addEventListener('appinstalled', () => {
+  _isInstalled = true;
+  hideInstallBanner();
+  updateInstallSettingsRow();
+  showToast('✅ FamilyFund installed!');
+});
+
+function showInstallBanner() {
+  if(_isInstalled) return;
+  const b = document.getElementById('pwa-install-banner');
+  if(b) b.style.display = 'flex';
+}
+
+function hideInstallBanner() {
+  const b = document.getElementById('pwa-install-banner');
+  if(b) b.style.display = 'none';
+}
+
+function dismissInstallBanner() {
+  hideInstallBanner();
+}
+
+function updateInstallSettingsRow() {
+  const status = document.getElementById('settings-install-status');
+  if(!status) return;
+  if(_isInstalled) {
+    status.textContent = '✅ Installed';
+    const row = document.getElementById('settings-install-row');
+    if(row) row.style.opacity = '0.5';
+  } else if(_pwaPrompt) {
+    status.textContent = 'Tap to install';
   } else {
-    clearSession();
-    navigate('login');
-    historyStack = [];
+    status.textContent = 'Use Share → Add to Home Screen';
   }
 }
 
-document.getElementById('current-month').textContent = getMonthName(currentMonth) + ' ' + currentYear;
-
-if(db) {
-  withTimeout(db.doc(FC_DOC_PATH).get(), 4000).then(snap => {
-    if(snap && snap.__timedOut) {
-      updateSyncStatus('offline', 'Could not reach Firestore — using data saved on this device');
-    } else if(snap && snap.exists) {
-      const remote = snap.data();
-      if(remote.campaigns && Array.isArray(remote.campaigns) && remote.campaigns.length > 0) {
-        campaigns = remote.campaigns;
-        activeCampId = campaigns[campaigns.length-1].id;
-        ensureAdminAsContributor();
-        ensureCashiersAsContributors();
-        persistLocal();
-      }
+async function triggerInstall() {
+  if(_isInstalled) { showToast('✅ Already installed!'); return; }
+  if(_pwaPrompt) {
+    _pwaPrompt.prompt();
+    const { outcome } = await _pwaPrompt.userChoice;
+    if(outcome === 'accepted') {
+      showToast('✅ Installing FamilyFund…');
+      _pwaPrompt = null;
+      hideInstallBanner();
     }
-    decideInitialScreen();
-    startLiveListener();
-  }).catch(() => {
-    updateSyncStatus('offline', 'Could not reach Firestore — using data saved on this device');
-    decideInitialScreen();
-    startLiveListener();
-  });
-} else {
-  updateSyncStatus('offline', 'Firestore failed to initialize — changes are only saved on this device');
-  decideInitialScreen();
+  } else {
+    // iOS / unsupported — show modal
+    document.getElementById('ios-install-modal').classList.add('open');
+  }
 }
 
+document.getElementById('pwa-install-btn').addEventListener('click', () => triggerInstall());
+
+// Show banner on load if not installed
+if(!_isInstalled && _pwaPrompt) showInstallBanner();
+updateInstallSettingsRow();
+
+// Show install prompt modal on first load (once per session, not if dismissed)
+(function() {
+  const dismissed = sessionStorage.getItem('fc_install_dismissed');
+  if(!_isInstalled && !dismissed) {
+    // Small delay so app finishes rendering first
+    setTimeout(() => {
+      const modal = document.getElementById('install-prompt-modal');
+      if(modal) modal.classList.add('open');
+    }, 1800);
+  }
+})();
+
+/* Service worker disabled for local file compatibility */
+
+// Register service worker if served from HTTP/HTTPS
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  const swCode = `
+const CACHE = 'familyfund-v1';
+const OFFLINE_URLS = [location.href];
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(OFFLINE_URLS)).catch(()=>{}));
+  self.skipWaiting();
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));
+  self.clients.claim();
+});
+self.addEventListener('fetch', e => {
+  if(e.request.method !== 'GET') return;
+  e.respondWith(
+    fetch(e.request).then(r => {
+      const clone = r.clone();
+      caches.open(CACHE).then(c => c.put(e.request, clone));
+      return r;
+    }).catch(() => caches.match(e.request))
+  );
+});
+  `;
+  const blob = new Blob([swCode], {type: 'application/javascript'});
+  const swUrl = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swUrl).catch(()=>{});
+}
 </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
