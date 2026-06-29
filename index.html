@@ -9,6 +9,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 /* ═══════════════════════════════════════════
    TOKENS
@@ -751,8 +752,166 @@ input,select,textarea{font-family:inherit;color:var(--text)}
    MISC
 ═══════════════════════════════════════════ */
 .gap-10{gap:10px}
+/* ── Public viewer detail card ── */
+.pub-detail-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px 16px 16px;
+  margin-bottom:14px;text-align:center;
+  animation:screenIn 0.18s ease;
+}
+.pub-detail-avatar{
+  width:56px;height:56px;border-radius:50%;margin:0 auto 10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;font-weight:700;color:#fff;
+}
+.pub-detail-name{font-size:1.05rem;font-weight:800;letter-spacing:-0.3px;margin-bottom:8px}
+.pub-detail-stats{
+  display:flex;border-top:1px solid var(--border);
+  padding-top:12px;margin-top:8px;
+}
+.pub-detail-stat{flex:1;padding:0 6px;border-right:1px solid var(--border)}
+.pub-detail-stat:last-child{border-right:none}
+.pub-detail-val{font-size:0.85rem;font-weight:700;font-variant-numeric:tabular-nums;margin-bottom:2px}
+.pub-detail-label{font-size:0.62rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
+
+/* ── Name suggest dropdown ── */
+.name-suggest-list{
+  position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:300;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-sm);overflow:hidden;
+  box-shadow:0 8px 24px rgba(0,0,0,0.25);
+}
+.name-suggest-item{
+  padding:10px 14px;font-size:0.88rem;font-weight:500;cursor:pointer;
+  border-bottom:1px solid var(--border);
+  transition:background var(--transition);
+}
+.name-suggest-item:last-child{border-bottom:none}
+.name-suggest-item:hover,.name-suggest-item:active{background:var(--surface2)}
+
+/* ── Search detail card ── */
+.search-detail-card{
+  background:var(--surface);border:1px solid var(--accent);
+  border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;
+  animation:screenIn 0.18s ease;
+}
+.sdc-name{font-size:1rem;font-weight:800;letter-spacing:-0.3px;margin-bottom:6px}
+.sdc-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.sdc-label{font-size:0.72rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
+.sdc-val{font-size:0.82rem;font-weight:600}
+.sdc-footer{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+
+/* ── Inline pay toggle on profile card ── */
+.pay-toggle-btn{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;
+  border:2px solid var(--border);
+  background:var(--surface2);
+  transition:all 0.15s ease;
+}
+.pay-toggle-btn.paid{background:rgba(34,201,122,0.15);border-color:var(--success);color:var(--success)}
+.pay-toggle-btn.unpaid{background:rgba(247,90,90,0.08);border-color:var(--danger);color:var(--danger)}
+
+/* ── Name registry chip ── */
+.registry-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 10px;border-radius:99px;
+  background:var(--surface2);border:1px solid var(--border);
+  font-size:0.78rem;font-weight:600;
+}
+.registry-chip button{color:var(--muted);font-size:0.85rem;line-height:1;padding:0 2px}
+.registry-chip button:hover{color:var(--danger)}
+
 .mb-16{margin-bottom:16px}
 .mb-8{margin-bottom:8px}
+
+/* ── Admin-as-cashier role switch ── */
+.role-switch-bar{
+  display:flex;gap:6px;background:var(--surface2);
+  border-radius:var(--radius-sm);padding:4px;margin-bottom:16px;
+}
+.role-switch-btn{
+  flex:1;height:34px;border-radius:6px;
+  font-size:0.8rem;font-weight:700;color:var(--muted);
+  transition:all var(--transition);
+}
+.role-switch-btn.active{background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.15)}
+
+/* ── Promote-to-cashier modal ── */
+.promote-section{
+  background:rgba(79,110,247,0.07);border:1px solid rgba(79,110,247,0.2);
+  border-radius:var(--radius-sm);padding:12px 14px;margin-top:14px;
+}
+.promote-title{font-size:0.78rem;font-weight:700;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em}
+
+/* ── Cashier PIN visible in settings ── */
+.pin-reveal{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:0.82rem;font-weight:700;font-family:monospace;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;padding:2px 8px;color:var(--accent);letter-spacing:0.1em;
+}
+.cm-pin{font-size:0.72rem;color:var(--muted);margin-top:2px}
+
+/* ── Export/share modal ── */
+.share-options{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.share-option-row{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;background:var(--surface2);
+  border-radius:var(--radius-sm);border:1px solid var(--border);cursor:pointer;
+}
+.share-option-row input[type=checkbox]{
+  width:18px;height:18px;accent-color:var(--accent);flex-shrink:0;cursor:pointer;
+}
+.share-option-label{font-size:0.88rem;font-weight:600;flex:1}
+.share-option-desc{font-size:0.72rem;color:var(--muted);margin-top:1px}
+.export-format-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.export-fmt-btn{
+  padding:10px 4px;border-radius:var(--radius-sm);
+  background:var(--surface2);border:1px solid var(--border);
+  font-size:0.78rem;font-weight:700;text-align:center;
+  transition:all var(--transition);
+}
+.export-fmt-btn.active,.export-fmt-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ── Import section ── */
+.import-drop{
+  border:2px dashed var(--border);border-radius:var(--radius-sm);
+  padding:24px;text-align:center;cursor:pointer;
+  transition:border-color var(--transition);
+}
+.import-drop:hover{border-color:var(--accent)}
+.import-drop-icon{font-size:2rem;margin-bottom:8px}
+.import-drop-text{font-size:0.82rem;color:var(--muted);font-weight:600}
+.import-preview-table{
+  width:100%;border-collapse:collapse;margin-top:12px;
+  font-size:0.78rem;
+}
+.import-preview-table th{
+  text-align:left;padding:6px 8px;
+  background:var(--surface2);font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.05em;font-size:0.68rem;
+}
+.import-preview-table td{padding:6px 8px;border-bottom:1px solid var(--border)}
+
+/* ── Cashier permission toggles in settings ── */
+.perm-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;border-bottom:1px solid var(--border);
+}
+.perm-row:last-child{border-bottom:none}
+.perm-label{font-size:0.86rem;font-weight:600}
+.perm-desc{font-size:0.72rem;color:var(--muted);margin-top:1px}
+
+/* ── Canvas share card ── */
+#share-canvas-wrap{
+  border-radius:var(--radius);overflow:hidden;margin:12px 0;
+  border:1px solid var(--border);background:var(--surface2);
+  display:flex;align-items:center;justify-content:center;
+  min-height:160px;
+}
+#share-canvas-wrap canvas{max-width:100%;border-radius:var(--radius)}
 </style>
 </head>
 <body>
@@ -823,6 +982,7 @@ input,select,textarea{font-family:inherit;color:var(--text)}
   <header class="topbar">
     <div class="topbar-logo">Family<span>Fund</span></div>
     <div class="topbar-controls">
+      <button class="pill-btn" id="admin-cashier-switch-btn" onclick="switchToCashierView()" title="Switch to cashier view" style="display:none">👥 Cashier</button>
       <button class="pill-btn active" id="lang-en" onclick="setLang('en')">EN</button>
       <button class="pill-btn" id="lang-fr" onclick="setLang('fr')">FR</button>
       <button class="icon-btn" onclick="toggleTheme()" id="theme-btn">🌙</button>
@@ -891,6 +1051,7 @@ input,select,textarea{font-family:inherit;color:var(--text)}
   </header>
   <div class="main">
     <div class="search-bar"><input type="text" id="member-search" data-i18n-placeholder="search_members" placeholder="Search members…" oninput="renderMembers()"></div>
+    <div id="member-search-detail"></div>
     <div class="filter-tabs">
       <button class="filter-tab active" data-filter="all" onclick="setMemberFilter('all', this)">All (<span id="filter-all-count">0</span>)</button>
       <button class="filter-tab" data-filter="paid" onclick="setMemberFilter('paid', this)">Paid (<span id="filter-paid-count">0</span>)</button>
@@ -980,6 +1141,7 @@ input,select,textarea{font-family:inherit;color:var(--text)}
   </div>
   <div class="pub-search main" style="padding-top:16px">
     <div class="search-bar"><input type="text" id="public-search" placeholder="Search by name…" oninput="renderPublicView()"></div>
+    <div id="pub-search-detail"></div>
   </div>
   <div class="wall-section">
     <div class="sec-header"><div class="sec-title">Wall of Payments</div></div>
@@ -1036,6 +1198,9 @@ input,select,textarea{font-family:inherit;color:var(--text)}
   <header class="topbar">
     <button class="topbar-back" onclick="goBack()">←</button>
     <div class="topbar-title" data-i18n="nav_settings">Settings</div>
+    <div class="topbar-controls">
+      <button class="icon-btn" title="Export / Share" onclick="openShareModal()">📤</button>
+    </div>
   </header>
   <div class="main">
     <div class="settings-section">
@@ -1051,24 +1216,70 @@ input,select,textarea{font-family:inherit;color:var(--text)}
       <div class="settings-group">
         <div class="settings-row" onclick="editAdminName()"><span class="settings-icon">👤</span><span class="settings-label" data-i18n="set_admin_name">Name</span><span class="settings-value" id="settings-admin-name">—</span><span class="settings-arrow">›</span></div>
         <div class="settings-row" onclick="editAdminPhone()"><span class="settings-icon">📞</span><span class="settings-label" data-i18n="set_admin_phone">Phone / ID</span><span class="settings-value" id="settings-admin-phone">—</span><span class="settings-arrow">›</span></div>
-        <div class="settings-row" onclick="editAdminPin()"><span class="settings-icon">🔒</span><span class="settings-label" data-i18n="set_admin_pin">PIN</span><span class="settings-value">••••</span><span class="settings-arrow">›</span></div>
+        <div class="settings-row" onclick="editAdminPin()"><span class="settings-icon">🔒</span><span class="settings-label" data-i18n="set_admin_pin">PIN</span><span class="settings-value" id="settings-admin-pin-display">••••</span><span class="settings-arrow">›</span></div>
       </div>
     </div>
+
+    <!-- CASHIER PERMISSIONS -->
     <div class="settings-section">
-      <div class="sec-header"><div class="sec-title" data-i18n="set_cashiers">Cashier Accounts</div><button class="sec-link" onclick="openAddCashierModal()" data-i18n="add_cashier">+ Add</button></div>
+      <div class="sec-header"><div class="sec-title" data-i18n="set_cashier_perms">Cashier Permissions</div></div>
+      <div class="settings-group">
+        <div class="perm-row">
+          <div><div class="perm-label" data-i18n="perm_see_all">See all members' entries</div><div class="perm-desc" data-i18n="perm_see_all_desc">When ON, all cashiers can see every member</div></div>
+          <div class="toggle" id="perm-see-all-toggle" onclick="toggleCashierPerm('seeAll')"></div>
+        </div>
+        <div class="perm-row">
+          <div><div class="perm-label" data-i18n="perm_see_reports">Access Reports tab</div><div class="perm-desc" data-i18n="perm_see_reports_desc">When ON, cashiers can view the summary report</div></div>
+          <div class="toggle" id="perm-reports-toggle" onclick="toggleCashierPerm('seeReports')"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASHIER ACCOUNTS -->
+    <div class="settings-section">
+      <div class="sec-header"><div class="sec-title" data-i18n="set_cashiers">Cashier Accounts</div></div>
+      <p style="font-size:0.75rem;color:var(--muted);padding:0 0 10px;line-height:1.5" data-i18n="cashier_promote_hint">Promote contributors to cashier from their profile. Admin can also act as cashier.</p>
       <div id="cashier-manage-list"></div>
     </div>
+
+    <!-- IMPORT / EXPORT -->
+    <div class="settings-section">
+      <div class="sec-header"><div class="sec-title" data-i18n="set_import_export">Import / Export</div></div>
+      <div class="settings-group">
+        <div class="settings-row" onclick="openShareModal()"><span class="settings-icon">📤</span><span class="settings-label" data-i18n="export_share">Export &amp; Share</span><span class="settings-value" data-i18n="export_formats">Excel · PDF · Text · PNG</span><span class="settings-arrow">›</span></div>
+        <div class="settings-row" onclick="openImportModal()"><span class="settings-icon">📥</span><span class="settings-label" data-i18n="import_excel">Import from Excel</span><span class="settings-value" data-i18n="import_desc">Upload .xlsx file</span><span class="settings-arrow">›</span></div>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="sec-header">
+        <div class="sec-title">Name Registry</div>
+        <button class="sec-link" onclick="openNameRegistryModal()">+ Add</button>
+      </div>
+      <div style="padding:10px 12px;font-size:0.75rem;color:var(--muted);line-height:1.5">
+        Recurring second &amp; third names — typed first letters will suggest from this list when adding members.
+      </div>
+      <div id="name-registry-list" style="padding:0 12px 12px"></div>
+    </div>
+
     <div class="settings-section">
       <div class="sec-header"><div class="sec-title" data-i18n="set_app">App</div></div>
       <div class="settings-group">
-        <div class="settings-row"><span class="settings-icon">🌐</span><span class="settings-label" data-i18n="set_language">Language</span><span class="settings-value">English</span><span class="settings-arrow">›</span></div>
-        <div class="settings-row"><span class="settings-icon">🌙</span><span class="settings-label" data-i18n="set_theme">Theme</span><div class="toggle on" onclick="this.classList.toggle('on');toggleTheme()"></div></div>
+        <div class="settings-row">
+          <span class="settings-icon">🌐</span>
+          <span class="settings-label" data-i18n="set_language">Language</span>
+          <div style="display:flex;gap:4px;margin-left:auto">
+            <button class="pill-btn active" id="settings-lang-en" onclick="setLang('en')">EN</button>
+            <button class="pill-btn" id="settings-lang-fr" onclick="setLang('fr')">FR</button>
+          </div>
+        </div>
+        <div class="settings-row"><span class="settings-icon">🌙</span><span class="settings-label" data-i18n="set_theme">Theme</span><div class="toggle on" id="settings-theme-toggle" onclick="this.classList.toggle('on');toggleTheme()"></div></div>
       </div>
     </div>
     <div class="settings-section">
       <div class="sec-header"><div class="sec-title" data-i18n="set_audit">Audit Log</div></div>
       <div class="settings-group" id="audit-log-container">
-        <div style="padding:16px;color:var(--muted);font-size:0.8rem;">Audit log will be available soon.</div>
+        <div style="padding:16px;color:var(--muted);font-size:0.8rem;" data-i18n="audit_soon">Audit log will be available soon.</div>
       </div>
     </div>
     <div class="settings-section">
@@ -1119,8 +1330,14 @@ input,select,textarea{font-family:inherit;color:var(--text)}
   <button class="nav-item active" onclick="navigate('cashier')">
     <span class="nav-icon">👥</span><span data-i18n="nav_my_members">My Members</span>
   </button>
+  <button class="nav-item" id="cashier-nav-reports" style="display:none" onclick="navigate('reports')">
+    <span class="nav-icon">📊</span><span data-i18n="nav_reports">Reports</span>
+  </button>
   <button class="nav-item" onclick="showToast('Today: ' + getCashierTodayCount() + ' collected')">
     <span class="nav-icon">💵</span><span data-i18n="nav_today">Today</span>
+  </button>
+  <button class="nav-item" id="cashier-nav-back-admin" style="display:none" onclick="switchBackToAdminView()">
+    <span class="nav-icon">🔄</span><span>Admin</span>
   </button>
   <button class="nav-item" onclick="logout()">
     <span class="nav-icon">🚪</span><span data-i18n="nav_logout">Log Out</span>
@@ -1184,7 +1401,24 @@ input,select,textarea{font-family:inherit;color:var(--text)}
     <div class="modal-handle"></div>
     <div class="modal-title" data-i18n="add_member_title">Add Member</div>
     <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px">
-      <div><div class="input-label">Full Name *</div><input class="input-field" type="text" id="add-member-name" placeholder="e.g. Fatuma Hassan"></div>
+      <div>
+        <div class="input-label">Given Name (1st) *</div>
+        <input class="input-field" type="text" id="add-name-1" placeholder="e.g. Fatuma" oninput="onName1Input(this.value)">
+      </div>
+      <div>
+        <div class="input-label">Father's Name (2nd)</div>
+        <div style="position:relative">
+          <input class="input-field" type="text" id="add-name-2" placeholder="e.g. Hassan" oninput="onName23Input('add-name-2','add-suggest-2')">
+          <div id="add-suggest-2" class="name-suggest-list" style="display:none"></div>
+        </div>
+      </div>
+      <div>
+        <div class="input-label">Grandfather's Name (3rd)</div>
+        <div style="position:relative">
+          <input class="input-field" type="text" id="add-name-3" placeholder="e.g. Omar" oninput="onName23Input('add-name-3','add-suggest-3')">
+          <div id="add-suggest-3" class="name-suggest-list" style="display:none"></div>
+        </div>
+      </div>
       <div><div class="input-label">Phone</div><input class="input-field" type="text" id="add-member-phone" placeholder="77 12 34 56"></div>
       <div id="add-member-cashier-row"><div class="input-label">Cashier</div>
         <select class="input-field" id="add-member-cashier"></select>
@@ -1237,8 +1471,129 @@ input,select,textarea{font-family:inherit;color:var(--text)}
   </div>
 </div>
 
+<!-- Name registry modal -->
+<div class="modal-backdrop" id="name-registry-modal" onclick="closeModal('name-registry-modal',event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Add to Name Registry</div>
+    <p style="font-size:0.78rem;color:var(--muted);margin-bottom:14px">Enter recurring second or third names (father's / grandfather's names).</p>
+    <div style="display:flex;gap:8px;margin-bottom:8px">
+      <input class="input-field" type="text" id="registry-name-input" placeholder="e.g. Hassan, Warsame, Omar…" style="flex:1" oninput="previewRegistryInput(this.value)">
+      <button class="btn-primary" style="width:auto;padding:0 16px;flex-shrink:0" onclick="addRegistryName()">Add</button>
+    </div>
+    <div id="registry-preview" style="display:none;margin-bottom:12px;padding:8px 12px;background:var(--surface2);border-radius:var(--radius-sm);font-size:0.8rem;color:var(--muted)"></div>
+    <div id="registry-modal-list" style="max-height:200px;overflow-y:auto;display:flex;flex-wrap:wrap;gap:6px;padding:4px 0"></div>
+    <button class="btn-secondary" style="margin-top:16px" onclick="closeModal('name-registry-modal')">Done</button>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
+
+<!-- Promote to Cashier modal -->
+<div class="modal-backdrop" id="promote-cashier-modal" onclick="closeModal('promote-cashier-modal',event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title" data-i18n="promote_title">Promote to Cashier</div>
+    <p id="promote-modal-name" style="font-size:0.9rem;font-weight:700;margin-bottom:4px;color:var(--accent)"></p>
+    <p style="font-size:0.78rem;color:var(--muted);margin-bottom:16px" data-i18n="promote_desc">Set a phone number and PIN for cashier login. This person stays in the contributors list.</p>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px">
+      <input type="hidden" id="promote-member-id">
+      <div><div class="input-label" data-i18n="cashier_phone">Cashier Phone / ID</div><input class="input-field" type="text" id="promote-phone" placeholder="77 00 00 00"></div>
+      <div>
+        <div class="input-label" data-i18n="cashier_pin">Cashier PIN</div>
+        <div style="display:flex;gap:8px">
+          <input class="input-field" type="text" id="promote-pin" placeholder="e.g. 1234" maxlength="8" style="flex:1;font-family:monospace;letter-spacing:0.15em">
+          <button class="btn-secondary" style="width:auto;padding:0 12px;flex-shrink:0" onclick="generatePromotePin()">🎲</button>
+        </div>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="confirmPromoteToCashier()" data-i18n="promote_btn">Promote to Cashier</button>
+    <button class="btn-secondary" style="margin-top:8px" onclick="closeModal('promote-cashier-modal')" data-i18n="cancel">Cancel</button>
+  </div>
+</div>
+
+<!-- Export / Share modal -->
+<div class="modal-backdrop" id="share-modal" onclick="closeModal('share-modal',event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title" data-i18n="share_title">Export &amp; Share</div>
+
+    <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px" data-i18n="share_include">What to include</div>
+    <div class="share-options">
+      <label class="share-option-row">
+        <input type="checkbox" id="share-family-name" checked>
+        <div><div class="share-option-label" data-i18n="share_opt_family">Family Name &amp; Month</div></div>
+      </label>
+      <label class="share-option-row">
+        <input type="checkbox" id="share-ring" checked>
+        <div><div class="share-option-label" data-i18n="share_opt_ring">Collection Ring / Percentage</div></div>
+      </label>
+      <label class="share-option-row">
+        <input type="checkbox" id="share-totals" checked>
+        <div><div class="share-option-label" data-i18n="share_opt_totals">Total Collected / Outstanding</div></div>
+      </label>
+      <label class="share-option-row">
+        <input type="checkbox" id="share-paid-list" checked>
+        <div><div class="share-option-label" data-i18n="share_opt_paid">List of Paid Members</div></div>
+      </label>
+      <label class="share-option-row">
+        <input type="checkbox" id="share-unpaid-list">
+        <div><div class="share-option-label" data-i18n="share_opt_unpaid">List of Unpaid Members</div></div>
+      </label>
+      <label class="share-option-row">
+        <input type="checkbox" id="share-cashier-breakdown">
+        <div><div class="share-option-label" data-i18n="share_opt_cashiers">Cashier Performance Breakdown</div></div>
+      </label>
+    </div>
+
+    <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px" data-i18n="share_format">Format</div>
+    <div class="export-format-grid" id="export-format-grid">
+      <button class="export-fmt-btn active" onclick="selectExportFormat('png',this)">🖼️ PNG</button>
+      <button class="export-fmt-btn" onclick="selectExportFormat('pdf',this)">📄 PDF</button>
+      <button class="export-fmt-btn" onclick="selectExportFormat('excel',this)">📊 Excel</button>
+      <button class="export-fmt-btn" onclick="selectExportFormat('text',this)">📝 Text</button>
+    </div>
+
+    <div id="share-canvas-wrap" style="display:none"><canvas id="share-canvas"></canvas></div>
+
+    <button class="btn-primary" onclick="doExport()" data-i18n="export_btn">Export</button>
+    <button class="btn-secondary" style="margin-top:8px" onclick="closeModal('share-modal')" data-i18n="cancel">Cancel</button>
+  </div>
+</div>
+
+<!-- Import from Excel modal -->
+<div class="modal-backdrop" id="import-modal" onclick="closeModal('import-modal',event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title" data-i18n="import_title">Import from Excel</div>
+    <p style="font-size:0.78rem;color:var(--muted);margin-bottom:16px;line-height:1.5" data-i18n="import_hint">Upload an .xlsx or .csv file. We'll import whatever columns exist — at minimum a name column. If phone or status columns are present they'll be imported too.</p>
+    <div class="import-drop" id="import-drop" onclick="document.getElementById('import-file-input').click()">
+      <div class="import-drop-icon">📂</div>
+      <div class="import-drop-text" data-i18n="import_drop">Tap to choose .xlsx or .csv file</div>
+    </div>
+    <input type="file" id="import-file-input" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleImportFile(this)">
+    <div id="import-preview-wrap" style="display:none;margin-top:14px">
+      <div class="sec-header" style="margin-bottom:6px">
+        <div class="sec-title" data-i18n="import_preview">Preview</div>
+        <span id="import-count-label" style="font-size:0.78rem;color:var(--muted)"></span>
+      </div>
+      <div style="overflow-x:auto;max-height:200px;overflow-y:auto">
+        <table class="import-preview-table" id="import-preview-table"><thead></thead><tbody></tbody></table>
+      </div>
+      <div style="margin-top:4px">
+        <label style="display:flex;align-items:center;gap:8px;font-size:0.8rem;font-weight:600;cursor:pointer">
+          <input type="checkbox" id="import-skip-dupes" checked style="accent-color:var(--accent)">
+          <span data-i18n="import_skip_dupes">Skip duplicates (by name)</span>
+        </label>
+      </div>
+    </div>
+    <div id="import-actions" style="display:none;margin-top:14px;display:none">
+      <button class="btn-primary" onclick="confirmImport()" data-i18n="import_btn">Import Members</button>
+    </div>
+    <button class="btn-secondary" style="margin-top:8px" onclick="closeModal('import-modal');resetImport()" data-i18n="cancel">Cancel</button>
+  </div>
+</div>
 
 <script>
 /* ════════════════════════════════════════
@@ -1292,6 +1647,8 @@ function startLiveListener() {
         if (!activeCampId || !campaigns.find(c=>c.id===activeCampId)) {
           activeCampId = campaigns.length ? campaigns[campaigns.length-1].id : null;
         }
+        ensureAdminAsContributor();
+        ensureCashiersAsContributors();
         persistLocal();
         renderAll();
       } else if (!remote.campaigns || remote.campaigns.length === 0) {
@@ -1346,6 +1703,7 @@ let campaigns = JSON.parse(localStorage.getItem('fc_campaigns') || '[]');
 let activeCampId = localStorage.getItem('fc_active_camp') || null;
 let currentRole = 'admin';
 let activeCashierId = null;
+let isAdminActingAsCashier = false;
 let historyStack = [];
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
@@ -1439,6 +1797,7 @@ function clearSession() { localStorage.removeItem('fc_session'); }
 function logout() {
   clearSession();
   activeCashierId = null;
+  isAdminActingAsCashier = false;
   const phoneEl = document.getElementById('login-phone');
   const pinEl = document.getElementById('login-pin');
   if(phoneEl) phoneEl.value = '';
@@ -1446,6 +1805,48 @@ function logout() {
   navigate('login');
   historyStack = [];
   showToast('👋 Logged out');
+}
+
+/* ════════════════════════════════════════
+   ADMIN AS CASHIER
+════════════════════════════════════════ */
+function switchToCashierView() {
+  const c = getCamp();
+  if(!c) return;
+  // Admin needs to be a cashier themselves — ensure admin cashier entry exists
+  let adminCashier = getCashiers().find(ca => ca.isAdminCashier);
+  if(!adminCashier) {
+    if(!c.cashiers) c.cashiers = [];
+    adminCashier = {
+      id: 'cashier_admin',
+      name: c.admin.name,
+      phone: c.admin.phone,
+      pin: c.admin.pin,
+      isAdminCashier: true
+    };
+    c.cashiers.push(adminCashier);
+    saveAll();
+  }
+  isAdminActingAsCashier = true;
+  activeCashierId = adminCashier.id;
+  currentRole = 'cashier';
+  // Show back-to-admin button in cashier nav
+  const backBtn = document.getElementById('cashier-nav-back-admin');
+  if(backBtn) backBtn.style.display = 'flex';
+  navigate('cashier');
+  historyStack = [];
+  showToast('🔄 Switched to cashier view');
+}
+
+function switchBackToAdminView() {
+  isAdminActingAsCashier = false;
+  currentRole = 'admin';
+  activeCashierId = null;
+  const backBtn = document.getElementById('cashier-nav-back-admin');
+  if(backBtn) backBtn.style.display = 'none';
+  navigate('dashboard');
+  historyStack = [];
+  showToast('🔄 Back to admin view');
 }
 
 /* ════════════════════════════════════════
@@ -1523,6 +1924,7 @@ function confirmSetup() {
   };
   campaigns.push(camp);
   activeCampId = camp.id;
+  ensureAdminAsContributor();
   persistLocal();
   pushToFirestore();
 
@@ -1585,7 +1987,9 @@ function addCashier(name, phone, pin) {
   const c = getCamp();
   if(!c) return;
   if(!c.cashiers) c.cashiers = [];
-  c.cashiers.push({ id: 'cashier_'+Date.now(), name, phone, pin });
+  const newId = 'cashier_'+Date.now();
+  c.cashiers.push({ id: newId, name, phone, pin });
+  ensureCashiersAsContributors();
   saveAll();
 }
 
@@ -1610,6 +2014,13 @@ function updateAdminHeader() {
   const avatarEl = document.getElementById('dashboard-avatar');
   if(nameEl) nameEl.textContent = c.admin.name + ' 👋';
   if(avatarEl) avatarEl.textContent = initials(c.admin.name);
+
+  // Show switch-to-cashier button if admin has members assigned to them
+  const switchBtn = document.getElementById('admin-cashier-switch-btn');
+  if(switchBtn) {
+    const hasAssigned = c.contributors.some(m => m.cashier === c.admin.name);
+    switchBtn.style.display = hasAssigned ? 'inline-flex' : 'none';
+  }
 }
 
 function renderDashboard() {
@@ -1713,6 +2124,34 @@ function renderMembers() {
   document.getElementById('filter-unpaid-count').textContent = contributors.filter(c=>c.status==='unpaid').length;
   document.getElementById('filter-advance-count').textContent = contributors.filter(c=>c.status==='advance').length;
 
+  // Search detail card — show when search matches exactly one or the query is specific enough
+  const detailEl = document.getElementById('member-search-detail');
+  if(detailEl) {
+    if(search.length >= 2 && filtered.length === 1) {
+      const m = filtered[0];
+      const contribAmt = getContributionAmount();
+      detailEl.innerHTML = `
+        <div class="search-detail-card">
+          <div class="sdc-name">${m.name}</div>
+          <div class="sdc-row"><span class="sdc-label">Status</span>
+            <span class="sdc-val">
+              <span class="badge ${m.status==='paid'?'badge-success':m.status==='advance'?'badge-accent':'badge-danger'}">${m.status==='paid'?'✓ Paid':m.status==='advance'?'Advance':'⏳ Unpaid'}</span>
+            </span>
+          </div>
+          <div class="sdc-row"><span class="sdc-label">Amount</span><span class="sdc-val">${fmt(m.status==='paid'?m.amount:contribAmt)} DJF</span></div>
+          <div class="sdc-row"><span class="sdc-label">Cashier</span><span class="sdc-val">${m.cashier||'Unassigned'}</span></div>
+          <div class="sdc-row"><span class="sdc-label">Phone</span><span class="sdc-val">${m.phone||'—'}</span></div>
+          ${m.date ? `<div class="sdc-row"><span class="sdc-label">Date</span><span class="sdc-val">${fmtDate(m.date)}</span></div>` : ''}
+          <div class="sdc-footer">
+            <button class="btn-primary" style="height:36px;font-size:0.8rem" onclick="viewMemberProfile('${m.id}')">View Profile</button>
+            <button class="btn-secondary" style="height:36px;font-size:0.8rem" onclick="quickMarkPaid('${m.id}')">${m.status==='paid'?'Mark Unpaid':'✓ Mark Paid'}</button>
+          </div>
+        </div>`;
+    } else {
+      detailEl.innerHTML = '';
+    }
+  }
+
   const container = document.getElementById('members-list');
   if(contributors.length === 0) {
     container.innerHTML = '<div class="empty-state" style="padding:40px;text-align:center;color:var(--muted);">No members yet.<br>Tap ➕ above to add your first member.</div>';
@@ -1730,9 +2169,13 @@ function renderMembers() {
         <div class="member-name">${c.name}</div>
         <div class="member-sub">${c.cashier||'Unassigned'} · ${fmtDate(c.date)}</div>
       </div>
-      <div class="member-right">
-        <span class="badge ${c.status === 'paid' ? 'badge-success' : c.status === 'advance' ? 'badge-accent' : 'badge-danger'}">${c.status === 'paid' ? '✓ Paid' : c.status === 'advance' ? 'Advance' : 'Unpaid'}</span>
-        <div style="font-size:0.72rem;color:var(--muted);margin-top:4px">${fmt(c.amount)} DJF</div>
+      <div class="member-right" style="display:flex;align-items:center;gap:8px">
+        <button class="pay-toggle-btn ${c.status==='paid'?'paid':'unpaid'}" title="${c.status==='paid'?'Mark Unpaid':'Mark Paid'}"
+          onclick="event.stopPropagation();quickMarkPaid('${c.id}')">${c.status==='paid'?'✓':'○'}</button>
+        <div>
+          <span class="badge ${c.status === 'paid' ? 'badge-success' : c.status === 'advance' ? 'badge-accent' : 'badge-danger'}">${c.status === 'paid' ? '✓ Paid' : c.status === 'advance' ? 'Advance' : 'Unpaid'}</span>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:4px">${fmt(c.amount)} DJF</div>
+        </div>
       </div>
       <div class="member-swipe-action" onclick="event.stopPropagation();quickMarkPaid('${c.id}')">✓<span style="font-size:0.65rem">Mark<br>Paid</span></div>
     </div>
@@ -1839,9 +2282,34 @@ function renderProfile() {
       </div>
       <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
         <button class="btn-primary" onclick="openPayModalForProfile()">💰 <span data-i18n="record_payment">Record Payment</span></button>
+        <div id="profile-promote-section"></div>
       </div>
     </div>
   `;
+
+  // After render, inject promote/demote section if admin
+  if(currentRole === 'admin' || (currentRole === 'cashier' && isAdminActingAsCashier)) {
+    setTimeout(() => {
+      const sec = document.getElementById('profile-promote-section');
+      if(!sec) return;
+      const isCashier = !!getCashiers().find(ca => ca.name === c.name);
+      if(isCashier) {
+        const ca = getCashiers().find(ca => ca.name === c.name);
+        sec.innerHTML = `
+          <div class="promote-section">
+            <div class="promote-title">🔑 Cashier Role</div>
+            <p style="font-size:0.8rem;color:var(--muted);margin-bottom:8px">${c.name} has cashier access. PIN: <span class="pin-reveal">${ca.pin||'—'}</span></p>
+            <button class="btn-secondary" style="height:38px;font-size:0.8rem" onclick="demoteCashier('${ca.id}');navigate('members')">Remove Cashier Role</button>
+          </div>`;
+      } else if(!c.isAdmin) {
+        sec.innerHTML = `
+          <div class="promote-section">
+            <div class="promote-title">Promote to Cashier</div>
+            <button class="btn-secondary" style="height:38px;font-size:0.8rem" onclick="openPromoteToCashierModal('${c.id}')">🔑 Promote to Cashier</button>
+          </div>`;
+      }
+    }, 0);
+  }
 }
 
 function saveMemberNotes() {
@@ -1899,6 +2367,15 @@ function applyCashierSession() {
   if(!cashier) return;
   document.getElementById('cashier-name').textContent = cashier.name + ' 👋';
   document.getElementById('cashier-avatar').textContent = initials(cashier.name);
+
+  // Show Reports tab in cashier nav if permitted
+  const perms = getCashierPerms();
+  const repNav = document.getElementById('cashier-nav-reports');
+  if(repNav) repNav.style.display = (perms.seeReports || isAdminActingAsCashier) ? 'flex' : 'none';
+
+  // Show back-to-admin button if admin acting as cashier
+  const backBtn = document.getElementById('cashier-nav-back-admin');
+  if(backBtn) backBtn.style.display = isAdminActingAsCashier ? 'flex' : 'none';
 }
 
 function renderCashierView() {
@@ -1908,16 +2385,19 @@ function renderCashierView() {
     if(container) container.innerHTML = '<div class="empty-state" style="padding:40px;text-align:center;color:var(--muted);">Not signed in.</div>';
     return;
   }
+  const perms = getCashierPerms();
+  const canSeeAll = perms.seeAll || isAdminActingAsCashier;
   const search = document.getElementById('cashier-search')?.value?.toLowerCase() || '';
   const contributors = getContributors();
-  let filtered = contributors.filter(c => c.cashier === cashier.name);
-  filtered = filtered.filter(c => {
+  // Filter: if seeAll, show all; otherwise only assigned
+  let myMembers = canSeeAll ? contributors : contributors.filter(c => c.cashier === cashier.name);
+  let filtered = myMembers.filter(c => {
     const matchesSearch = c.name.toLowerCase().includes(search);
     const matchesFilter = cashierFilter === 'all' || c.status === cashierFilter;
     return matchesSearch && matchesFilter;
   });
 
-  const allAssigned = contributors.filter(c => c.cashier === cashier.name);
+  const allAssigned = myMembers;
   const total = allAssigned.length;
   const paid = allAssigned.filter(c => c.status === 'paid').length;
   const unpaid = allAssigned.filter(c => c.status === 'unpaid').length;
@@ -1998,16 +2478,62 @@ function renderPublicView() {
 
   const fill = document.getElementById('pub-ring-fill');
   const num = document.getElementById('pub-ring-num');
-  if(fill) {
-    fill.style.strokeDashoffset = PUB_CIRC - (rate/100)*PUB_CIRC;
-  }
+  if(fill) fill.style.strokeDashoffset = PUB_CIRC - (rate/100)*PUB_CIRC;
   if(num) num.textContent = rate;
+
+  // ── Public search detail card (read-only for viewer) ──
+  const search = document.getElementById('public-search')?.value?.toLowerCase() || '';
+  const detailEl = document.getElementById('pub-search-detail');
+  if(detailEl) {
+    const matches = search.length >= 2 ? contributors.filter(c => c.name.toLowerCase().includes(search)) : [];
+    if(matches.length === 1) {
+      const m = matches[0];
+      const contribAmt = getContributionAmount();
+      const isPaid = m.status === 'paid';
+      const isAdvance = m.status === 'advance';
+      detailEl.innerHTML = `
+        <div class="pub-detail-card">
+          <div class="pub-detail-avatar" style="background:linear-gradient(135deg,${isPaid?'#22C97A,#4F6EF7':'#F75A5A,#8B5CF6'})">${initials(m.name)}</div>
+          <div class="pub-detail-name">${m.name}</div>
+          <div style="margin-bottom:10px">
+            <span class="badge ${isPaid?'badge-success':isAdvance?'badge-accent':'badge-danger'}" style="font-size:0.8rem;padding:4px 12px">
+              ${isPaid?'✓ Paid this month':isAdvance?'⟳ Advance paid':'⏳ Not yet paid'}
+            </span>
+          </div>
+          <div class="pub-detail-stats">
+            <div class="pub-detail-stat">
+              <div class="pub-detail-val" style="color:${isPaid?'var(--success)':'var(--muted)'}">${isPaid?fmt(m.amount)+' DJF':'—'}</div>
+              <div class="pub-detail-label">Amount Paid</div>
+            </div>
+            <div class="pub-detail-stat">
+              <div class="pub-detail-val" style="color:${!isPaid?'var(--danger)':'var(--muted)'}">${!isPaid?fmt(contribAmt)+' DJF':'—'}</div>
+              <div class="pub-detail-label">Outstanding</div>
+            </div>
+            <div class="pub-detail-stat">
+              <div class="pub-detail-val">${isPaid?fmtDate(m.date):'—'}</div>
+              <div class="pub-detail-label">Date Paid</div>
+            </div>
+          </div>
+        </div>`;
+    } else if(matches.length > 1 && search.length >= 2) {
+      // Show compact list of matches
+      detailEl.innerHTML = `
+        <div style="padding:10px 4px;font-size:0.75rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.05em">${matches.length} people found</div>
+        ${matches.slice(0,4).map(m => `
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface);border-radius:var(--radius-sm);margin-bottom:6px;border:1px solid var(--border)">
+            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,${m.status==='paid'?'#22C97A,#4F6EF7':'#7B82A8,#4A4F70'});display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:#fff;flex-shrink:0">${initials(m.name)}</div>
+            <div style="flex:1;font-size:0.88rem;font-weight:600">${m.name}</div>
+            <span class="badge ${m.status==='paid'?'badge-success':'badge-danger'}">${m.status==='paid'?'✓ Paid':'⏳ Unpaid'}</span>
+          </div>`).join('')}
+        ${matches.length > 4 ? `<div style="text-align:center;font-size:0.75rem;color:var(--muted);padding:4px">+${matches.length-4} more — type more letters to narrow down</div>` : ''}`;
+    } else {
+      detailEl.innerHTML = '';
+    }
+  }
 
   // Wall
   const wall = document.getElementById('wall-grid');
-  const search = document.getElementById('public-search')?.value?.toLowerCase() || '';
-  let wallMembers = contributors.filter(c => c.name.toLowerCase().includes(search));
-  if(!search) wallMembers = contributors.slice(0, 60);
+  let wallMembers = search ? contributors.filter(c => c.name.toLowerCase().includes(search)) : contributors.slice(0, 60);
   if(wallMembers.length === 0) {
     wall.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted);font-size:0.8rem;padding:20px 0;">No members yet.</div>';
   } else {
@@ -2079,6 +2605,23 @@ function renderReports() {
 /* ════════════════════════════════════════
    SETTINGS
 ════════════════════════════════════════ */
+function getCashierPerms() {
+  const c = getCamp();
+  return (c && c.cashierPerms) ? c.cashierPerms : { seeAll: false, seeReports: false };
+}
+
+function toggleCashierPerm(key) {
+  const c = getCamp();
+  if(!c) return;
+  if(!c.cashierPerms) c.cashierPerms = { seeAll: false, seeReports: false };
+  c.cashierPerms[key] = !c.cashierPerms[key];
+  saveAll();
+  // Immediately update cashier nav Reports visibility
+  const repNav = document.getElementById('cashier-nav-reports');
+  if(repNav) repNav.style.display = c.cashierPerms.seeReports ? 'flex' : 'none';
+  showToast(c.cashierPerms[key] ? '✅ Permission enabled' : '🔒 Permission disabled');
+}
+
 function renderSettings() {
   const camp = getCamp();
   if(!camp) return;
@@ -2089,31 +2632,47 @@ function renderSettings() {
   if(camp.admin) {
     document.getElementById('settings-admin-name').textContent = camp.admin.name;
     document.getElementById('settings-admin-phone').textContent = camp.admin.phone;
+    document.getElementById('settings-admin-pin-display').textContent = camp.admin.pin || '••••';
   }
 
   document.getElementById('settings-recyclebin-count').textContent = ((camp.recycleBin)||[]).length;
+  renderNameRegistrySettings();
 
-  // Cashier manage list
+  // Cashier permission toggles
+  const perms = getCashierPerms();
+  document.getElementById('perm-see-all-toggle')?.classList.toggle('on', !!perms.seeAll);
+  document.getElementById('perm-reports-toggle')?.classList.toggle('on', !!perms.seeReports);
+
+  // Cashier manage list — now shows PIN in plain text + demote option
   const list = document.getElementById('cashier-manage-list');
   const cashiers = getCashiers();
   const contributors = getContributors();
   if(cashiers.length === 0) {
-    list.innerHTML = '<div style="padding:16px;color:var(--muted);font-size:0.8rem;">No cashiers added yet.</div>';
+    list.innerHTML = '<div style="padding:16px;color:var(--muted);font-size:0.8rem;">No cashiers yet. Promote a contributor from their profile.</div>';
   } else {
     list.innerHTML = cashiers.map(c => {
       const assigned = contributors.filter(x => x.cashier === c.name).length;
+      const isAdminCashier = c.isAdminCashier;
       return `
       <div class="cashier-manage-card">
         <div class="cashier-avatar" style="background:linear-gradient(135deg,#4F6EF7,#8B5CF6);width:36px;height:36px;font-size:0.78rem">${initials(c.name)}</div>
-        <div class="cm-info"><div class="cm-name">${c.name}</div><div class="cm-meta">${c.phone} · ${assigned} members</div></div>
+        <div class="cm-info">
+          <div class="cm-name">${c.name}${isAdminCashier?'  <span class="badge badge-gold">Admin</span>':''}</div>
+          <div class="cm-meta">${c.phone} · ${assigned} members</div>
+          <div class="cm-pin">PIN: <span class="pin-reveal">${c.pin||'—'}</span></div>
+        </div>
         <div class="cm-actions">
           <button class="cm-btn" onclick="resetCashierPin('${c.id}')">Reset PIN</button>
-          <button class="cm-btn danger-btn" onclick="deleteCashier('${c.id}')">Remove</button>
+          ${!isAdminCashier ? `<button class="cm-btn danger-btn" onclick="demoteCashier('${c.id}')">Demote</button>` : ''}
+          ${!isAdminCashier ? `<button class="cm-btn danger-btn" onclick="deleteCashier('${c.id}')">Remove</button>` : ''}
         </div>
       </div>
     `;
     }).join('');
   }
+
+  // Language buttons
+  applyLang();
 }
 
 function editCampaignName() {
@@ -2201,12 +2760,23 @@ function openAddMemberModal() {
     populateCashierSelect('add-member-cashier');
   }
   document.getElementById('add-member-amount').placeholder = String(getContributionAmount());
+  // Clear fields
+  ['add-name-1','add-name-2','add-name-3','add-member-phone','add-member-amount'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+  document.getElementById('add-suggest-2').style.display = 'none';
+  document.getElementById('add-suggest-3').style.display = 'none';
   document.getElementById('add-member-modal').classList.add('open');
 }
+
 function confirmAddMember() {
   const c = getCamp();
   if(!c) { showToast('⚠️ No active campaign'); return; }
-  const name = document.getElementById('add-member-name').value.trim();
+  const n1 = (document.getElementById('add-name-1').value || '').trim();
+  const n2 = (document.getElementById('add-name-2').value || '').trim();
+  const n3 = (document.getElementById('add-name-3').value || '').trim();
+  const name = [n1, n2, n3].filter(Boolean).join(' ');
   const phone = document.getElementById('add-member-phone').value.trim();
   let cashier;
   if(currentRole === 'cashier') {
@@ -2218,7 +2788,12 @@ function confirmAddMember() {
   }
   const status = document.getElementById('add-member-status').value;
   const amount = parseFloat(document.getElementById('add-member-amount').value) || getContributionAmount();
-  if(!name) { showToast('⚠️ Enter a name'); return; }
+  if(!n1) { showToast('⚠️ Enter a given name'); return; }
+
+  // Duplicate name check (exact full name)
+  const existing = c.contributors.find(x => x.name.toLowerCase() === name.toLowerCase());
+  if(existing) { showToast(`⚠️ "${name}" already exists`); return; }
+
   c.contributors.push({
     id: 'c_'+Date.now(),
     name, phone, cashier, status,
@@ -2230,7 +2805,9 @@ function confirmAddMember() {
   });
   saveAll();
   closeModal('add-member-modal');
-  document.getElementById('add-member-name').value = '';
+  document.getElementById('add-name-1').value = '';
+  document.getElementById('add-name-2').value = '';
+  document.getElementById('add-name-3').value = '';
   document.getElementById('add-member-phone').value = '';
   document.getElementById('add-member-amount').value = '';
   showToast('✅ Member added!');
@@ -2368,23 +2945,239 @@ function permanentlyDeleteMember(id) {
 }
 
 function openAddCashierModal() {
-  document.getElementById('add-cashier-modal').classList.add('open');
+  showToast('💡 Promote a contributor to cashier from their profile page.');
 }
 
 function confirmAddCashier() {
-  const name = document.getElementById('add-cashier-name').value.trim();
-  const phone = document.getElementById('add-cashier-phone').value.trim();
-  const pin = document.getElementById('add-cashier-pin').value.trim();
-  if(!name) { showToast('⚠️ Enter name'); return; }
-  if(!phone) { showToast('⚠️ Enter phone'); return; }
-  if(!pin || pin.length < 4) { showToast('⚠️ Enter PIN (min 4 digits)'); return; }
-  if(getCashiers().find(c => c.phone === phone)) { showToast('⚠️ That phone is already used by a cashier'); return; }
-  addCashier(name, phone, pin);
-  closeModal('add-cashier-modal');
-  document.getElementById('add-cashier-name').value = '';
-  document.getElementById('add-cashier-phone').value = '';
-  document.getElementById('add-cashier-pin').value = '';
-  showToast('✅ Cashier added');
+  // Legacy stub — now replaced by promote flow
+}
+
+/* ════════════════════════════════════════
+   PROMOTE / DEMOTE CASHIER
+════════════════════════════════════════ */
+function openPromoteToCashierModal(memberId) {
+  const c = getCamp();
+  if(!c) return;
+  const member = c.contributors.find(x => x.id === memberId);
+  if(!member) return;
+
+  // Check not already a cashier
+  const already = getCashiers().find(ca => ca.name === member.name);
+  if(already) { showToast(`⚠️ ${member.name} is already a cashier`); return; }
+
+  document.getElementById('promote-member-id').value = memberId;
+  document.getElementById('promote-modal-name').textContent = member.name;
+  document.getElementById('promote-phone').value = member.phone || '';
+  document.getElementById('promote-pin').value = '';
+  document.getElementById('promote-cashier-modal').classList.add('open');
+}
+
+function generatePromotePin() {
+  const pin = String(Math.floor(1000 + Math.random() * 9000));
+  document.getElementById('promote-pin').value = pin;
+}
+
+function confirmPromoteToCashier() {
+  const c = getCamp();
+  if(!c) return;
+  const memberId = document.getElementById('promote-member-id').value;
+  const phone = document.getElementById('promote-phone').value.trim();
+  const pin = document.getElementById('promote-pin').value.trim();
+
+  if(!phone) { showToast('⚠️ Enter a phone number'); return; }
+  if(!pin || pin.length < 4) { showToast('⚠️ PIN must be at least 4 digits'); return; }
+
+  const member = c.contributors.find(x => x.id === memberId);
+  if(!member) return;
+
+  // Check phone not already used
+  if(getCashiers().find(ca => ca.phone === phone && !ca.isAdminCashier)) {
+    showToast('⚠️ That phone is already used by another cashier'); return;
+  }
+
+  if(!c.cashiers) c.cashiers = [];
+  const newId = 'cashier_'+Date.now();
+  c.cashiers.push({ id: newId, name: member.name, phone, pin, promotedFrom: memberId });
+
+  saveAll();
+  closeModal('promote-cashier-modal');
+  showToast(`✅ ${member.name} is now a cashier`);
+  renderProfile();
+}
+
+function demoteCashier(cashierId) {
+  const c = getCamp();
+  if(!c) return;
+  const cashier = c.cashiers.find(ca => ca.id === cashierId);
+  if(!cashier) return;
+  if(!confirm(`Remove ${cashier.name} as cashier? They stay as a contributor.`)) return;
+  c.cashiers = c.cashiers.filter(ca => ca.id !== cashierId);
+  saveAll();
+  showToast(`✅ ${cashier.name} demoted — still a contributor`);
+}
+
+/* ════════════════════════════════════════
+   NAME REGISTRY (recurring 2nd/3rd names)
+════════════════════════════════════════ */
+function getNameRegistry() {
+  const c = getCamp();
+  return (c && c.nameRegistry) ? c.nameRegistry : [];
+}
+
+function openNameRegistryModal() {
+  document.getElementById('registry-name-input').value = '';
+  document.getElementById('registry-preview').style.display = 'none';
+  renderNameRegistryModal();
+  document.getElementById('name-registry-modal').classList.add('open');
+}
+
+function previewRegistryInput(val) {
+  const preview = document.getElementById('registry-preview');
+  const trimmed = val.trim();
+  if(trimmed.length > 0) {
+    preview.style.display = 'block';
+    preview.textContent = `Will add: "${capitalize(trimmed)}"`;
+  } else {
+    preview.style.display = 'none';
+  }
+}
+
+function capitalize(str) { return str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : ''; }
+
+function addRegistryName() {
+  const input = document.getElementById('registry-name-input');
+  const val = input.value.trim();
+  if(!val) { showToast('⚠️ Enter a name'); return; }
+  const name = capitalize(val);
+  const c = getCamp();
+  if(!c) return;
+  if(!c.nameRegistry) c.nameRegistry = [];
+  if(c.nameRegistry.includes(name)) { showToast('⚠️ Already in registry'); return; }
+  c.nameRegistry.push(name);
+  c.nameRegistry.sort();
+  saveAll();
+  input.value = '';
+  document.getElementById('registry-preview').style.display = 'none';
+  renderNameRegistryModal();
+  renderSettings();
+  showToast(`✅ "${name}" added`);
+}
+
+function removeRegistryName(name) {
+  const c = getCamp();
+  if(!c || !c.nameRegistry) return;
+  c.nameRegistry = c.nameRegistry.filter(n => n !== name);
+  saveAll();
+  renderNameRegistryModal();
+  renderSettings();
+}
+
+function renderNameRegistryModal() {
+  const list = document.getElementById('registry-modal-list');
+  if(!list) return;
+  const names = getNameRegistry();
+  if(names.length === 0) {
+    list.innerHTML = '<span style="font-size:0.78rem;color:var(--muted)">No names yet — add some above.</span>';
+  } else {
+    list.innerHTML = names.map(n => `
+      <span class="registry-chip">${n}<button onclick="removeRegistryName('${n}')" title="Remove">✕</button></span>
+    `).join('');
+  }
+}
+
+function renderNameRegistrySettings() {
+  const container = document.getElementById('name-registry-list');
+  if(!container) return;
+  const names = getNameRegistry();
+  if(names.length === 0) {
+    container.innerHTML = '<span style="font-size:0.78rem;color:var(--muted)">No names yet. Tap + Add above.</span>';
+  } else {
+    container.innerHTML = '<div style="display:flex;flex-wrap:wrap;gap:6px">' + names.map(n => `
+      <span class="registry-chip">${n}<button onclick="removeRegistryName('${n}')" title="Remove">✕</button></span>
+    `).join('') + '</div>';
+  }
+}
+
+/* ── Autocomplete wiring ── */
+function onName1Input(val) {
+  // First name doesn't autocomplete — just clears 2nd/3rd suggestion lists if user reset
+  if(!val.trim()) {
+    hideSuggest('add-suggest-2');
+    hideSuggest('add-suggest-3');
+  }
+}
+
+function onName23Input(fieldId, suggestId) {
+  const val = (document.getElementById(fieldId)?.value || '').trim();
+  const suggest = document.getElementById(suggestId);
+  if(!suggest) return;
+  if(val.length === 0) { hideSuggest(suggestId); return; }
+  const registry = getNameRegistry();
+  const matches = registry.filter(n => n.toLowerCase().startsWith(val.toLowerCase()) && n.toLowerCase() !== val.toLowerCase());
+  if(matches.length === 0) { hideSuggest(suggestId); return; }
+  suggest.innerHTML = matches.slice(0,6).map(n =>
+    `<div class="name-suggest-item" onclick="pickSuggestion('${fieldId}','${suggestId}','${n}')">${n}</div>`
+  ).join('');
+  suggest.style.display = 'block';
+}
+
+function pickSuggestion(fieldId, suggestId, name) {
+  const input = document.getElementById(fieldId);
+  if(input) input.value = name;
+  hideSuggest(suggestId);
+  // Move focus to next field
+  if(fieldId === 'add-name-2') document.getElementById('add-name-3')?.focus();
+  else if(fieldId === 'add-name-3') document.getElementById('add-member-phone')?.focus();
+}
+
+function hideSuggest(suggestId) {
+  const el = document.getElementById(suggestId);
+  if(el) el.style.display = 'none';
+}
+
+/* ════════════════════════════════════════
+   AUTO-ADD ADMIN & CASHIERS AS CONTRIBUTORS
+════════════════════════════════════════ */
+function ensureAdminAsContributor() {
+  const c = getCamp();
+  if(!c || !c.admin) return;
+  const already = c.contributors.find(x => x.isAdmin === true);
+  if(already) return;
+  c.contributors.unshift({
+    id: 'c_admin',
+    name: c.admin.name,
+    phone: c.admin.phone || '',
+    cashier: c.admin.name, // assigned to themselves
+    status: 'unpaid',
+    amount: 0,
+    date: '',
+    notes: '',
+    method: null,
+    waafiNumber: '',
+    isAdmin: true
+  });
+}
+
+function ensureCashiersAsContributors() {
+  const c = getCamp();
+  if(!c) return;
+  (c.cashiers || []).forEach(cashier => {
+    const already = c.contributors.find(x => x.cashierRef === cashier.id);
+    if(already) return;
+    c.contributors.push({
+      id: 'c_cashier_' + cashier.id,
+      name: cashier.name,
+      phone: cashier.phone || '',
+      cashier: cashier.name,
+      status: 'unpaid',
+      amount: 0,
+      date: '',
+      notes: '',
+      method: null,
+      waafiNumber: '',
+      cashierRef: cashier.id
+    });
+  });
 }
 
 /* ════════════════════════════════════════
@@ -2420,7 +3213,7 @@ function showToast(msg) {
 }
 
 /* ════════════════════════════════════════
-   THEME / I18N (stubs)
+   THEME / I18N
 ════════════════════════════════════════ */
 function toggleTheme() {
   dark = !dark;
@@ -2428,18 +3221,500 @@ function toggleTheme() {
   document.querySelectorAll('#theme-btn, #login-theme-btn, #cashier-theme-btn').forEach(el => {
     if(el) el.textContent = dark ? '🌙' : '☀️';
   });
+  const settingsToggle = document.getElementById('settings-theme-toggle');
+  if(settingsToggle) settingsToggle.classList.toggle('on', dark);
 }
+
+const TRANSLATIONS = {
+  en: {
+    login_tagline:'Family contributions, clearly tracked.',
+    role_admin:'Admin', role_cashier:'Cashier',
+    login_phone:'Phone / ID', login_pin:'PIN',
+    login_btn:'Sign In',
+    login_hint:'Sign in with your admin phone & PIN',
+    login_or:'or',
+    login_public:'🌐 View Public Family Page',
+    greeting_sub:'Good morning',
+    kpi_members:'Members', kpi_paid:'Paid', kpi_unpaid:'Unpaid', kpi_rate:'Rate',
+    collection_for:'Collection for', change:'Change',
+    collected:'Collected',
+    sat_total:'Target', sat_collected:'Collected', sat_outstanding:'Outstanding',
+    sec_alerts:'Alerts', sec_cashiers:'Cashier Performance', sec_recent:'Recent Payments',
+    see_all:'See all',
+    nav_dash:'Dashboard', nav_members:'Members', nav_reports:'Reports',
+    nav_settings:'Settings', nav_my_members:'My Members', nav_today:'Today', nav_logout:'Log Out',
+    nav_reports:'Reports',
+    profile_title:'Member Profile',
+    stat_paid:'Total Paid', stat_outstanding:'Outstanding', stat_ontime:'On Time',
+    sec_notes:'Notes',
+    record_payment:'Record Payment',
+    add_member_title:'Add Member',
+    add_cashier_title:'Add Cashier',
+    pick_month:'Select month',
+    search_members:'Search members…',
+    set_family:'Family', set_family_name:'Family Name', set_contribution:'Contribution Amount',
+    set_advance:'Allow Advance Payments',
+    set_admin:'Admin Account', set_admin_name:'Name', set_admin_phone:'Phone / ID', set_admin_pin:'PIN',
+    set_cashiers:'Cashier Accounts',
+    set_cashier_perms:'Cashier Permissions',
+    perm_see_all:'See all members\' entries', perm_see_all_desc:'When ON, all cashiers can see every member',
+    perm_see_reports:'Access Reports tab', perm_see_reports_desc:'When ON, cashiers can view the summary report',
+    cashier_promote_hint:'Promote contributors to cashier from their profile.',
+    set_import_export:'Import / Export',
+    export_share:'Export & Share', export_formats:'Excel · PDF · Text · PNG',
+    import_excel:'Import from Excel', import_desc:'Upload .xlsx file',
+    set_app:'App', set_language:'Language', set_theme:'Theme',
+    set_audit:'Audit Log', audit_soon:'Audit log will be available soon.',
+    set_recyclebin:'Recycle Bin',
+    logout:'🚪 Log Out',
+    promote_title:'Promote to Cashier',
+    promote_desc:'Set a phone number and PIN for cashier login. This person stays in the contributors list.',
+    cashier_phone:'Cashier Phone / ID', cashier_pin:'Cashier PIN',
+    promote_btn:'Promote to Cashier',
+    cancel:'Cancel',
+    share_title:'Export & Share',
+    share_include:'What to include',
+    share_opt_family:'Family Name & Month', share_opt_ring:'Collection Ring / Percentage',
+    share_opt_totals:'Total Collected / Outstanding', share_opt_paid:'List of Paid Members',
+    share_opt_unpaid:'List of Unpaid Members', share_opt_cashiers:'Cashier Performance Breakdown',
+    share_format:'Format', export_btn:'Export',
+    import_title:'Import from Excel',
+    import_hint:'Upload an .xlsx or .csv file. We\'ll import whatever columns exist — at minimum a name column.',
+    import_drop:'Tap to choose .xlsx or .csv file',
+    import_preview:'Preview',
+    import_skip_dupes:'Skip duplicates (by name)',
+    import_btn:'Import Members',
+    leg_paid:'Paid', leg_missed:'Missed', leg_pending:'Pending', leg_advance:'Advance',
+  },
+  fr: {
+    login_tagline:'Cotisations familiales, clairement suivies.',
+    role_admin:'Admin', role_cashier:'Caissier',
+    login_phone:'Téléphone / ID', login_pin:'Code PIN',
+    login_btn:'Se connecter',
+    login_hint:'Connectez-vous avec votre téléphone admin & PIN',
+    login_or:'ou',
+    login_public:'🌐 Voir la page publique',
+    greeting_sub:'Bonjour',
+    kpi_members:'Membres', kpi_paid:'Payé', kpi_unpaid:'Non payé', kpi_rate:'Taux',
+    collection_for:'Collecte de', change:'Changer',
+    collected:'Collecté',
+    sat_total:'Objectif', sat_collected:'Collecté', sat_outstanding:'Restant',
+    sec_alerts:'Alertes', sec_cashiers:'Performance des caissiers', sec_recent:'Paiements récents',
+    see_all:'Voir tout',
+    nav_dash:'Tableau', nav_members:'Membres', nav_reports:'Rapports',
+    nav_settings:'Paramètres', nav_my_members:'Mes membres', nav_today:'Aujourd\'hui', nav_logout:'Déconnexion',
+    profile_title:'Profil du membre',
+    stat_paid:'Total payé', stat_outstanding:'Restant', stat_ontime:'À temps',
+    sec_notes:'Notes',
+    record_payment:'Enregistrer le paiement',
+    add_member_title:'Ajouter un membre',
+    add_cashier_title:'Ajouter un caissier',
+    pick_month:'Choisir le mois',
+    search_members:'Rechercher des membres…',
+    set_family:'Famille', set_family_name:'Nom de la famille', set_contribution:'Montant de la cotisation',
+    set_advance:'Autoriser les paiements anticipés',
+    set_admin:'Compte admin', set_admin_name:'Nom', set_admin_phone:'Téléphone / ID', set_admin_pin:'PIN',
+    set_cashiers:'Comptes caissiers',
+    set_cashier_perms:'Autorisations caissiers',
+    perm_see_all:'Voir les entrées de tous les membres', perm_see_all_desc:'Quand activé, tous les caissiers voient tous les membres',
+    perm_see_reports:'Accès aux rapports', perm_see_reports_desc:'Quand activé, les caissiers voient le rapport',
+    cashier_promote_hint:'Promouvoir un contributeur en caissier depuis son profil.',
+    set_import_export:'Importer / Exporter',
+    export_share:'Exporter & Partager', export_formats:'Excel · PDF · Texte · PNG',
+    import_excel:'Importer depuis Excel', import_desc:'Télécharger un fichier .xlsx',
+    set_app:'Application', set_language:'Langue', set_theme:'Thème',
+    set_audit:'Journal d\'audit', audit_soon:'Journal d\'audit bientôt disponible.',
+    set_recyclebin:'Corbeille',
+    logout:'🚪 Se déconnecter',
+    promote_title:'Promouvoir en caissier',
+    promote_desc:'Définissez un numéro de téléphone et un PIN pour la connexion du caissier.',
+    cashier_phone:'Téléphone caissier / ID', cashier_pin:'PIN caissier',
+    promote_btn:'Promouvoir en caissier',
+    cancel:'Annuler',
+    share_title:'Exporter & Partager',
+    share_include:'Que inclure',
+    share_opt_family:'Nom de la famille & mois', share_opt_ring:'Anneau de collecte / Pourcentage',
+    share_opt_totals:'Total collecté / Restant', share_opt_paid:'Liste des membres ayant payé',
+    share_opt_unpaid:'Liste des membres n\'ayant pas payé', share_opt_cashiers:'Performance des caissiers',
+    share_format:'Format', export_btn:'Exporter',
+    import_title:'Importer depuis Excel',
+    import_hint:'Téléchargez un fichier .xlsx ou .csv. Nous importerons les colonnes disponibles.',
+    import_drop:'Appuyez pour choisir un fichier .xlsx ou .csv',
+    import_preview:'Aperçu',
+    import_skip_dupes:'Ignorer les doublons (par nom)',
+    import_btn:'Importer les membres',
+    leg_paid:'Payé', leg_missed:'Manqué', leg_pending:'En attente', leg_advance:'Avancé',
+  }
+};
+
+function applyLang() {
+  const T = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(T[key] !== undefined) el.textContent = T[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if(T[key] !== undefined) el.placeholder = T[key];
+  });
+  // Update language button states everywhere
+  ['lang-en','lang-fr','login-lang-en','login-lang-fr','settings-lang-en','settings-lang-fr'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.classList.remove('active');
+  });
+  document.getElementById('lang-'+currentLang)?.classList.add('active');
+  document.getElementById('login-lang-'+currentLang)?.classList.add('active');
+  document.getElementById('settings-lang-'+currentLang)?.classList.add('active');
+}
+
 function setLang(lang) {
   currentLang = lang;
-  document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('lang-'+lang)?.classList.add('active');
-  document.getElementById('login-lang-'+lang)?.classList.add('active');
+  applyLang();
 }
 
 /* ════════════════════════════════════════
-   INIT
+   EXPORT / SHARE
 ════════════════════════════════════════ */
+let selectedExportFormat = 'png';
+let importRows = [];
+
+function openShareModal() {
+  selectedExportFormat = 'png';
+  document.querySelectorAll('.export-fmt-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.export-fmt-btn')?.classList.add('active');
+  document.getElementById('share-canvas-wrap').style.display = 'none';
+  document.getElementById('share-modal').classList.add('open');
+}
+
+function selectExportFormat(fmt, btn) {
+  selectedExportFormat = fmt;
+  document.querySelectorAll('.export-fmt-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if(fmt === 'png') {
+    generateShareImage();
+    document.getElementById('share-canvas-wrap').style.display = 'flex';
+  } else {
+    document.getElementById('share-canvas-wrap').style.display = 'none';
+  }
+}
+
+function getShareData() {
+  const c = getCamp();
+  const contributors = getContributors();
+  const contribAmt = getContributionAmount();
+  const total = contributors.reduce((s,m) => s + (m.status==='paid' ? m.amount : 0), 0);
+  const paid = contributors.filter(m => m.status==='paid');
+  const unpaid = contributors.filter(m => m.status==='unpaid');
+  const rate = contributors.length === 0 ? 0 : Math.round((paid.length / contributors.length) * 100);
+  const cashiers = getCashiers();
+  return { c, contributors, contribAmt, total, paid, unpaid, rate, cashiers };
+}
+
+function generateShareImage() {
+  const { c, contributors, contribAmt, total, paid, unpaid, rate, cashiers } = getShareData();
+  const canvas = document.getElementById('share-canvas');
+  const W = 480, H = 520;
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const bg = isDark ? '#0F1117' : '#F7F8FC';
+  const surface = isDark ? '#1A1D2E' : '#FFFFFF';
+  const text = isDark ? '#F0F2FF' : '#0F1117';
+  const muted = isDark ? '#7B82A8' : '#6B7194';
+  const accent = '#4F6EF7';
+  const success = '#22C97A';
+  const danger = '#F75A5A';
+
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  let y = 36;
+
+  if(document.getElementById('share-family-name')?.checked) {
+    ctx.fillStyle = accent;
+    ctx.font = 'bold 22px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(c ? c.name : 'Family Fund', W/2, y);
+    y += 28;
+    ctx.fillStyle = muted;
+    ctx.font = '13px Inter, sans-serif';
+    ctx.fillText(getMonthName(currentMonth) + ' ' + currentYear, W/2, y);
+    y += 30;
+  }
+
+  if(document.getElementById('share-ring')?.checked) {
+    // Draw ring
+    const cx = W/2, cy = y + 60, r = 52;
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2*Math.PI);
+    ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)';
+    ctx.lineWidth = 10; ctx.stroke();
+    const pct = rate/100;
+    ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI/2, -Math.PI/2 + 2*Math.PI*pct);
+    ctx.strokeStyle = accent; ctx.lineWidth = 10;
+    ctx.lineCap = 'round'; ctx.stroke();
+    ctx.fillStyle = text; ctx.font = 'bold 24px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(rate + '%', cx, cy + 8);
+    ctx.fillStyle = muted; ctx.font = '11px Inter, sans-serif';
+    ctx.fillText('Collected', cx, cy + 24);
+    y += 140;
+  }
+
+  if(document.getElementById('share-totals')?.checked) {
+    ctx.fillStyle = success; ctx.font = 'bold 15px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Collected: ' + fmt(total) + ' DJF', W/2, y);
+    y += 22;
+    ctx.fillStyle = danger;
+    ctx.fillText('Outstanding: ' + fmt(unpaid.length * contribAmt) + ' DJF', W/2, y);
+    y += 28;
+  }
+
+  if(document.getElementById('share-paid-list')?.checked && paid.length > 0) {
+    ctx.fillStyle = muted; ctx.font = 'bold 11px Inter, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('✅ PAID (' + paid.length + ')', 36, y); y += 18;
+    ctx.fillStyle = text; ctx.font = '12px Inter, sans-serif';
+    paid.slice(0,6).forEach(m => { ctx.fillText('• ' + m.name, 46, y); y += 17; });
+    if(paid.length > 6) { ctx.fillStyle = muted; ctx.fillText('+' + (paid.length-6) + ' more', 46, y); y += 17; }
+    y += 6;
+  }
+
+  if(document.getElementById('share-unpaid-list')?.checked && unpaid.length > 0) {
+    ctx.fillStyle = muted; ctx.font = 'bold 11px Inter, sans-serif';
+    ctx.fillText('⏳ UNPAID (' + unpaid.length + ')', 36, y); y += 18;
+    ctx.fillStyle = text; ctx.font = '12px Inter, sans-serif';
+    unpaid.slice(0,6).forEach(m => { ctx.fillText('• ' + m.name, 46, y); y += 17; });
+    if(unpaid.length > 6) { ctx.fillStyle = muted; ctx.fillText('+' + (unpaid.length-6) + ' more', 46, y); y += 17; }
+    y += 6;
+  }
+
+  if(document.getElementById('share-cashier-breakdown')?.checked && cashiers.length > 0) {
+    ctx.fillStyle = muted; ctx.font = 'bold 11px Inter, sans-serif';
+    ctx.fillText('CASHIER BREAKDOWN', 36, y); y += 18;
+    ctx.font = '12px Inter, sans-serif';
+    cashiers.forEach(ca => {
+      const assigned = contributors.filter(m => m.cashier === ca.name);
+      const paidN = assigned.filter(m => m.status === 'paid').length;
+      const pct = assigned.length === 0 ? 0 : Math.round((paidN/assigned.length)*100);
+      ctx.fillStyle = text;
+      ctx.fillText(`${ca.name}: ${paidN}/${assigned.length} (${pct}%)`, 46, y);
+      y += 17;
+    });
+  }
+
+  // Footer
+  ctx.fillStyle = muted; ctx.font = '10px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('FamilyFund', W/2, H - 14);
+}
+
+function doExport() {
+  const { c, contributors, contribAmt, total, paid, unpaid, rate, cashiers } = getShareData();
+  const T = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+
+  if(selectedExportFormat === 'png') {
+    generateShareImage();
+    setTimeout(() => {
+      const canvas = document.getElementById('share-canvas');
+      const link = document.createElement('a');
+      link.download = (c ? c.name.replace(/\s+/g,'_') : 'FamilyFund') + '_' + getMonthName(currentMonth) + currentYear + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast('🖼️ PNG exported!');
+      closeModal('share-modal');
+    }, 100);
+
+  } else if(selectedExportFormat === 'text') {
+    let text = '';
+    if(document.getElementById('share-family-name')?.checked) text += `📌 ${c ? c.name : 'Family Fund'} — ${getMonthName(currentMonth)} ${currentYear}\n\n`;
+    if(document.getElementById('share-ring')?.checked) text += `📊 Collection: ${rate}%\n`;
+    if(document.getElementById('share-totals')?.checked) text += `✅ Collected: ${fmt(total)} DJF\n⏳ Outstanding: ${fmt(unpaid.length * contribAmt)} DJF\n\n`;
+    if(document.getElementById('share-paid-list')?.checked && paid.length) {
+      text += `✅ Paid (${paid.length}):\n` + paid.map(m => `  • ${m.name}`).join('\n') + '\n\n';
+    }
+    if(document.getElementById('share-unpaid-list')?.checked && unpaid.length) {
+      text += `⏳ Unpaid (${unpaid.length}):\n` + unpaid.map(m => `  • ${m.name}`).join('\n') + '\n\n';
+    }
+    if(document.getElementById('share-cashier-breakdown')?.checked && cashiers.length) {
+      text += `👥 Cashiers:\n`;
+      cashiers.forEach(ca => {
+        const assigned = contributors.filter(m => m.cashier === ca.name);
+        const paidN = assigned.filter(m => m.status==='paid').length;
+        const pct = assigned.length===0 ? 0 : Math.round((paidN/assigned.length)*100);
+        text += `  • ${ca.name}: ${paidN}/${assigned.length} (${pct}%)\n`;
+      });
+    }
+    const blob = new Blob([text], {type:'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url;
+    a.download = 'FamilyFund_' + getMonthName(currentMonth) + currentYear + '.txt';
+    a.click(); URL.revokeObjectURL(url);
+    showToast('📝 Text exported!');
+    closeModal('share-modal');
+
+  } else if(selectedExportFormat === 'excel') {
+    // Simple CSV export
+    let csv = 'Name,Status,Amount (DJF),Cashier,Phone,Date\n';
+    contributors.forEach(m => {
+      csv += `"${m.name}","${m.status}","${m.amount}","${m.cashier||''}","${m.phone||''}","${m.date||''}"\n`;
+    });
+    const blob = new Blob([csv], {type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url;
+    a.download = 'FamilyFund_' + getMonthName(currentMonth) + currentYear + '.csv';
+    a.click(); URL.revokeObjectURL(url);
+    showToast('📊 Excel (CSV) exported!');
+    closeModal('share-modal');
+
+  } else if(selectedExportFormat === 'pdf') {
+    // Generate printable page
+    let html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+    <title>${c ? c.name : 'FamilyFund'} — ${getMonthName(currentMonth)} ${currentYear}</title>
+    <style>
+      body{font-family:sans-serif;max-width:600px;margin:40px auto;color:#111}
+      h1{color:#4F6EF7;margin-bottom:4px}
+      h2{margin-top:24px;font-size:1rem;color:#555}
+      table{width:100%;border-collapse:collapse;margin-top:12px}
+      th{text-align:left;padding:8px;background:#eef;font-size:0.8rem}
+      td{padding:8px;border-bottom:1px solid #ddd;font-size:0.82rem}
+      .stat{display:inline-block;margin:0 16px 8px 0;font-size:1rem}
+      .stat strong{color:#4F6EF7}
+    </style></head><body>`;
+    if(document.getElementById('share-family-name')?.checked)
+      html += `<h1>${c ? c.name : 'FamilyFund'}</h1><p>${getMonthName(currentMonth)} ${currentYear}</p>`;
+    if(document.getElementById('share-ring')?.checked)
+      html += `<p class="stat"><strong>${rate}%</strong> collected</p>`;
+    if(document.getElementById('share-totals')?.checked)
+      html += `<p class="stat">Collected: <strong>${fmt(total)} DJF</strong></p>
+               <p class="stat">Outstanding: <strong>${fmt(unpaid.length * contribAmt)} DJF</strong></p>`;
+    // Member table
+    html += `<h2>Members</h2><table><thead><tr><th>Name</th><th>Status</th><th>Amount</th><th>Cashier</th></tr></thead><tbody>`;
+    contributors.forEach(m => {
+      html += `<tr><td>${m.name}</td><td>${m.status}</td><td>${m.status==='paid'?fmt(m.amount)+' DJF':'—'}</td><td>${m.cashier||'—'}</td></tr>`;
+    });
+    html += `</tbody></table></body></html>`;
+    const win = window.open('','_blank');
+    win.document.write(html);
+    win.document.close();
+    win.focus();
+    setTimeout(() => win.print(), 500);
+    showToast('📄 PDF print dialog opened');
+    closeModal('share-modal');
+  }
+}
+
+/* ════════════════════════════════════════
+   IMPORT FROM EXCEL
+════════════════════════════════════════ */
+function openImportModal() {
+  resetImport();
+  document.getElementById('import-modal').classList.add('open');
+}
+
+function resetImport() {
+  importRows = [];
+  document.getElementById('import-file-input').value = '';
+  document.getElementById('import-preview-wrap').style.display = 'none';
+  document.getElementById('import-actions').style.display = 'none';
+  document.getElementById('import-drop').querySelector('.import-drop-text').textContent =
+    (TRANSLATIONS[currentLang]||TRANSLATIONS.en).import_drop || 'Tap to choose .xlsx or .csv file';
+}
+
+function handleImportFile(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const ext = file.name.split('.').pop().toLowerCase();
+
+  if(ext === 'csv') {
+    const reader = new FileReader();
+    reader.onload = e => parseCSVImport(e.target.result);
+    reader.readAsText(file);
+  } else if(ext === 'xlsx' || ext === 'xls') {
+    // Use SheetJS if available, otherwise fallback to CSV
+    if(window.XLSX) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const wb = XLSX.read(new Uint8Array(e.target.result), {type:'array'});
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        const data = XLSX.utils.sheet_to_json(ws, {header:1});
+        parseRowsImport(data);
+      };
+      reader.readAsArrayBuffer(file);
+    } else {
+      showToast('⚠️ xlsx not loaded — please use a .csv file');
+    }
+  }
+}
+
+function parseCSVImport(text) {
+  const lines = text.trim().split('\n').map(l => l.split(',').map(v => v.replace(/^"|"$/g,'').trim()));
+  parseRowsImport(lines);
+}
+
+function parseRowsImport(rows) {
+  if(rows.length < 2) { showToast('⚠️ File appears empty'); return; }
+  const headers = rows[0].map(h => (h||'').toLowerCase().trim());
+
+  // Find columns — flexible mapping
+  const nameIdx = headers.findIndex(h => h.includes('name') || h.includes('nom') || h === 'prénom');
+  const phoneIdx = headers.findIndex(h => h.includes('phone') || h.includes('tel') || h.includes('téléphone'));
+  const statusIdx = headers.findIndex(h => h.includes('status') || h.includes('statut'));
+  const cashierIdx = headers.findIndex(h => h.includes('cashier') || h.includes('caissier'));
+
+  if(nameIdx === -1) { showToast('⚠️ No name column found'); return; }
+
+  importRows = rows.slice(1).filter(r => r[nameIdx]?.trim()).map(r => ({
+    name: capitalize(r[nameIdx].trim()),
+    phone: phoneIdx >= 0 ? (r[phoneIdx]||'').trim() : '',
+    status: statusIdx >= 0 ? (r[statusIdx]||'unpaid').toLowerCase().trim() : 'unpaid',
+    cashier: cashierIdx >= 0 ? (r[cashierIdx]||'').trim() : '',
+  }));
+
+  // Show preview
+  const thead = document.querySelector('#import-preview-table thead');
+  const tbody = document.querySelector('#import-preview-table tbody');
+  thead.innerHTML = `<tr><th>Name</th><th>Phone</th><th>Status</th><th>Cashier</th></tr>`;
+  tbody.innerHTML = importRows.slice(0,8).map(r =>
+    `<tr><td>${r.name}</td><td>${r.phone||'—'}</td><td>${r.status}</td><td>${r.cashier||'—'}</td></tr>`
+  ).join('');
+
+  document.getElementById('import-count-label').textContent = importRows.length + ' rows';
+  document.getElementById('import-preview-wrap').style.display = 'block';
+  document.getElementById('import-actions').style.display = 'block';
+  document.getElementById('import-drop').querySelector('.import-drop-text').textContent = file ? file.name : 'File loaded';
+}
+
+function confirmImport() {
+  const c = getCamp();
+  if(!c) return;
+  const skipDupes = document.getElementById('import-skip-dupes').checked;
+
+  let added = 0, skipped = 0;
+  importRows.forEach(row => {
+    // Duplicate check
+    const exists = c.contributors.find(m => m.name.toLowerCase() === row.name.toLowerCase());
+    if(exists && skipDupes) { skipped++; return; }
+
+    c.contributors.push({
+      id: 'c_'+Date.now()+'_'+Math.random().toString(36).slice(2,6),
+      name: row.name,
+      phone: row.phone,
+      cashier: row.cashier,
+      status: ['paid','unpaid','advance'].includes(row.status) ? row.status : 'unpaid',
+      amount: 0, date: '', notes: '', method: null, waafiNumber: ''
+    });
+    added++;
+  });
+
+  saveAll();
+  closeModal('import-modal');
+  resetImport();
+  showToast(`✅ ${added} members imported${skipped ? ', ' + skipped + ' skipped' : ''}`);
+}
 initFirestore();
+applyLang();
 
 function decideInitialScreen() {
   const camp = getCamp();
@@ -2476,6 +3751,8 @@ if(db) {
       if(remote.campaigns && Array.isArray(remote.campaigns) && remote.campaigns.length > 0) {
         campaigns = remote.campaigns;
         activeCampId = campaigns[campaigns.length-1].id;
+        ensureAdminAsContributor();
+        ensureCashiersAsContributors();
         persistLocal();
       }
     }
